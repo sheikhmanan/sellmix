@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment variables (NEVER commit these - contain secrets)
+.env
+**/.env
+.env.local
+.env.production
+
+# Uploads (images served from Cloudinary, no need to version local copies)
+backend/uploads/
+tmp_preview/
+
+# Build output
+dist/
+build/
+**/dist/
+**/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

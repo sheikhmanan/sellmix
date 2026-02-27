@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "SellMix",
+    "slug": "sellmix",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#3498db"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#3498db"
+      },
+      "package": "com.sellmix.app"
+    },
+    "ios": {
+      "bundleIdentifier": "com.sellmix.app",
+      "supportsTablet": false
+    },
+    "extra": {
+      "apiUrl": "http://10.0.2.2:5000/api"
+    }
+  }
+}
