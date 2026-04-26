@@ -39,6 +39,17 @@ function makeBeepUrl() {
 }
 
 let _beepUrl = null;
+let _audioUnlocked = false;
+
+function unlockAudio() {
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
+  if (!_beepUrl) _beepUrl = makeBeepUrl();
+  const a = new Audio(_beepUrl);
+  a.volume = 0;
+  a.play().catch(() => {});
+}
+
 function playNotificationSound() {
   try {
     if (!_beepUrl) _beepUrl = makeBeepUrl();
@@ -55,10 +66,22 @@ export default function Dashboard() {
   const [lowStock, setLowStock] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bellCount, setBellCount] = useState(0);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const isFirstLoadRef = useRef(true);
   const latestOrderIdRef = useRef(null);
   const latestNewOrdersRef = useRef(0);
   const navigate = useNavigate();
+
+  // Unlock audio on any user interaction (browser autoplay policy)
+  useEffect(() => {
+    const handler = () => { unlockAudio(); setSoundEnabled(true); };
+    document.addEventListener('click', handler, { once: true });
+    document.addEventListener('keydown', handler, { once: true });
+    return () => {
+      document.removeEventListener('click', handler);
+      document.removeEventListener('keydown', handler);
+    };
+  }, []);
 
   const loadStats = useCallback(() => {
     const isFirst = isFirstLoadRef.current;
@@ -107,6 +130,15 @@ export default function Dashboard() {
           <p style={s.subtitle}>📍 Chichawatni Operations</p>
         </div>
         <div style={s.headerIcons}>
+          {!soundEnabled && (
+            <button
+              style={s.enableSoundBtn}
+              onClick={() => { unlockAudio(); setSoundEnabled(true); }}
+              title="Click to enable order notification sounds"
+            >
+              🔇 Enable Sound
+            </button>
+          )}
           <span style={s.bellWrap} onClick={clearBadge}>
             <span style={s.icon}>🔔</span>
             {bellCount > 0 && (
@@ -191,6 +223,7 @@ const s = {
   title: { fontSize: 28, fontWeight: 800, color: '#1a1a1a' },
   subtitle: { fontSize: 14, color: '#8E8E93', marginTop: 4 },
   headerIcons: { display: 'flex', gap: 16, fontSize: 22, alignItems: 'center' },
+  enableSoundBtn: { fontSize: 12, fontWeight: 700, padding: '6px 12px', borderRadius: 8, border: '1.5px solid #e0a800', backgroundColor: '#fff8e1', color: '#856404', cursor: 'pointer' },
   icon: { cursor: 'pointer' },
   bellWrap: { position: 'relative', display: 'inline-flex', alignItems: 'center', cursor: 'pointer' },
   bellBadge: {
