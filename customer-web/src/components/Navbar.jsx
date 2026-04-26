@@ -4,6 +4,15 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { categoriesAPI, productsAPI } from '../services/api';
 
+const CAT_ORDER = ['Grocery & Staples', 'Drinks', 'Health & Beauty', 'Laundry & Household', 'Biscuits, Snacks & Chocolate'];
+const CAT_COLORS = {
+  'Grocery & Staples':          { bg: '#e8f5e9', icon: '#2e7d32' },
+  'Drinks':                     { bg: '#e3f2fd', icon: '#1565c0' },
+  'Health & Beauty':            { bg: '#fce4ec', icon: '#c2185b' },
+  'Laundry & Household':        { bg: '#ede7f6', icon: '#6a1b9a' },
+  'Biscuits, Snacks & Chocolate':{ bg: '#fff3e0', icon: '#e65100' },
+};
+
 function buildTree(cats) {
   const map = {};
   cats.forEach((c) => { map[c._id] = { ...c, children: [] }; });
@@ -12,6 +21,11 @@ function buildTree(cats) {
     const pid = c.parent?._id || c.parent;
     if (pid && map[pid]) map[pid].children.push(map[c._id]);
     else roots.push(map[c._id]);
+  });
+  roots.sort((a, b) => {
+    const ai = CAT_ORDER.indexOf(a.name);
+    const bi = CAT_ORDER.indexOf(b.name);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
   });
   return roots;
 }
@@ -243,35 +257,28 @@ export default function Navbar() {
 
             {megaOpen && (
               isMobile ? (
-                /* Mobile: full-width overlay with L1 groups and indented L2 */
+                /* Mobile: card-style like mobile app */
                 <div style={s.mobileCatMenu}>
-                  {tree.map((l1) => (
-                    <div key={l1._id}>
-                      {/* L1 header row */}
+                  {tree.map((l1) => {
+                    const color = CAT_COLORS[l1.name] || { bg: '#f5f5f5', icon: '#333' };
+                    const subNames = l1.children?.map((c) => c.name).join(', ') || '';
+                    return (
                       <div
-                        style={s.mobileL1Row}
+                        key={l1._id}
+                        style={s.mobileCatCard}
                         onClick={() => { navigate(`/products?category=${l1._id}`); setMegaOpen(false); window.scrollTo({ top: 0, behavior: 'instant' }); }}
                       >
-                        <span style={s.mobileL1Icon}>{l1.icon}</span>
-                        <span style={s.mobileL1Name}>{l1.name}</span>
-                        <span style={s.mobileL1Arrow}>›</span>
-                      </div>
-                      {/* L2 sub-items */}
-                      {l1.children?.length > 0 && (
-                        <div style={s.mobileL2Group}>
-                          {l1.children.map((l2) => (
-                            <div
-                              key={l2._id}
-                              style={s.mobileL2Item}
-                              onClick={() => { navigate(`/products?category=${l2._id}`); setMegaOpen(false); window.scrollTo({ top: 0, behavior: 'instant' }); }}
-                            >
-                              {l2.name}
-                            </div>
-                          ))}
+                        <div style={{ ...s.mobileCatIconBox, backgroundColor: color.bg }}>
+                          <span style={{ fontSize: 32 }}>{l1.icon}</span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <div style={s.mobileCatInfo}>
+                          <p style={s.mobileCatName}>{l1.name}</p>
+                          {subNames && <p style={s.mobileCatSubs} numberOfLines={1}>{subNames}</p>}
+                        </div>
+                        <span style={{ ...s.mobileCatArrow, color: color.icon }}>›</span>
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 /* Desktop: 3-column mega menu */
@@ -410,14 +417,14 @@ bottomBar: { backgroundColor: '#f7f7f7', borderBottom: '1px solid #e8e8e8' },
   megaL3Title: { fontSize: 12, fontWeight: 800, color: '#3498db', padding: '4px 16px 10px', textTransform: 'uppercase', letterSpacing: 0.5 },
   megaL3Item: { padding: '8px 16px', fontSize: 13, color: '#333', cursor: 'pointer' },
 
-  // Mobile categories menu
-  mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: '#fff', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '70vh', overflowY: 'auto', minWidth: 280 },
-  mobileL1Row: { display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', backgroundColor: '#f7f9ff', borderBottom: '1px solid #e8e8e8', cursor: 'pointer' },
-  mobileL1Icon: { fontSize: 18, minWidth: 24 },
-  mobileL1Name: { flex: 1, fontSize: 15, fontWeight: 800, color: '#1a1a1a' },
-  mobileL1Arrow: { color: '#3498db', fontSize: 18, fontWeight: 900 },
-  mobileL2Group: { backgroundColor: '#fff', borderBottom: '2px solid #e8e8e8' },
-  mobileL2Item: { padding: '10px 16px 10px 50px', fontSize: 14, color: '#444', cursor: 'pointer', borderBottom: '1px solid #f5f5f5' },
+  // Mobile categories menu — card style like mobile app
+  mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: '#f5f6f8', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '80vh', overflowY: 'auto' },
+  mobileCatCard: { display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', backgroundColor: '#fff', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' },
+  mobileCatIconBox: { width: 64, height: 64, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  mobileCatInfo: { flex: 1, overflow: 'hidden' },
+  mobileCatName: { fontSize: 15, fontWeight: 800, color: '#1a1a1a', marginBottom: 4 },
+  mobileCatSubs: { fontSize: 12, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
+  mobileCatArrow: { fontSize: 22, fontWeight: 900, flexShrink: 0 },
 
   megaThumb: { width: 40, height: 40, borderRadius: 6, overflow: 'hidden', backgroundColor: '#f5f5f5', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' },
   megaThumbGrid: { width: 40, height: 40, display: 'flex', flexWrap: 'wrap' },
