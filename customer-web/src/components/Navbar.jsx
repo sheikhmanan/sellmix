@@ -240,7 +240,7 @@ export default function Navbar() {
         <div style={s.bottomInner}>
           {/* Categories mega menu trigger */}
           <div
-            style={s.catTriggerWrap}
+            style={{ ...s.catTriggerWrap, ...(isMobile ? { position: 'static' } : {}) }}
             onMouseEnter={isMobile ? undefined : openMega}
             onMouseLeave={isMobile ? undefined : closeMega}
             ref={megaRef}
@@ -418,7 +418,7 @@ bottomBar: { backgroundColor: '#f7f7f7', borderBottom: '1px solid #e8e8e8' },
   megaL3Item: { padding: '8px 16px', fontSize: 13, color: '#333', cursor: 'pointer' },
 
   // Mobile categories menu — card style like mobile app
-  mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: '#f5f6f8', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '80vh', overflowY: 'auto' },
+  mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, width: '100vw', backgroundColor: '#f5f6f8', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '80vh', overflowY: 'auto' },
   mobileCatCard: { display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', backgroundColor: '#fff', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' },
   mobileCatIconBox: { width: 64, height: 64, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
   mobileCatInfo: { flex: 1, overflow: 'hidden' },
