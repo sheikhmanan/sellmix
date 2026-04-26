@@ -19,7 +19,7 @@ const sendWhatsApp = async (phone, message) => {
   }
 
   // CallMeBot requires Pakistani numbers without leading 0, prefixed with country code
-  // e.g. 03001234567 → 923001234567
+  // e.g. 03178384342 → 923178384342
   const formatted = phone.replace(/^0/, '92');
   const encoded = encodeURIComponent(message);
   const url = `https://api.callmebot.com/whatsapp.php?phone=${formatted}&text=${encoded}&apikey=${apiKey}`;

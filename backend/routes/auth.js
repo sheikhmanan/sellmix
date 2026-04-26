@@ -1,14 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
 
 const generateToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '30d' });
+
+// Rate limit for auth endpoints — 200 attempts per 15 min per IP
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  message: { message: 'Too many attempts, please try again after 15 minutes' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // POST /api/auth/register
-router.post('/register', async (req, res) => {
+router.post('/register', authLimiter, async (req, res) => {
   try {
     const { name, mobile, password, address } = req.body;
     if (!name || !mobile || !password) {
@@ -32,7 +42,7 @@ router.post('/register', async (req, res) => {
 });
 
 // POST /api/auth/login
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   try {
     const { mobile, password } = req.body;
     const user = await User.findOne({ mobile });
@@ -47,6 +57,33 @@ router.post('/login', async (req, res) => {
       address: user.address,
       token: generateToken(user._id),
     });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// POST /api/auth/reset-password
+router.post('/reset-password', authLimiter, async (req, res) => {
+  try {
+    const { mobile, newPassword } = req.body;
+    if (!mobile || !newPassword) return res.status(400).json({ message: 'Mobile and new password are required' });
+    if (newPassword.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
+    const user = await User.findOne({ mobile });
+    if (!user) return res.status(404).json({ message: 'No account found with this mobile number' });
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET /api/auth/users — all customers (admin)
+const { adminOnly } = require('../middleware/adminAuth');
+router.get('/users', protect, adminOnly, async (req, res) => {
+  try {
+    const users = await User.find({ role: 'customer' }, 'name mobile address city createdAt').sort({ createdAt: -1 });
+    res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

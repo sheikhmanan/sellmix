@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   ScrollView, ActivityIndicator, Alert, Linking,
 } from 'react-native';
+import { Audio } from 'expo-av';
 import { ordersAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
+
+// Different sound URLs per status transition
+const STATUS_SOUNDS = {
+  packed:           'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3',
+  out_for_delivery: 'https://assets.mixkit.co/active_storage/sfx/2867/2867-preview.mp3',
+  delivered:        'https://assets.mixkit.co/active_storage/sfx/2866/2866-preview.mp3',
+  cancelled:        'https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3',
+};
+
+async function playStatusSound(status) {
+  try {
+    const url = STATUS_SOUNDS[status];
+    if (!url) return;
+    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+    const { sound } = await Audio.Sound.createAsync({ uri: url });
+    await sound.playAsync();
+    sound.setOnPlaybackStatusUpdate((s) => {
+      if (s.didJustFinish) sound.unloadAsync();
+    });
+  } catch (_) {}
+}
 
 const STEPS = [
   { key: 'placed', label: 'Order\nPlaced', icon: '✅' },
@@ -27,18 +49,47 @@ export default function OrderTrackingScreen({ route, navigation }) {
   const [orderId, setOrderId] = useState(initialId);
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(!!initialId);
+  const prevStatusRef = useRef(null);
+  const pollRef = useRef(null);
+  const trackingIdRef = useRef('');
 
-  React.useEffect(() => {
+  const stopPolling = () => {
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+  };
+
+  const pollStatus = useCallback(async () => {
+    const id = trackingIdRef.current;
+    if (!id) return;
+    try {
+      const res = await ordersAPI.track(id);
+      const newStatus = res.data?.status;
+      setOrder(res.data);
+      if (prevStatusRef.current && newStatus && newStatus !== prevStatusRef.current) {
+        await playStatusSound(newStatus);
+        prevStatusRef.current = newStatus;
+        if (newStatus === 'delivered') stopPolling(); // stop once delivered
+      }
+    } catch (_) {}
+  }, []);
+
+  useEffect(() => {
     if (initialId) trackOrder(initialId);
+    return () => stopPolling();
   }, []);
 
   const trackOrder = async (id = orderId) => {
     const trimmed = id.trim();
     if (!trimmed) return Alert.alert('Error', 'Please enter an Order ID');
+    stopPolling();
     setLoading(true);
     try {
       const res = await ordersAPI.track(trimmed);
       setOrder(res.data);
+      prevStatusRef.current = res.data?.status;
+      trackingIdRef.current = trimmed;
+      if (res.data?.status !== 'delivered' && res.data?.status !== 'cancelled') {
+        pollRef.current = setInterval(pollStatus, 15000);
+      }
     } catch {
       Alert.alert('Not Found', 'Order not found. Please check the Order ID.');
       setOrder(null);
@@ -55,7 +106,7 @@ export default function OrderTrackingScreen({ route, navigation }) {
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
           <Text style={s.backArrow}>←</Text>
         </TouchableOpacity>
-        <Text style={s.brand}>SELLMIX Tracking</Text>
+        <Text style={s.brand}>SellMix Tracking</Text>
         <View style={{ width: 36 }} />
       </View>
 
@@ -118,8 +169,12 @@ export default function OrderTrackingScreen({ route, navigation }) {
           {/* Info Cards */}
           <View style={s.infoRow}>
             <View style={s.infoCard}>
-              <Text style={s.infoLabel}>Estimated Delivery</Text>
-              <Text style={s.infoVal}>15–30 mins</Text>
+              <Text style={s.infoLabel}>Delivery Slot</Text>
+              <Text style={s.infoVal}>
+                {order.deliverySlot?.slot
+                  ? `${order.deliverySlot.date} · ${order.deliverySlot.slot}`
+                  : 'Scheduled'}
+              </Text>
             </View>
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>Delivery Area</Text>
@@ -147,15 +202,6 @@ export default function OrderTrackingScreen({ route, navigation }) {
             </View>
           </View>
 
-          {/* Map Placeholder */}
-          <View style={s.mapBox}>
-            <Text style={s.mapIcon}>🗺️</Text>
-            <Text style={s.mapTxt}>Live Map</Text>
-            <View style={s.mapBadge}>
-              <Text style={s.mapBadgeTxt}>📍 Live Tracking Enabled</Text>
-            </View>
-          </View>
-
           {/* Support */}
           <View style={s.supportBox}>
             <View style={{ flex: 1 }}>
@@ -164,7 +210,7 @@ export default function OrderTrackingScreen({ route, navigation }) {
             </View>
             <TouchableOpacity
               style={s.supportBtn}
-              onPress={() => Linking.openURL('whatsapp://send?phone=923001234567&text=Hi, I need help with my order.')}
+              onPress={() => Linking.openURL('whatsapp://send?phone=923178384342&text=Hi, I need help with my order.')}
             >
               <Text style={s.supportBtnTxt}>Contact</Text>
             </TouchableOpacity>
@@ -184,13 +230,9 @@ const s = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingTop: 44, marginBottom: 22,
   },
-  backBtn: {
-    width: 36, height: 36, borderRadius: 10, backgroundColor: COLORS.white,
-    alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 4, elevation: 2,
-  },
-  backArrow: { fontSize: 18, color: COLORS.text },
-  brand: { fontSize: 15, fontWeight: '800', color: COLORS.text, letterSpacing: 0.5 },
+  backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center' },
+  backArrow: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
+  brand: { fontSize: 26, fontWeight: '800', color: COLORS.text, letterSpacing: 0.5 },
 
   // Title
   heading: { fontSize: 24, fontWeight: '800', color: COLORS.black, marginBottom: 8 },

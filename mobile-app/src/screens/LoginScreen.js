@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ScrollView, Alert, ActivityIndicator, StatusBar, Dimensions,
+  ScrollView, Alert, ActivityIndicator, StatusBar, Dimensions, Image,
 } from 'react-native';
+
+const LOGIN_IMG = 'https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800/ChatGPT_Image_Apr_7_2026_03_22_38_PM_hp4voo';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
 
@@ -33,18 +35,8 @@ export default function LoginScreen({ navigation }) {
     <View style={s.root}>
       <StatusBar barStyle="light-content" />
 
-      {/* Hero header — food background feel */}
-      <View style={s.hero}>
-        {/* Overlay pattern using emoji */}
-        <View style={s.emojiRow}>
-          {['🥕','🥦','🍅','🧅','🌽','🫑','🍆','🥝'].map((e, i) => (
-            <Text key={i} style={s.heroEmoji}>{e}</Text>
-          ))}
-        </View>
-        <View style={s.heroOverlay} />
-        <Text style={s.heroBrand}>SELLMIX</Text>
-        <Text style={s.heroSub}>CHICHAWATNI'S FINEST</Text>
-      </View>
+      {/* Hero header — image */}
+      <Image source={{ uri: LOGIN_IMG }} style={s.hero} resizeMode="cover" />
 
       {/* Card */}
       <ScrollView style={s.card} contentContainerStyle={s.cardContent} keyboardShouldPersistTaps="handled">
@@ -83,32 +75,22 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={s.forgotRow}>
+        <TouchableOpacity style={s.forgotRow} onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={s.forgot}>Forgot Password?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={s.loginBtn} onPress={handleLogin} disabled={loading}>
           {loading
             ? <ActivityIndicator color={COLORS.white} />
-            : <Text style={s.loginBtnText}>Login to Sellmix</Text>
+            : <Text style={s.loginBtnText}>Login to SellMix</Text>
           }
         </TouchableOpacity>
 
-        <View style={s.orRow}>
-          <View style={s.orLine} />
-          <Text style={s.orText}>Or continue with</Text>
-          <View style={s.orLine} />
-        </View>
-
-        <TouchableOpacity style={s.googleBtn}>
-          <Text style={s.googleText}>🅖  Sign in with Google</Text>
-        </TouchableOpacity>
-
-        <Text style={s.terms}>
-          By continuing, you agree to SellMix's{' '}
-          <Text style={s.link}>Terms of Service</Text>
-          {' '}and{' '}
-          <Text style={s.link}>Privacy Policy</Text>
+        <Text style={s.registerRow}>
+          Don't have an account?{'  '}
+          <Text style={s.link} onPress={() => navigation.navigate('SignUp')}>Register</Text>
+          {'  or  '}
+          <Text style={s.link} onPress={() => navigation.replace('Main')}>Skip</Text>
         </Text>
       </ScrollView>
     </View>
@@ -119,12 +101,7 @@ const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: COLORS.white },
 
   // Hero section
-  hero: { height: height * 0.28, backgroundColor: '#1a5f2a', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 24 },
-  emojiRow: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', flexWrap: 'wrap', opacity: 0.25 },
-  heroEmoji: { fontSize: 48, margin: 4 },
-  heroOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.45)' },
-  heroBrand: { fontSize: 36, fontWeight: '900', color: COLORS.white, letterSpacing: 6, zIndex: 2 },
-  heroSub: { fontSize: 12, color: COLORS.white, opacity: 0.85, letterSpacing: 3, marginTop: 4, zIndex: 2 },
+  hero: { width: '100%', height: height * 0.30 },
 
   // Card
   card: { flex: 1, backgroundColor: COLORS.white },
@@ -163,6 +140,6 @@ const s = StyleSheet.create({
   googleBtn: { borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 12, paddingVertical: 14, alignItems: 'center', marginBottom: 24 },
   googleText: { fontSize: 15, fontWeight: '600', color: COLORS.text },
 
-  terms: { fontSize: 11, color: COLORS.textMuted, textAlign: 'center', lineHeight: 18 },
+  registerRow: { fontSize: 14, color: COLORS.text, textAlign: 'center', marginTop: 8 },
   link: { color: COLORS.primary, fontWeight: '600' },
 });

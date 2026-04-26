@@ -37,7 +37,7 @@ export default function Inventory() {
   };
 
   const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
-  const lowStockCount = products.filter((p) => p.stock <= 10).length;
+  const lowStockCount = products.filter((p) => p.stock <= 6).length;
 
   return (
     <div style={s.page}>
@@ -67,7 +67,7 @@ export default function Inventory() {
       ) : (
         <div style={s.list}>
           {filtered.map((p) => {
-            const isLow = p.stock <= 10;
+            const isLow = p.stock <= 6;
             return (
               <div key={p._id} style={{ ...s.card, borderLeft: isLow ? '4px solid #FF3B30' : '4px solid transparent' }}>
                 <div style={s.cardTop}>

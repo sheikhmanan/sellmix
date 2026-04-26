@@ -21,7 +21,7 @@ export default function Register() {
     setLoading(true);
     try {
       await register(form);
-      navigate('/');
+      window.location.replace('/');
     } catch (err) {
       setError(err.message);
     } finally {

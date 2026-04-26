@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet,
-  Image, ActivityIndicator, Alert,
+  Image, ActivityIndicator,
 } from 'react-native';
 import { productsAPI, fixImageUrl } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { COLORS } from '../constants/colors';
 
 export default function ProductDetailScreen({ route, navigation }) {
-  const { productId } = route.params;
+  const { productId, selectedWeight: initWeight = null } = route.params;
   const [product, setProduct] = useState(null);
-  const [selectedWeight, setSelectedWeight] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [selectedWeight, setSelectedWeight] = useState(initWeight);
   const [loading, setLoading] = useState(true);
   const [expandNutrition, setExpandNutrition] = useState(false);
   const [expandCooking, setExpandCooking] = useState(false);
   const [related, setRelated] = useState([]);
-  const { addItem } = useCart();
+  const { addItem, updateQty, items, itemCount } = useCart();
 
   useEffect(() => {
+    setLoading(true);
     productsAPI.getById(productId).then((res) => {
       const p = res.data;
       setProduct(p);
-      if (p.weightOptions?.length) setSelectedWeight(p.weightOptions[0].weight);
+      // Auto-select first variant if none passed in
+      const defaultWeight = initWeight || p.weightOptions?.[0]?.weight || null;
+      setSelectedWeight(defaultWeight);
       if (p.category?._id) {
         productsAPI.getAll({ category: p.category._id, limit: 6 })
           .then((r) => setRelated((r.data.products || []).filter((x) => x._id !== productId).slice(0, 2)))
@@ -35,17 +37,23 @@ export default function ProductDetailScreen({ route, navigation }) {
   if (loading) return <View style={s.center}><ActivityIndicator size="large" color={COLORS.primary} /></View>;
   if (!product) return <View style={s.center}><Text>Product not found</Text></View>;
 
-  const price = product.discountPrice || product.price;
-  const hasDiscount = product.discountPrice > 0 && product.discountPrice < product.price;
-  const discountPct = hasDiscount ? Math.round((1 - product.discountPrice / product.price) * 100) : 0;
+  const selectedOption = product.weightOptions?.find((w) => w.weight === selectedWeight);
+  const variantImg = selectedOption?.image || null;
+  const mainImg = variantImg || product.images?.[0] || null;
 
-  const handleAdd = () => {
-    addItem(product, quantity, selectedWeight);
-    Alert.alert('Added to Basket!', `${product.name} has been added.`, [
-      { text: 'Continue Shopping' },
-      { text: 'View Cart', onPress: () => navigation.navigate('Cart') },
-    ]);
-  };
+  const discountRatio = product.price > 0 && product.discountPrice > 0
+    ? product.discountPrice / product.price
+    : 1;
+  const mrpPrice = selectedOption ? selectedOption.price : product.price;
+  const price = selectedOption
+    ? (selectedOption.salePrice > 0 ? selectedOption.salePrice : Math.round(selectedOption.price * discountRatio))
+    : (product.discountPrice > 0 ? product.discountPrice : product.price);
+  const hasDiscount = price < mrpPrice;
+  const discountPct = hasDiscount ? Math.round((1 - price / mrpPrice) * 100) : 0;
+
+  const inCart = items.find((i) => i._id === product._id && i.selectedWeight === selectedWeight);
+  const MAX_QTY = Math.min(5, product.stock > 0 ? product.stock : 5);
+  const outOfStock = product.stock === 0;
 
   return (
     <View style={s.root}>
@@ -54,9 +62,12 @@ export default function ProductDetailScreen({ route, navigation }) {
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
           <Text style={s.backArrow}>←</Text>
         </TouchableOpacity>
-        <Text style={s.brand}>SELLMIX</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+        <Text style={s.brand}>SellMix</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={s.cartWrap}>
           <Text style={s.cartIco}>🛒</Text>
+          {itemCount > 0 && (
+            <View style={s.cartBadge}><Text style={s.cartBadgeTxt}>{itemCount}</Text></View>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -68,15 +79,12 @@ export default function ProductDetailScreen({ route, navigation }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Product Image */}
         <View style={s.imgBox}>
-          {product.images?.[0]
-            ? <Image source={{ uri: fixImageUrl(product.images[0]) }} style={s.img} />
+          {mainImg
+            ? <Image source={{ uri: fixImageUrl(mainImg) }} style={s.img} />
             : <View style={s.imgPlaceholder}><Text style={{ fontSize: 72 }}>🛒</Text></View>}
-          {/* Dots */}
-          <View style={s.dotsRow}>
-            {[0, 1, 2].map((i) => (
-              <View key={i} style={[s.dot, i === 0 && s.dotActive]} />
-            ))}
-          </View>
+          {hasDiscount && (
+            <View style={s.discBadge}><Text style={s.discTxt}>{discountPct}% OFF</Text></View>
+          )}
         </View>
 
         <View style={s.content}>
@@ -89,17 +97,10 @@ export default function ProductDetailScreen({ route, navigation }) {
             <TouchableOpacity><Text style={s.heart}>🤍</Text></TouchableOpacity>
           </View>
 
-          {product.unit ? (
-            <Text style={s.unit}>(Extra {product.unit}, {product.tags?.[0] || 'Premium Quality'})</Text>
-          ) : null}
-
           {/* Price Row */}
           <View style={s.priceRow}>
             <Text style={s.price}>Rs. {price.toLocaleString()}</Text>
-            {hasDiscount && <Text style={s.oldPrice}>Rs. {product.price.toLocaleString()}</Text>}
-            {hasDiscount && (
-              <View style={s.discBadge}><Text style={s.discTxt}>{discountPct}% OFF</Text></View>
-            )}
+            {hasDiscount && <Text style={s.oldPrice}>Rs. {mrpPrice.toLocaleString()}</Text>}
           </View>
 
           {/* Description */}
@@ -110,23 +111,6 @@ export default function ProductDetailScreen({ route, navigation }) {
             </>
           ) : null}
 
-          {/* Weight Options */}
-          {product.weightOptions?.length > 0 && (
-            <View style={s.weightRow}>
-              {product.weightOptions.map((w) => (
-                <TouchableOpacity
-                  key={w.weight}
-                  style={[s.wChip, selectedWeight === w.weight && s.wChipActive]}
-                  onPress={() => setSelectedWeight(w.weight)}
-                >
-                  <Text style={[s.wText, selectedWeight === w.weight && s.wTextActive]}>
-                    {w.weight}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-
           {/* Badges */}
           <View style={s.badgesRow}>
             <View style={s.badge}><Text style={s.badgeTxt}>✅ Quality Guaranteed</Text></View>
@@ -136,7 +120,7 @@ export default function ProductDetailScreen({ route, navigation }) {
           {/* Frequently Bought Together */}
           {related.length > 0 && (
             <>
-              <Text style={s.sLabel}>Frequently Bought Together</Text>
+              <Text style={[s.sLabel, { marginTop: 28 }]}>Frequently Bought Together</Text>
               <View style={s.relatedRow}>
                 {related.map((rp) => (
                   <TouchableOpacity
@@ -186,32 +170,43 @@ export default function ProductDetailScreen({ route, navigation }) {
           ) : null}
 
           {/* Reviews */}
-          <TouchableOpacity style={s.accordion}>
-            <Text style={s.accordTxt}>Reviews (128)</Text>
-            <View style={s.ratingRow}>
-              <Text style={s.ratingTxt}>⭐ 4.8</Text>
-              <Text style={s.accordChev}>›</Text>
-            </View>
-          </TouchableOpacity>
 
-          <View style={{ height: 100 }} />
+          <View style={{ height: 160 }} />
         </View>
       </ScrollView>
 
       {/* Bottom Bar */}
       <View style={s.bottomBar}>
-        <View style={s.qtyRow}>
-          <TouchableOpacity style={s.qtyBtn} onPress={() => setQuantity(Math.max(1, quantity - 1))}>
-            <Text style={s.qtyBtnTxt}>−</Text>
+        {outOfStock ? (
+          <View style={[s.addBasketBtn, { backgroundColor: '#ccc' }]}>
+            <Text style={s.addBasketTxt}>Out of Stock</Text>
+          </View>
+        ) : !inCart ? (
+          <TouchableOpacity
+            style={s.addBasketBtn}
+            onPress={() => addItem({ ...product, price, discountPrice: 0 }, 1, selectedWeight)}
+          >
+            <Text style={s.addBasketTxt}>+ Add to Cart</Text>
           </TouchableOpacity>
-          <Text style={s.qty}>{quantity}</Text>
-          <TouchableOpacity style={s.qtyBtn} onPress={() => setQuantity(quantity + 1)}>
-            <Text style={s.qtyBtnTxt}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={s.addBasketBtn} onPress={handleAdd}>
-          <Text style={s.addBasketTxt}>🛒  Add to Basket</Text>
-        </TouchableOpacity>
+        ) : (
+          <>
+            <View style={s.cartQtyRow}>
+              <TouchableOpacity
+                style={s.cartQtyBtn}
+                onPress={() => updateQty(product._id, selectedWeight, inCart.quantity - 1)}
+              >
+                <Text style={s.cartQtyBtnTxt}>−</Text>
+              </TouchableOpacity>
+              <Text style={s.cartQtyNum}>{inCart.quantity}</Text>
+              <TouchableOpacity
+                style={[s.cartQtyBtn, inCart.quantity >= MAX_QTY && s.cartQtyBtnDisabled]}
+                onPress={() => inCart.quantity < MAX_QTY && updateQty(product._id, selectedWeight, inCart.quantity + 1)}
+              >
+                <Text style={s.cartQtyBtnTxt}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );
@@ -229,12 +224,16 @@ const s = StyleSheet.create({
     borderBottomWidth: 1, borderColor: COLORS.border,
   },
   backBtn: {
-    width: 36, height: 36, borderRadius: 10,
-    backgroundColor: COLORS.lightGrey, alignItems: 'center', justifyContent: 'center',
+    width: 38, height: 38, borderRadius: 19,
+    backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center',
+    borderWidth: 2, borderColor: COLORS.primary,
   },
-  backArrow: { fontSize: 18, color: COLORS.text },
-  brand: { fontSize: 16, fontWeight: '800', color: COLORS.primary, letterSpacing: 2 },
+  backArrow: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
+  brand: { fontSize: 26, fontWeight: '800', color: COLORS.primary, letterSpacing: 2 },
   cartIco: { fontSize: 24 },
+  cartWrap: { position: 'relative', padding: 4 },
+  cartBadge: { position: 'absolute', top: 0, right: 0, backgroundColor: COLORS.error, width: 19, height: 19, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  cartBadgeTxt: { color: COLORS.white, fontSize: 10, fontWeight: '800' },
 
   // Location
   locationBar: {
@@ -244,12 +243,9 @@ const s = StyleSheet.create({
   locationTxt: { fontSize: 12, color: COLORS.textLight },
 
   // Image
-  imgBox: { width: '100%', height: 260, backgroundColor: '#111' },
-  img: { width: '100%', height: '100%', resizeMode: 'cover' },
+  imgBox: { width: '100%', height: 260, backgroundColor: '#f9f9f9' },
+  img: { width: '100%', height: '100%', resizeMode: 'contain' },
   imgPlaceholder: { width: '100%', height: '100%', backgroundColor: COLORS.lightGrey, alignItems: 'center', justifyContent: 'center' },
-  dotsRow: { position: 'absolute', bottom: 12, alignSelf: 'center', flexDirection: 'row', gap: 5 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: 'rgba(255,255,255,0.4)' },
-  dotActive: { width: 20, backgroundColor: COLORS.white },
 
   // Content
   content: { padding: 18 },
@@ -257,13 +253,13 @@ const s = StyleSheet.create({
   nameRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 },
   name: { fontSize: 22, fontWeight: '800', color: COLORS.black, flex: 1, marginRight: 8, lineHeight: 28 },
   heart: { fontSize: 22 },
-  unit: { fontSize: 13, color: COLORS.textLight, marginBottom: 14 },
+  unit: { fontSize: 15, color: COLORS.primary, fontWeight: '700', marginBottom: 14 },
 
   // Price
   priceRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 18 },
   price: { fontSize: 26, fontWeight: '800', color: COLORS.primary },
   oldPrice: { fontSize: 15, color: COLORS.textMuted, textDecorationLine: 'line-through' },
-  discBadge: { backgroundColor: COLORS.success, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
+  discBadge: { position: 'absolute', top: 12, left: 12, backgroundColor: COLORS.success, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6 },
   discTxt: { color: COLORS.white, fontSize: 12, fontWeight: '700' },
 
   // Section labels
@@ -276,6 +272,7 @@ const s = StyleSheet.create({
   wChipActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '12' },
   wText: { fontSize: 13, color: COLORS.text, fontWeight: '600' },
   wTextActive: { color: COLORS.primary },
+  wPrice: { fontSize: 11, color: COLORS.textMuted, marginTop: 2 },
 
   // Badges
   badgesRow: { flexDirection: 'row', gap: 10, marginBottom: 22 },
@@ -314,15 +311,13 @@ const s = StyleSheet.create({
     position: 'absolute', bottom: 0, left: 0, right: 0,
     backgroundColor: COLORS.white, borderTopWidth: 1, borderColor: COLORS.border,
     flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 16, paddingTop: 14, paddingBottom: 28, gap: 16,
+    paddingHorizontal: 16, paddingTop: 14, paddingBottom: 28, gap: 12,
   },
-  qtyRow: { flexDirection: 'row', alignItems: 'center', gap: 16 },
-  qtyBtn: {
-    width: 36, height: 36, borderRadius: 18,
-    borderWidth: 1.5, borderColor: COLORS.border, alignItems: 'center', justifyContent: 'center',
-  },
-  qtyBtnTxt: { fontSize: 20, color: COLORS.text, lineHeight: 22 },
-  qty: { fontSize: 18, fontWeight: '700', color: COLORS.text, minWidth: 24, textAlign: 'center' },
   addBasketBtn: { flex: 1, backgroundColor: COLORS.primary, borderRadius: 12, paddingVertical: 15, alignItems: 'center' },
   addBasketTxt: { color: COLORS.white, fontWeight: '700', fontSize: 16 },
+  cartQtyRow: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: COLORS.primary, borderRadius: 12, overflow: 'hidden' },
+  cartQtyBtn: { paddingHorizontal: 18, paddingVertical: 15, alignItems: 'center', justifyContent: 'center' },
+  cartQtyBtnDisabled: { opacity: 0.4 },
+  cartQtyBtnTxt: { fontSize: 22, color: COLORS.white, fontWeight: '700', lineHeight: 24 },
+  cartQtyNum: { fontSize: 18, fontWeight: '800', color: COLORS.white, minWidth: 28, textAlign: 'center' },
 });

@@ -1,27 +1,96 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { ordersAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
 
+function BuyAgain({ user, addItem }) {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (!user) return;
+    ordersAPI.getMyOrders().then((r) => {
+      const seen = new Set();
+      const list = [];
+      (r.data || []).forEach((order) => {
+        (order.items || []).forEach((item) => {
+          const p = item.product;
+          if (p && p._id && !seen.has(p._id)) {
+            seen.add(p._id);
+            list.push({ ...p, _orderPrice: item.price });
+          }
+        });
+      });
+      setProducts(list.slice(0, 12));
+    }).catch(() => {});
+  }, [user]);
+
+  if (!user || products.length === 0) return null;
+
+  return (
+    <div style={ba.wrap}>
+      <p style={ba.heading}>🔄 Buy Again</p>
+      <div style={ba.row}>
+        {products.map((p) => (
+          <div key={p._id} style={ba.card}>
+            <div style={ba.imgBox}>
+              {p.images?.[0]
+                ? <img src={p.images[0]} alt={p.name} style={ba.img} />
+                : <span style={{ fontSize: 24 }}>🛒</span>}
+            </div>
+            <p style={ba.name} title={p.name}>{p.name}</p>
+            <p style={ba.price}>Rs. {(p.discountPrice || p.price || p._orderPrice || 0).toLocaleString()}</p>
+            <button style={ba.btn} onClick={() => addItem(p, 1, null)}>+ Add</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const ba = {
+  wrap: { marginTop: 28 },
+  heading: { fontSize: 16, fontWeight: 800, color: '#1a1a1a', marginBottom: 14 },
+  row: { display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8 },
+  card: { minWidth: 130, backgroundColor: '#fff', borderRadius: 14, padding: 12, display: 'flex', flexDirection: 'column', gap: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.05)', flexShrink: 0 },
+  imgBox: { width: '100%', height: 90, borderRadius: 10, backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  img: { width: '100%', height: '100%', objectFit: 'contain' },
+  name: { fontSize: 12, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.4, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' },
+  price: { fontSize: 13, fontWeight: 800, color: COLORS.primary },
+  btn: { backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 8, padding: '7px 0', fontSize: 12, fontWeight: 700, cursor: 'pointer', marginTop: 'auto' },
+};
+
 const DELIVERY_FEE = 150;
-const PROMO_CODES = { SELLMIX20: 0.2, FIRST10: 0.1 };
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const fn = () => setMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', fn);
+    return () => window.removeEventListener('resize', fn);
+  }, []);
+  return mobile;
+}
 
 export default function Cart() {
-  const { items, updateQty, removeItem, subtotal, clearCart } = useCart();
+  const isMobile = useIsMobile();
+  const { items, addItem, updateQty, removeItem, subtotal, clearCart } = useCart();
+  const { user } = useAuth();
   const [promo, setPromo] = useState('');
   const [discount, setDiscount] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoMsg, setPromoMsg] = useState('');
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const navigate = useNavigate();
 
-  const applyPromo = () => {
-    const rate = PROMO_CODES[promo.toUpperCase()];
-    if (rate) {
-      const saved = Math.round(subtotal * rate);
-      setDiscount(saved);
+  const applyPromo = async () => {
+    try {
+      const res = await ordersAPI.validatePromo(promo, subtotal);
+      setDiscount(res.data.discount);
       setPromoApplied(true);
-      setPromoMsg(`✅ Saved Rs. ${saved}!`);
-    } else {
+      setPromoMsg(`✅ Saved Rs. ${res.data.discount}!`);
+    } catch {
       setPromoMsg('❌ Invalid promo code');
     }
   };
@@ -37,7 +106,112 @@ export default function Cart() {
     </div>
   );
 
+  if (isMobile) {
+    return (
+      <div style={m.root}>
+        {/* Header */}
+        <div style={m.header}>
+          <button style={m.backBtn} onClick={() => navigate(-1)}>←</button>
+          <span style={m.title}>My Cart</span>
+          <button style={m.clearTextBtn} onClick={() => { if (window.confirm('Clear entire cart?')) clearCart(); }}>Clear</button>
+        </div>
+
+        <div style={m.scrollArea}>
+          {/* Location */}
+          <p style={m.location}>📍 Delivering to <strong style={{ color: COLORS.primary }}>Chichawatni City</strong></p>
+
+          {/* Cart Items */}
+          {items.map((item) => {
+            const unitPrice = item.discountPrice || item.price;
+            return (
+              <div key={`${item._id}-${item.selectedWeight}`} style={m.card}>
+                <div style={m.imgBox}>
+                  {(item._variantImage || item.images?.[0])
+                    ? <img src={item._variantImage || item.images[0]} alt={item.name} style={m.img} />
+                    : <span style={{ fontSize: 28 }}>🛒</span>}
+                </div>
+                <div style={m.info}>
+                  <p style={m.name}>{item.name}</p>
+                  <p style={m.sub}>{item.selectedWeight ? `${item.selectedWeight} • ` : ''}Rs. {unitPrice.toLocaleString()} / unit</p>
+                  <div style={m.qtyRow}>
+                    <button style={m.qtyBtn} onClick={() => updateQty(item._id, item.selectedWeight, item.quantity - 1)}>−</button>
+                    <span style={m.qty}>{item.quantity}</span>
+                    <button style={m.qtyBtn} onClick={() => updateQty(item._id, item.selectedWeight, item.quantity + 1)}>+</button>
+                  </div>
+                </div>
+                <div style={m.right}>
+                  <button style={m.deleteBtn} onClick={() => removeItem(item._id, item.selectedWeight)}>🗑</button>
+                  <span style={m.itemTotal}>Rs. {(unitPrice * item.quantity).toLocaleString()}</span>
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Buy Again */}
+          <BuyAgain user={user} addItem={addItem} />
+
+          {/* Promo Code */}
+          <div style={m.section}>
+            <p style={m.sectionLabel}>PROMO CODE</p>
+            <div style={m.promoRow}>
+              <input
+                style={m.promoInput}
+                placeholder="Enter promo code"
+                value={promo}
+                onChange={(e) => setPromo(e.target.value.toUpperCase())}
+                disabled={promoApplied}
+              />
+              <button style={m.promoBtn} onClick={applyPromo} disabled={promoApplied}>Apply</button>
+            </div>
+            {promoMsg && <p style={{ fontSize: 12, marginTop: 6, color: promoApplied ? COLORS.success : COLORS.error }}>{promoMsg}</p>}
+          </div>
+
+          {/* Order Summary */}
+          <div style={m.summaryBox}>
+            <div style={m.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
+            {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
+            <div style={m.sumRow}><span>Delivery Fee (Chichawatni)</span><span style={{ color: COLORS.success }}>Rs. {DELIVERY_FEE}</span></div>
+            <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
+            <div style={m.totalRow}>
+              <span style={m.totalLabel}>Order Total</span>
+              <span style={m.totalAmt}>Rs. {total.toLocaleString()}</span>
+            </div>
+          </div>
+
+          {/* Spacer for fixed button */}
+          <div style={{ height: 90 }} />
+        </div>
+
+        {/* Fixed Checkout Button */}
+        <div style={m.bottomBar}>
+          <button
+            style={m.checkoutBtn}
+            onClick={() => { if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); } }}
+          >
+            Checkout
+          </button>
+        </div>
+
+        {/* Auth Required Modal */}
+        {showAuthModal && (
+          <div style={s.modalOverlay} onClick={() => setShowAuthModal(false)}>
+            <div style={s.modalCard} onClick={(e) => e.stopPropagation()}>
+              <div style={s.modalIcon}>🔐</div>
+              <h2 style={s.modalTitle}>Login Required</h2>
+              <p style={s.modalSub}>Please login or create an account to proceed with your order.</p>
+              <button style={s.modalLoginBtn} onClick={() => { setShowAuthModal(false); navigate('/login'); }}>Login</button>
+              <button style={s.modalSignupBtn} onClick={() => { setShowAuthModal(false); navigate('/register'); }}>Register</button>
+              <button style={s.modalCancelBtn} onClick={() => setShowAuthModal(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Desktop layout
   return (
+    <>
     <div style={s.root}>
       <div style={s.container}>
         <div style={s.header}>
@@ -46,15 +220,14 @@ export default function Cart() {
         </div>
 
         <div style={s.layout}>
-          {/* Cart Items */}
           <div style={s.itemsCol}>
             {items.map((item) => {
               const unitPrice = item.discountPrice || item.price;
               return (
                 <div key={`${item._id}-${item.selectedWeight}`} style={s.cartCard}>
                   <div style={s.itemImgBox}>
-                    {item.images?.[0]
-                      ? <img src={item.images[0]} alt={item.name} style={s.itemImg} />
+                    {(item._variantImage || item.images?.[0])
+                      ? <img src={item._variantImage || item.images[0]} alt={item.name} style={s.itemImg} />
                       : <span style={{ fontSize: 32 }}>🛒</span>}
                   </div>
                   <div style={s.itemInfo}>
@@ -73,21 +246,19 @@ export default function Cart() {
                 </div>
               );
             })}
-
             <button style={s.clearBtn} onClick={() => { if (window.confirm('Clear entire cart?')) clearCart(); }}>
               🗑️ Clear Cart
             </button>
+            <BuyAgain user={user} addItem={addItem} />
           </div>
 
-          {/* Summary */}
           <div style={s.summaryCol}>
-            {/* Promo Code */}
             <div style={s.summaryCard}>
               <h3 style={s.summaryTitle}>Promo Code</h3>
               <div style={s.promoRow}>
                 <input
                   style={s.promoInput}
-                  placeholder="e.g. SELLMIX20"
+                  placeholder="Enter promo code"
                   value={promo}
                   onChange={(e) => setPromo(e.target.value.toUpperCase())}
                   disabled={promoApplied}
@@ -97,10 +268,9 @@ export default function Cart() {
                 </button>
               </div>
               {promoMsg && <p style={{ fontSize: 13, marginTop: 8, color: promoApplied ? COLORS.success : COLORS.error }}>{promoMsg}</p>}
-              <p style={s.promoHint}>Try: SELLMIX20 or FIRST10</p>
+              <p style={s.promoHint}>Have a promo code? Apply it above.</p>
             </div>
 
-            {/* Order Summary */}
             <div style={s.summaryCard}>
               <h3 style={s.summaryTitle}>Order Summary</h3>
               <div style={s.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
@@ -113,7 +283,7 @@ export default function Cart() {
               </div>
               <button
                 style={s.checkoutBtn}
-                onClick={() => navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } })}
+                onClick={() => { if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); } }}
               >
                 Proceed to Checkout →
               </button>
@@ -122,9 +292,68 @@ export default function Cart() {
         </div>
       </div>
     </div>
+
+    {/* Auth Required Modal */}
+    {showAuthModal && (
+      <div style={s.modalOverlay} onClick={() => setShowAuthModal(false)}>
+        <div style={s.modalCard} onClick={(e) => e.stopPropagation()}>
+          <div style={s.modalIcon}>🔐</div>
+          <h2 style={s.modalTitle}>Login Required</h2>
+          <p style={s.modalSub}>Please login or create an account to proceed with your order.</p>
+          <button style={s.modalLoginBtn} onClick={() => { setShowAuthModal(false); navigate('/login'); }}>Login</button>
+          <button style={s.modalSignupBtn} onClick={() => { setShowAuthModal(false); navigate('/register'); }}>Register</button>
+          <button style={s.modalCancelBtn} onClick={() => setShowAuthModal(false)}>Cancel</button>
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 
+// Mobile styles
+const m = {
+  root: { minHeight: '100vh', backgroundColor: '#f5f5f5', display: 'flex', flexDirection: 'column' },
+  header: {
+    position: 'sticky', top: 0, zIndex: 50,
+    backgroundColor: '#fff', borderBottom: '1px solid #eee',
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '12px 16px',
+  },
+  backBtn: { width: 36, height: 36, borderRadius: '50%', backgroundColor: COLORS.primary, color: '#fff', border: 'none', fontSize: 18, fontWeight: 700, cursor: 'pointer' },
+  title: { fontSize: 17, fontWeight: 800, color: '#1a1a1a' },
+  clearTextBtn: { background: 'none', border: 'none', color: COLORS.error, fontSize: 14, fontWeight: 700, cursor: 'pointer' },
+  scrollArea: { flex: 1, padding: '12px 14px 0' },
+  location: { fontSize: 13, color: '#555', marginBottom: 12 },
+  card: { backgroundColor: '#fff', borderRadius: 14, padding: '12px 14px', display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10, boxShadow: '0 1px 4px rgba(0,0,0,0.05)' },
+  imgBox: { width: 72, height: 72, borderRadius: 10, backgroundColor: '#f5f5f5', overflow: 'hidden', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  img: { width: '100%', height: '100%', objectFit: 'cover' },
+  info: { flex: 1, minWidth: 0 },
+  name: { fontSize: 14, fontWeight: 700, color: '#1a1a1a', marginBottom: 2 },
+  sub: { fontSize: 12, color: '#888', marginBottom: 8 },
+  qtyRow: { display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: 8, width: 'fit-content', overflow: 'hidden' },
+  qtyBtn: { width: 32, height: 32, border: 'none', backgroundColor: '#f5f5f5', fontSize: 16, cursor: 'pointer', fontWeight: 700 },
+  qty: { width: 36, textAlign: 'center', fontSize: 14, fontWeight: 700 },
+  right: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10, flexShrink: 0 },
+  deleteBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: '#aaa' },
+  itemTotal: { fontSize: 15, fontWeight: 800, color: COLORS.primary },
+  section: { backgroundColor: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10 },
+  sectionLabel: { fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: 1, marginBottom: 10, textTransform: 'uppercase' },
+  promoRow: { display: 'flex', gap: 8 },
+  promoInput: { flex: 1, border: '1.5px solid #e0e0e0', borderRadius: 8, padding: '10px 12px', fontSize: 13, outline: 'none', backgroundColor: '#fafafa' },
+  promoBtn: { backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 8, padding: '0 18px', cursor: 'pointer', fontWeight: 700, fontSize: 14 },
+  summaryBox: { backgroundColor: '#fff', borderRadius: 12, padding: '16px', marginBottom: 10 },
+  sumRow: { display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#555', marginBottom: 10 },
+  totalRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #eee', paddingTop: 14, marginTop: 4 },
+  totalLabel: { fontSize: 15, fontWeight: 700, color: '#1a1a1a' },
+  totalAmt: { fontSize: 20, fontWeight: 900, color: COLORS.primary },
+  bottomBar: {
+    position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
+    backgroundColor: '#fff', borderTop: '1px solid #eee', padding: '10px 16px',
+  },
+  checkoutBtn: { width: '100%', padding: '15px', backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer' },
+};
+
+// Desktop styles
 const s = {
   root: { minHeight: '70vh', backgroundColor: COLORS.secondary },
   emptyWrap: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 20px', gap: 12 },
@@ -163,4 +392,12 @@ const s = {
   totalLabel: { fontSize: 16, fontWeight: 700, color: COLORS.text },
   totalAmt: { fontSize: 22, fontWeight: 900, color: COLORS.primary },
   checkoutBtn: { width: '100%', padding: '14px', backgroundColor: COLORS.primary, color: COLORS.white, border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer' },
+  modalOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
+  modalCard: { backgroundColor: '#fff', borderRadius: 20, padding: '36px 28px', maxWidth: 360, width: '90%', textAlign: 'center', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' },
+  modalIcon: { fontSize: 48, marginBottom: 10 },
+  modalTitle: { fontSize: 22, fontWeight: 900, color: '#1a1a1a', marginBottom: 8 },
+  modalSub: { fontSize: 14, color: '#666', marginBottom: 24, lineHeight: 1.6 },
+  modalLoginBtn: { display: 'block', width: '100%', padding: '13px', backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginBottom: 10 },
+  modalSignupBtn: { display: 'block', width: '100%', padding: '13px', backgroundColor: 'transparent', color: COLORS.primary, border: `1.5px solid ${COLORS.primary}`, borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', marginBottom: 10 },
+  modalCancelBtn: { display: 'block', width: '100%', padding: '11px', backgroundColor: '#f0f0f0', color: '#666', border: 'none', borderRadius: 12, fontSize: 14, cursor: 'pointer' },
 };

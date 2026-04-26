@@ -7,13 +7,34 @@ import { ordersAPI, fixImageUrl } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
+import { MAX_RADIUS_MILES } from '../utils/deliveryZone';
 
-const ADMIN_WHATSAPP = '923001234567';
+const ADMIN_WHATSAPP = '923178384342';
+
+const SLOTS = [
+  { key: '10:00 AM – 1:00 PM', label: '🌅 Morning', time: '10:00 AM – 1:00 PM', cutoffHour: 10 },
+  { key: '4:00 PM – 7:00 PM',  label: '🌆 Afternoon', time: '4:00 PM – 7:00 PM',  cutoffHour: 16 },
+];
+
+function buildDates() {
+  return Array.from({ length: 5 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    const isToday = i === 0;
+    const label = isToday ? 'Today'
+      : i === 1 ? 'Tomorrow'
+      : d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    return { label, d, isToday };
+  });
+}
+
+function isSlotClosed(dateEntry, slot) {
+  if (!dateEntry.isToday) return false;
+  return new Date().getHours() >= slot.cutoffHour;
+}
 
 const PAYMENT_METHODS = [
   { key: 'COD', label: 'Cash on Delivery (COD)', sub: 'Pay when your groceries arrive at your door.', icon: '💵' },
-  { key: 'JazzCash', label: 'Bank Transfer / JazzCash', sub: 'Securely pay via Bank App or Mobile Wallet.', icon: '📱' },
-  { key: 'EasyPaisa', label: 'EasyPaisa', sub: 'Pay via EasyPaisa mobile account.', icon: '📲' },
 ];
 
 export default function CheckoutScreen({ route, navigation }) {
@@ -27,6 +48,9 @@ export default function CheckoutScreen({ route, navigation }) {
   });
   const [paymentMethod, setPaymentMethod] = useState('COD');
   const [loading, setLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedSlot, setSelectedSlot] = useState('');
+  const dates = buildDates();
 
   const set = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
@@ -34,6 +58,10 @@ export default function CheckoutScreen({ route, navigation }) {
     if (!form.customerName || !form.whatsapp || !form.address) {
       return Alert.alert('Error', 'Please fill all delivery details');
     }
+    if (!selectedSlot) {
+      return Alert.alert('Error', 'Please select a delivery time slot');
+    }
+
     setLoading(true);
     try {
       const orderData = {
@@ -51,6 +79,7 @@ export default function CheckoutScreen({ route, navigation }) {
         })),
         subtotal, deliveryFee, discount, total,
         paymentMethod, promoCode,
+        deliverySlot: { date: selectedDate, slot: selectedSlot },
       };
 
       const res = await ordersAPI.place(orderData);
@@ -71,21 +100,25 @@ export default function CheckoutScreen({ route, navigation }) {
         `━━━━━━━━━━━━━━\n` +
         `💰 Total: *Rs. ${total.toLocaleString()}*\n` +
         `💳 Payment: ${paymentMethod}\n` +
+        `🕐 Delivery: ${selectedDate} | ${selectedSlot}\n` +
         `📦 Deliver to Chichawatni`;
 
       const waUrl = `whatsapp://send?phone=${ADMIN_WHATSAPP}&text=${encodeURIComponent(msg)}`;
+
+      // Replace CheckoutScreen immediately so user can't accidentally place a second order
+      navigation.replace('OrderTracking', { orderId: res.data.orderId });
 
       Alert.alert(
         '✅ Order Placed!',
         `Order #${res.data.orderId} confirmed!\n\nTotal: Rs. ${total.toLocaleString()}\n\nConfirm your order on WhatsApp?`,
         [
           {
-            text: 'Confirm on WhatsApp 💬',
+            text: 'Confirm on WhatsApp',
             onPress: () => Linking.openURL(waUrl).catch(() =>
               Alert.alert('WhatsApp Not Found', 'Please install WhatsApp to confirm.')
             ),
           },
-          { text: 'Track Order', onPress: () => navigation.navigate('OrderTracking', { orderId: res.data.orderId }) },
+          { text: 'Done' },
         ]
       );
     } catch (err) {
@@ -97,9 +130,14 @@ export default function CheckoutScreen({ route, navigation }) {
 
   return (
     <ScrollView style={s.scroll} contentContainerStyle={s.container} keyboardShouldPersistTaps="handled">
+      {/* Delivery Zone Notice */}
+      <View style={s.zoneBanner}>
+        <Text style={s.zoneText}>📍 Delivering within {MAX_RADIUS_MILES} miles of Chichawatni only</Text>
+      </View>
+
       {/* Header */}
       <View style={s.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
           <Text style={s.back}>←</Text>
         </TouchableOpacity>
         <Text style={s.title}>Secure Checkout</Text>
@@ -179,6 +217,38 @@ export default function CheckoutScreen({ route, navigation }) {
         />
       </View>
 
+      {/* Delivery Slot */}
+      <View style={s.section}>
+        <Text style={s.sectionTitle}>🕐 Delivery Time Slot</Text>
+        {dates.map((dt) => (
+          <View key={dt.label}>
+            <Text style={s.dateLabel}>{dt.label}</Text>
+            <View style={s.slotRow}>
+              {SLOTS.map((slot) => {
+                const closed = isSlotClosed(dt, slot);
+                const chosen = selectedDate === dt.label && selectedSlot === slot.key;
+                if (closed) return (
+                  <View key={slot.key} style={s.slotClosed}>
+                    <Text style={s.slotClosedTxt}>{slot.label}</Text>
+                    <Text style={s.slotClosedSub}>Closed</Text>
+                  </View>
+                );
+                return (
+                  <TouchableOpacity
+                    key={slot.key}
+                    style={[s.slotBtn, chosen && s.slotBtnActive]}
+                    onPress={() => { setSelectedDate(dt.label); setSelectedSlot(slot.key); }}
+                  >
+                    <Text style={[s.slotBtnLabel, chosen && s.slotBtnLabelActive]}>{slot.label}</Text>
+                    <Text style={[s.slotBtnTime, chosen && s.slotBtnLabelActive]}>{slot.time}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+        ))}
+      </View>
+
       {/* Payment Method */}
       <View style={s.section}>
         <Text style={s.sectionTitle}>💳 Payment Method</Text>
@@ -212,7 +282,7 @@ export default function CheckoutScreen({ route, navigation }) {
       <TouchableOpacity style={s.placeBtn} onPress={placeOrder} disabled={loading}>
         {loading
           ? <ActivityIndicator color={COLORS.white} />
-          : <Text style={s.placeBtnTxt}>Place Order  →</Text>
+          : <Text style={s.placeBtnTxt}>Place Order</Text>
         }
       </TouchableOpacity>
 
@@ -225,6 +295,8 @@ export default function CheckoutScreen({ route, navigation }) {
 const s = StyleSheet.create({
   scroll: { flex: 1, backgroundColor: COLORS.background },
   container: { paddingBottom: 24 },
+  zoneBanner: { backgroundColor: '#e8f4fd', paddingVertical: 10, paddingHorizontal: 16, borderBottomWidth: 1, borderColor: '#bee3f8' },
+  zoneText: { fontSize: 13, color: COLORS.primary, fontWeight: '600', textAlign: 'center' },
 
   // Header
   header: {
@@ -232,7 +304,8 @@ const s = StyleSheet.create({
     backgroundColor: COLORS.white, paddingHorizontal: 16, paddingTop: 50, paddingBottom: 14,
     borderBottomWidth: 1, borderColor: COLORS.border,
   },
-  back: { fontSize: 22, color: COLORS.text },
+  backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center' },
+  back: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
   title: { fontSize: 18, fontWeight: '700', color: COLORS.text },
 
   // Progress
@@ -283,6 +356,24 @@ const s = StyleSheet.create({
     borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 12,
     padding: 13, fontSize: 14, color: COLORS.text, backgroundColor: COLORS.secondary,
   },
+
+  // Slot picker
+  dateLabel: { fontSize: 12, fontWeight: '700', color: COLORS.textMuted, marginTop: 12, marginBottom: 6, letterSpacing: 0.5 },
+  slotRow: { flexDirection: 'row', gap: 10 },
+  slotBtn: {
+    flex: 1, borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 10,
+    padding: 10, alignItems: 'center',
+  },
+  slotBtnActive: { borderColor: COLORS.primary, backgroundColor: COLORS.primary + '12' },
+  slotBtnLabel: { fontSize: 13, fontWeight: '800', color: COLORS.text, marginBottom: 2 },
+  slotBtnTime: { fontSize: 11, color: COLORS.textMuted, fontWeight: '600' },
+  slotBtnLabelActive: { color: COLORS.primary },
+  slotClosed: {
+    flex: 1, borderWidth: 1.5, borderColor: COLORS.border, borderRadius: 10,
+    padding: 10, alignItems: 'center', backgroundColor: '#f5f5f5',
+  },
+  slotClosedTxt: { fontSize: 13, fontWeight: '700', color: COLORS.textMuted },
+  slotClosedSub: { fontSize: 11, color: '#aaa', marginTop: 2 },
 
   // Payment
   payOption: {

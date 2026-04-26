@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
   discountPrice: { type: Number, default: 0 },
   costPrice: { type: Number, default: 0 },
   images: [{ type: String }],
-  weightOptions: [{ weight: String, price: Number }],
+  weightOptions: [{ weight: String, price: Number, salePrice: { type: Number, default: 0 }, image: { type: String, default: '' } }],
   unit: { type: String, default: 'kg' },
   stock: { type: Number, default: 0 },
   isActive: { type: Boolean, default: true },

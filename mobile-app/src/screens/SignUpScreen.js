@@ -122,6 +122,14 @@ export default function SignUpScreen({ navigation }) {
         </Text>
       </TouchableOpacity>
 
+      {/* Skip */}
+      <TouchableOpacity style={s.skipLink} onPress={() => navigation.replace('Main')}>
+        <Text style={s.skipTxt}>
+          Don't have yet?{' '}
+          <Text style={s.link}>Skip</Text>
+        </Text>
+      </TouchableOpacity>
+
       <View style={{ height: 32 }} />
     </ScrollView>
   );
@@ -170,5 +178,7 @@ const s = StyleSheet.create({
   terms: { fontSize: 13, color: COLORS.textMuted, textAlign: 'center', marginBottom: 12, lineHeight: 20 },
   loginLink: { alignItems: 'center', paddingVertical: 8 },
   loginTxt: { fontSize: 14, color: COLORS.textLight },
+  skipLink: { alignItems: 'center', paddingVertical: 8 },
+  skipTxt: { fontSize: 14, color: COLORS.textLight },
   link: { color: COLORS.primary, fontWeight: '700' },
 });

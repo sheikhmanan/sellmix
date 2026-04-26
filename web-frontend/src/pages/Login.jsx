@@ -34,7 +34,7 @@ export default function Login() {
           <input
             style={s.input}
             type="text"
-            placeholder="03001234567"
+            placeholder="03178384342"
             value={form.mobile}
             onChange={(e) => setForm({ ...form, mobile: e.target.value })}
             required
@@ -57,7 +57,6 @@ export default function Login() {
           </button>
         </form>
 
-        <p style={s.hint}>Default: 03001234567 / admin123</p>
       </div>
     </div>
   );

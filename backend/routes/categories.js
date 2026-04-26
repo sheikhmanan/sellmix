@@ -6,16 +6,26 @@ const { adminOnly } = require('../middleware/adminAuth');
 
 router.get('/', async (req, res) => {
   try {
-    const cats = await Category.find({ isActive: true });
+    const { level, parent } = req.query;
+    const query = { isActive: true };
+    if (level) query.level = Number(level);
+    if (parent === 'null') query.parent = null;
+    else if (parent) query.parent = parent;
+    const cats = await Category.find(query).populate('parent', 'name icon level');
     res.json(cats);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+function pickCatFields({ name, icon, level, parent, isActive }) {
+  return { name, icon, level, parent, isActive };
+}
+
 router.post('/', protect, adminOnly, async (req, res) => {
   try {
-    const cat = await Category.create(req.body);
+    if (!req.body.name?.trim()) return res.status(400).json({ message: 'Category name is required' });
+    const cat = await Category.create(pickCatFields(req.body));
     res.status(201).json(cat);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -24,7 +34,12 @@ router.post('/', protect, adminOnly, async (req, res) => {
 
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
-    const cat = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const cat = await Category.findByIdAndUpdate(
+      req.params.id,
+      { $set: pickCatFields(req.body) },
+      { new: true, runValidators: true }
+    );
+    if (!cat) return res.status(404).json({ message: 'Category not found' });
     res.json(cat);
   } catch (err) {
     res.status(500).json({ message: err.message });

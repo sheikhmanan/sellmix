@@ -12,13 +12,18 @@ router.get('/', async (req, res) => {
     const { category, search, featured, limit = 20, page = 1 } = req.query;
     const query = { isActive: true };
     if (category) {
-      // Accept both ObjectId and category name
+      const resolveCategoryIds = async (rootId) => {
+        const children = await Category.find({ parent: rootId }, '_id');
+        const grandchildren = await Category.find({ parent: { $in: children.map((c) => c._id) } }, '_id');
+        return [rootId, ...children.map((c) => c._id), ...grandchildren.map((c) => c._id)];
+      };
+
       if (mongoose.Types.ObjectId.isValid(category)) {
-        query.category = category;
+        query.category = { $in: await resolveCategoryIds(category) };
       } else {
         const cat = await Category.findOne({ name: category });
-        if (cat) query.category = cat._id;
-        else query.category = new mongoose.Types.ObjectId(); // no match → empty result
+        if (cat) query.category = { $in: await resolveCategoryIds(cat._id) };
+        else return res.json({ products: [], total: 0, page: 1, pages: 0 });
       }
     }
     if (featured === 'true') query.isFeatured = true;
@@ -40,7 +45,7 @@ router.get('/', async (req, res) => {
 // GET /api/products/low-stock
 router.get('/low-stock', protect, adminOnly, async (req, res) => {
   try {
-    const products = await Product.find({ stock: { $lte: 10 }, isActive: true })
+    const products = await Product.find({ stock: { $lte: 6 }, isActive: true })
       .populate('category', 'name');
     res.json(products);
   } catch (err) {
@@ -51,6 +56,8 @@ router.get('/low-stock', protect, adminOnly, async (req, res) => {
 // GET /api/products/:id
 router.get('/:id', async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(404).json({ message: 'Product not found' });
     const product = await Product.findById(req.params.id).populate('category', 'name');
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
@@ -59,10 +66,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+function pickProductFields(body) {
+  const { name, description, price, discountPrice, costPrice, category, stock,
+          unit, images, weightOptions, isActive, featured, tags } = body;
+  return { name, description, price, discountPrice, costPrice, category, stock,
+           unit, images, weightOptions, isActive, featured, tags };
+}
+
 // POST /api/products
 router.post('/', protect, adminOnly, async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const { name, price, category } = req.body;
+    if (!name?.trim()) return res.status(400).json({ message: 'Product name is required' });
+    if (typeof price !== 'number' || price < 0) return res.status(400).json({ message: 'Valid price is required' });
+    if (!category) return res.status(400).json({ message: 'Category is required' });
+    const product = await Product.create(pickProductFields(req.body));
     res.status(201).json(product);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -72,7 +90,12 @@ router.post('/', protect, adminOnly, async (req, res) => {
 // PUT /api/products/:id
 router.put('/:id', protect, adminOnly, async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $set: pickProductFields(req.body) },
+      { new: true, runValidators: true }
+    );
+    if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (err) {
     res.status(500).json({ message: err.message });

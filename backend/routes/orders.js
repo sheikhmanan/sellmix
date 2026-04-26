@@ -6,20 +6,80 @@ const { protect } = require('../middleware/auth');
 const { adminOnly } = require('../middleware/adminAuth');
 const { sendWhatsApp, orderPlacedAdminMsg, orderPlacedCustomerMsg } = require('../services/whatsapp');
 
-// POST /api/orders — place order (public, no login required)
-router.post('/', async (req, res) => {
+// POST /api/orders — place order (requires login)
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+router.post('/', protect, async (req, res) => {
   try {
-    // Snapshot costPrice from Product into each order item at time of sale
+    const { customerName, whatsapp, address, items, subtotal, deliveryFee, discount,
+            total, paymentMethod, promoCode, notes, city, deliverySlot } = req.body;
+
+    // Basic field validation
+    if (!customerName?.trim()) return res.status(400).json({ message: 'Customer name is required' });
+    if (!whatsapp?.trim()) return res.status(400).json({ message: 'WhatsApp number is required' });
+    if (!address?.trim()) return res.status(400).json({ message: 'Delivery address is required' });
+    if (!Array.isArray(items) || items.length === 0) return res.status(400).json({ message: 'Order must contain at least one item' });
+    if (typeof total !== 'number' || total <= 0) return res.status(400).json({ message: 'Invalid order total' });
+
+    // Validate payment method against allowed values
+    const allowedPayments = ['COD', 'EasyPaisa', 'JazzCash'];
+    if (paymentMethod && !allowedPayments.includes(paymentMethod)) {
+      return res.status(400).json({ message: 'Invalid payment method' });
+    }
+
+    // Snapshot costPrice from Product; recalculate subtotal server-side to prevent manipulation
+    let serverSubtotal = 0;
     const itemsWithCost = await Promise.all(
-      (req.body.items || []).map(async (item) => {
-        if (item.product) {
-          const prod = await Product.findById(item.product).select('costPrice');
-          return { ...item, costPrice: prod?.costPrice || 0 };
-        }
-        return { ...item, costPrice: 0 };
+      items.map(async (item) => {
+        const prod = item.product ? await Product.findById(item.product).select('costPrice price discountPrice') : null;
+        const unitPrice = prod ? (prod.discountPrice > 0 ? prod.discountPrice : prod.price) : (item.price || 0);
+        serverSubtotal += unitPrice * (item.quantity || 1);
+        return {
+          product: item.product,
+          name: item.name,
+          price: unitPrice,
+          costPrice: prod?.costPrice || 0,
+          quantity: item.quantity || 1,
+          weight: item.weight || '',
+          image: item.image || '',
+        };
       })
     );
-    const order = await Order.create({ ...req.body, items: itemsWithCost });
+
+    // Validate promo code server-side
+    let serverDiscount = 0;
+    if (promoCode && PROMO_CODES[promoCode.toUpperCase()]) {
+      serverDiscount = Math.round(serverSubtotal * PROMO_CODES[promoCode.toUpperCase()]);
+    }
+
+    const serverDeliveryFee = typeof deliveryFee === 'number' ? deliveryFee : 150;
+    const serverTotal = serverSubtotal + serverDeliveryFee - serverDiscount;
+
+    const order = await Order.create({
+      user: req.user._id,
+      customerName: customerName.trim(),
+      whatsapp: whatsapp.trim(),
+      address: address.trim(),
+      city: city || process.env.BUSINESS_CITY || 'Chichawatni',
+      items: itemsWithCost,
+      subtotal: serverSubtotal,
+      deliveryFee: serverDeliveryFee,
+      discount: serverDiscount,
+      total: serverTotal,
+      paymentMethod: paymentMethod || 'COD',
+      promoCode: promoCode?.toUpperCase() || '',
+      notes: notes?.trim() || '',
+      deliverySlot: deliverySlot || {},
+    });
+
+    // Decrement stock for each item (non-blocking, best-effort)
+    itemsWithCost.forEach((item) => {
+      if (item.product) {
+        Product.findByIdAndUpdate(item.product, {
+          $inc: { stock: -item.quantity },
+        }).catch(() => {});
+      }
+    });
 
     // Send WhatsApp notifications (non-blocking)
     const adminPhone = process.env.ADMIN_WHATSAPP;
@@ -34,6 +94,17 @@ router.post('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+// POST /api/orders/validate-promo — validate promo code without placing order
+const PROMO_CODES = { SELLMIX20: 0.20, FIRST10: 0.10 };
+router.post('/validate-promo', (req, res) => {
+  const { code, subtotal } = req.body;
+  if (!code) return res.status(400).json({ message: 'Promo code required' });
+  const rate = PROMO_CODES[code.toUpperCase()];
+  if (!rate) return res.status(400).json({ message: 'Invalid promo code' });
+  const discount = Math.round((subtotal || 0) * rate);
+  res.json({ valid: true, discount, rate });
 });
 
 // GET /api/orders/track/:orderId — public tracking
@@ -54,13 +125,14 @@ router.get('/stats/dashboard', protect, adminOnly, async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const [todayOrders, salesAgg, pendingDeliveries, recentOrders] = await Promise.all([
+    const [todayOrders, salesAgg, pendingDeliveries, newOrders, recentOrders] = await Promise.all([
       Order.countDocuments({ createdAt: { $gte: today } }),
       Order.aggregate([
         { $match: { status: { $ne: 'cancelled' } } },
         { $group: { _id: null, total: { $sum: '$total' } } },
       ]),
       Order.countDocuments({ status: { $in: ['placed', 'packed', 'out_for_delivery'] } }),
+      Order.countDocuments({ status: 'placed' }),
       Order.find().sort({ createdAt: -1 }).limit(5),
     ]);
 
@@ -68,6 +140,7 @@ router.get('/stats/dashboard', protect, adminOnly, async (req, res) => {
       todayOrders,
       totalSales: salesAgg[0]?.total || 0,
       pendingDeliveries,
+      newOrders,
       recentOrders,
     });
   } catch (err) {
@@ -176,7 +249,9 @@ router.get('/reports/range', protect, adminOnly, async (req, res) => {
 // GET /api/orders/my — logged-in user orders
 router.get('/my', protect, async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    const orders = await Order.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate('items.product', 'name images price discountPrice stock');
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -1,20 +1,31 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import { createContext, useContext, useState, useMemo, useEffect } from 'react';
 
 const CartContext = createContext(null);
 export const useCart = () => useContext(CartContext);
 
+function loadCart() {
+  try { return JSON.parse(localStorage.getItem('cart')) || []; } catch { return []; }
+}
+
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(loadCart);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(items));
+  }, [items]);
+
+  const getMax = (product) => Math.min(5, product?.stock > 0 ? product.stock : 5);
 
   const addItem = (product, qty = 1, weight = null) => {
+    const max = getMax(product);
     setItems((prev) => {
       const exists = prev.find((i) => i._id === product._id && i.selectedWeight === weight);
       if (exists) return prev.map((i) =>
         i._id === product._id && i.selectedWeight === weight
-          ? { ...i, quantity: i.quantity + qty }
+          ? { ...i, quantity: Math.min(i.quantity + qty, max) }
           : i
       );
-      return [...prev, { ...product, quantity: qty, selectedWeight: weight }];
+      return [...prev, { ...product, quantity: Math.min(qty, max), selectedWeight: weight }];
     });
   };
 
@@ -22,9 +33,10 @@ export function CartProvider({ children }) {
     if (qty <= 0) {
       setItems((prev) => prev.filter((i) => !(i._id === id && i.selectedWeight === weight)));
     } else {
-      setItems((prev) => prev.map((i) =>
-        i._id === id && i.selectedWeight === weight ? { ...i, quantity: qty } : i
-      ));
+      setItems((prev) => prev.map((i) => {
+        if (!(i._id === id && i.selectedWeight === weight)) return i;
+        return { ...i, quantity: Math.min(qty, getMax(i)) };
+      }));
     }
   };
 

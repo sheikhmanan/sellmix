@@ -18,7 +18,13 @@ export const AuthProvider = ({ children }) => {
         AsyncStorage.getItem('token'),
         AsyncStorage.getItem('user'),
       ]);
-      if (token && userData) setUser(JSON.parse(userData));
+      if (token && userData) {
+        try {
+          setUser(JSON.parse(userData));
+        } catch {
+          await AsyncStorage.multiRemove(['token', 'user']);
+        }
+      }
     } catch {}
     setLoading(false);
   };

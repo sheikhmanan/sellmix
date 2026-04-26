@@ -19,7 +19,7 @@ export default function Login() {
     setLoading(true);
     try {
       await login(mobile, password);
-      navigate('/');
+      window.location.replace('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,8 +35,7 @@ export default function Login() {
           <p style={s.logoSub}>Chichawatni's Finest Grocery</p>
         </div>
 
-        <h2 style={s.heading}>Welcome back</h2>
-        <p style={s.sub}>Login to track orders and checkout faster.</p>
+
 
         <form onSubmit={handleLogin} style={s.form}>
           <div style={s.field}>
@@ -49,6 +48,10 @@ export default function Login() {
               <input style={s.passInput} type={showPass ? 'text' : 'password'} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" style={s.eyeBtn} onClick={() => setShowPass(!showPass)}>{showPass ? '🙈' : '👁️'}</button>
             </div>
+          </div>
+
+          <div style={{ textAlign: 'right', marginTop: -8 }}>
+            <Link to="/forgot-password" style={s.link}>Forgot Password?</Link>
           </div>
 
           {error && <p style={s.error}>⚠️ {error}</p>}
@@ -73,7 +76,7 @@ const s = {
   logoWrap: { textAlign: 'center', marginBottom: 28 },
   logo: { fontSize: 28, fontWeight: 900, color: COLORS.primary },
   logoSub: { fontSize: 12, color: COLORS.textMuted, marginTop: 4 },
-  heading: { fontSize: 22, fontWeight: 800, color: COLORS.text, marginBottom: 6 },
+  heading: { fontSize: 22, fontWeight: 400, color: COLORS.text, marginBottom: 6 },
   sub: { fontSize: 14, color: COLORS.textLight, marginBottom: 24 },
   form: { display: 'flex', flexDirection: 'column', gap: 18 },
   field: { display: 'flex', flexDirection: 'column', gap: 8 },

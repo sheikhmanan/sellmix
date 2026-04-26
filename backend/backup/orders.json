@@ -1,0 +1,2300 @@
+[
+  {
+    "_id": "69e08225a765aa3ebeb36f40",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7659",
+        "name": "Dalda Fortified Cooking Oil",
+        "price": 530,
+        "costPrice": 460,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/dalda-cooking-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f41"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c765c",
+        "name": "Seasons Canola Oil",
+        "price": 560,
+        "costPrice": 490,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/seasons-canola-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f42"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c765c",
+        "name": "Seasons Canola Oil",
+        "price": 2700,
+        "costPrice": 490,
+        "quantity": 1,
+        "weight": "5L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/seasons-canola-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f43"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7659",
+        "name": "Dalda Fortified Cooking Oil",
+        "price": 2550,
+        "costPrice": 460,
+        "quantity": 1,
+        "weight": "5L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/dalda-cooking-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f44"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7662",
+        "name": "Nemat Cooking Oil",
+        "price": 520,
+        "costPrice": 450,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/lagan-cooking-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f45"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7662",
+        "name": "Nemat Cooking Oil",
+        "price": 2500,
+        "costPrice": 450,
+        "quantity": 1,
+        "weight": "5L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/lagan-cooking-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f46"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c765f",
+        "name": "Sufi Canola Cooking Oil",
+        "price": 560,
+        "costPrice": 490,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/sufi-canola-oil-pouch",
+        "_id": "69e08225a765aa3ebeb36f47"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 295,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "150ml Musk",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e08225a765aa3ebeb36f48"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 238,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e08225a765aa3ebeb36f49"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 330,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "150ml Dark Temptation",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e08225a765aa3ebeb36f4a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7895",
+        "name": "Dove Men Care Soap",
+        "price": 200,
+        "costPrice": 148,
+        "quantity": 2,
+        "weight": "106g Clean Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/DoveMen_CareCleanComfortBody_FaceBarSoap106gm_Canada_wqnd0k",
+        "_id": "69e08225a765aa3ebeb36f4b"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787c",
+        "name": "Johnson's Baby Bath",
+        "price": 470,
+        "costPrice": 350,
+        "quantity": 1,
+        "weight": "200ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-bath-200-ml-imported_g0ayef",
+        "_id": "69e08225a765aa3ebeb36f4c"
+      }
+    ],
+    "subtotal": 11735,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 11885,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T06:31:01.548Z",
+    "updatedAt": "2026-04-16T06:38:41.978Z",
+    "orderId": "SLX-9001",
+    "__v": 0
+  },
+  {
+    "_id": "69e0844ba765aa3ebeb37469",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 290,
+        "costPrice": 195,
+        "quantity": 1,
+        "weight": "Blue 3 Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e0844ba765aa3ebeb3746a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 238,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e0844ba765aa3ebeb3746b"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Lime Ginger",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0844ba765aa3ebeb3746c"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 330,
+        "costPrice": 250,
+        "quantity": 1,
+        "weight": "200ml Regular",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e0844ba765aa3ebeb3746d"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 330,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "150ml Dark Temptation",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e0844ba765aa3ebeb3746e"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Invisible Power",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0844ba765aa3ebeb3746f"
+      }
+    ],
+    "subtotal": 1770,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1920,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T06:40:11.278Z",
+    "updatedAt": "2026-04-16T06:41:02.821Z",
+    "orderId": "SLX-9002",
+    "__v": 0
+  },
+  {
+    "_id": "69e084b4a765aa3ebeb37692",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c774f",
+        "name": "Chocolicious Biscuits",
+        "price": 70,
+        "costPrice": 45,
+        "quantity": 2,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/chocolicious_xt1yxm",
+        "_id": "69e084b4a765aa3ebeb37693"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c774e",
+        "name": "LU Zeera Plus Half Roll",
+        "price": 110,
+        "costPrice": 75,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/zeeraplus_half_roll_yaeeth",
+        "_id": "69e084b4a765aa3ebeb37694"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7751",
+        "name": "Choco Lava Chocolate",
+        "price": 160,
+        "costPrice": 105,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/choco_lava_ohdhie",
+        "_id": "69e084b4a765aa3ebeb37695"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7750",
+        "name": "Candi Candy Pack",
+        "price": 130,
+        "costPrice": 85,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Candi-pack_ewqvze",
+        "_id": "69e084b4a765aa3ebeb37696"
+      }
+    ],
+    "subtotal": 540,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 690,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T06:41:56.182Z",
+    "updatedAt": "2026-04-16T06:42:37.044Z",
+    "orderId": "SLX-9003",
+    "__v": 0
+  },
+  {
+    "_id": "69e0856aa765aa3ebeb379dc",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7895",
+        "name": "Dove Men Care Soap",
+        "price": 200,
+        "costPrice": 148,
+        "quantity": 1,
+        "weight": "106g Clean Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/DoveMen_CareCleanComfortBody_FaceBarSoap106gm_Canada_wqnd0k",
+        "_id": "69e0856aa765aa3ebeb379dd"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 330,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "150ml Dark Temptation",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e0856aa765aa3ebeb379de"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 295,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "150ml Musk",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e0856aa765aa3ebeb379df"
+      }
+    ],
+    "subtotal": 825,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 975,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T06:44:58.530Z",
+    "updatedAt": "2026-04-16T07:04:26.501Z",
+    "orderId": "SLX-9004",
+    "__v": 0
+  },
+  {
+    "_id": "69e0a6ada765aa3ebeb383a2",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Lime Ginger",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0a6ada765aa3ebeb383a3"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 290,
+        "costPrice": 195,
+        "quantity": 1,
+        "weight": "Blue 3 Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e0a6ada765aa3ebeb383a4"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 360,
+        "costPrice": 250,
+        "quantity": 1,
+        "weight": "200ml Sensitive",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e0a6ada765aa3ebeb383a5"
+      }
+    ],
+    "subtotal": 900,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1050,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:06:53.801Z",
+    "updatedAt": "2026-04-16T09:07:31.369Z",
+    "orderId": "SLX-9005",
+    "__v": 0
+  },
+  {
+    "_id": "69e0a70ea765aa3ebeb38588",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7815",
+        "name": "Tang Mango",
+        "price": 840,
+        "costPrice": 300,
+        "quantity": 1,
+        "weight": "750g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-mango-tub-750-gm_otyvg9",
+        "_id": "69e0a70ea765aa3ebeb38589"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77d3",
+        "name": "Qarshi Jam-e-Shirin",
+        "price": 760,
+        "costPrice": 920,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/qarshi-jam-e-shirin-800-ml_nvsis1",
+        "_id": "69e0a70ea765aa3ebeb3858a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77d1",
+        "name": "Mitchells Orange Squash",
+        "price": 350,
+        "costPrice": 265,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/mitchells-orange-squash-800-ml_xjww3r",
+        "_id": "69e0a70ea765aa3ebeb3858b"
+      }
+    ],
+    "subtotal": 1950,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2100,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "cancelled",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:08:30.295Z",
+    "updatedAt": "2026-04-16T09:08:44.925Z",
+    "orderId": "SLX-9006",
+    "__v": 0
+  },
+  {
+    "_id": "69e0ac37a765aa3ebeb3906e",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Invisible Power",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0ac37a765aa3ebeb3906f"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Lime Ginger",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0ac37a765aa3ebeb39070"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 238,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e0ac37a765aa3ebeb39071"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 330,
+        "costPrice": 250,
+        "quantity": 1,
+        "weight": "200ml Regular",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e0ac37a765aa3ebeb39072"
+      }
+    ],
+    "subtotal": 1150,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1300,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "cancelled",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:30:31.475Z",
+    "updatedAt": "2026-04-16T09:30:49.886Z",
+    "orderId": "SLX-9007",
+    "__v": 0
+  },
+  {
+    "_id": "69e0ac77a765aa3ebeb39794",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 290,
+        "costPrice": 195,
+        "quantity": 1,
+        "weight": "Blue 3 Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e0ac77a765aa3ebeb39795"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 190,
+        "costPrice": 195,
+        "quantity": 1,
+        "weight": "Blue 2+",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e0ac77a765aa3ebeb39796"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c788f",
+        "name": "Fa Men Roll-On",
+        "price": 250,
+        "costPrice": 180,
+        "quantity": 1,
+        "weight": "50ml Invisible Power",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fa-men-freshly-free-lime-ginger-roll-on-50-ml_hxzb5b",
+        "_id": "69e0ac77a765aa3ebeb39797"
+      }
+    ],
+    "subtotal": 730,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 880,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "cancelled",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:31:35.973Z",
+    "updatedAt": "2026-04-16T09:32:16.196Z",
+    "orderId": "SLX-9008",
+    "__v": 0
+  },
+  {
+    "_id": "69e0acc1a765aa3ebeb39961",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7653",
+        "name": "Chakki Fresh Atta",
+        "price": 550,
+        "costPrice": 82,
+        "quantity": 1,
+        "weight": "5kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/chakki-atta",
+        "_id": "69e0acc1a765aa3ebeb39962"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c773c",
+        "name": "Desi Gur (Jaggery)",
+        "price": 255,
+        "costPrice": 185,
+        "quantity": 1,
+        "weight": "1kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Desi_Gurr_1kg_500gm_afbjac",
+        "_id": "69e0acc1a765aa3ebeb39963"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7739",
+        "name": "Sugar (Cheeni)",
+        "price": 135,
+        "costPrice": 200,
+        "quantity": 1,
+        "weight": "1kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Sugar_2kg_d59ixm",
+        "_id": "69e0acc1a765aa3ebeb39964"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7736",
+        "name": "Baisin (Gram Flour)",
+        "price": 210,
+        "costPrice": 155,
+        "quantity": 1,
+        "weight": "1kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Baisin_1kg_jim6or",
+        "_id": "69e0acc1a765aa3ebeb39965"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c771f",
+        "name": "White Pepper Powder (Safaid Mirch Powder)",
+        "price": 205,
+        "costPrice": 145,
+        "quantity": 1,
+        "weight": "100g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/White_pepper_powder_50gm_سفید_مرچ_پاؤڈر_gdozgw",
+        "_id": "69e0acc1a765aa3ebeb39966"
+      }
+    ],
+    "subtotal": 1355,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1505,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "cancelled",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:32:49.305Z",
+    "updatedAt": "2026-04-16T09:33:06.991Z",
+    "orderId": "SLX-9009",
+    "__v": 0
+  },
+  {
+    "_id": "69e0ad52a765aa3ebeb39bbb",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7880",
+        "name": "Johnson's Petroleum Jelly",
+        "price": 270,
+        "costPrice": 200,
+        "quantity": 1,
+        "weight": "100ml Fragranced",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-petroleum-jelly-lightly-fragranced-100-ml_k2gokd",
+        "_id": "69e0ad52a765aa3ebeb39bbc"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7880",
+        "name": "Johnson's Petroleum Jelly",
+        "price": 260,
+        "costPrice": 200,
+        "quantity": 2,
+        "weight": "100ml Fragrance Free",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-petroleum-jelly-lightly-fragranced-100-ml_k2gokd",
+        "_id": "69e0ad52a765aa3ebeb39bbd"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 238,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e0ad52a765aa3ebeb39bbe"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77e8",
+        "name": "Pantene Smooth & Strong Shampoo",
+        "price": 440,
+        "costPrice": 330,
+        "quantity": 1,
+        "weight": "185ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/pantene-pro-v-smooth-and-strong-185-ml_lql98b",
+        "_id": "69e0ad52a765aa3ebeb39bbf"
+      }
+    ],
+    "subtotal": 1550,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1700,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "cancelled",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T09:35:14.893Z",
+    "updatedAt": "2026-04-16T09:35:26.722Z",
+    "orderId": "SLX-9010",
+    "__v": 0
+  },
+  {
+    "_id": "69e0b8c0efed185dff7a58f5",
+    "user": "69e08440a765aa3ebeb370df",
+    "customerName": "manan",
+    "whatsapp": "0345345345",
+    "address": "345",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7898",
+        "name": "Glow & Handsome Face Cream",
+        "price": 150,
+        "costPrice": 108,
+        "quantity": 1,
+        "weight": "25g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/fair-lovely-glow-handsome-instant-brightness-face-cream-25-gm_hljucr",
+        "_id": "69e0b8c0efed185dff7a58f6"
+      }
+    ],
+    "subtotal": 150,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 300,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "createdAt": "2026-04-16T10:24:00.512Z",
+    "updatedAt": "2026-04-16T10:27:08.243Z",
+    "orderId": "SLX-9011",
+    "__v": 0
+  },
+  {
+    "_id": "69e48ade7088d16fbb47eef4",
+    "user": "69e488677088d16fbb47e490",
+    "customerName": "sheikhoo",
+    "whatsapp": "0312112112",
+    "address": "112",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Extra Large Size 6 (38 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e48ade7088d16fbb47eef5"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Newborn (78 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e48ade7088d16fbb47eef6"
+      }
+    ],
+    "subtotal": 4800,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 4950,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-19T07:57:18.425Z",
+    "updatedAt": "2026-04-20T05:31:27.666Z",
+    "orderId": "SLX-9012",
+    "__v": 0
+  },
+  {
+    "_id": "69e48b077088d16fbb47f065",
+    "user": "69e488677088d16fbb47e490",
+    "customerName": "sheikhoo",
+    "whatsapp": "0312112112",
+    "address": "112",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7818",
+        "name": "Tang Lemon Pepper",
+        "price": 98,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "130g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-lemon-pepper-pouch-375-gm_uycvr4",
+        "_id": "69e48b077088d16fbb47f066"
+      }
+    ],
+    "subtotal": 98,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 248,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-19T07:57:59.555Z",
+    "updatedAt": "2026-04-20T05:31:29.552Z",
+    "orderId": "SLX-9013",
+    "__v": 0
+  },
+  {
+    "_id": "69e48cb67088d16fbb47f225",
+    "user": "69e488677088d16fbb47e490",
+    "customerName": "sheikhoo",
+    "whatsapp": "0312112112",
+    "address": "112",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Junior Size 5 (44 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e48cb67088d16fbb47f226"
+      }
+    ],
+    "subtotal": 2400,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2550,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Wed, Apr 22",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-19T08:05:10.020Z",
+    "updatedAt": "2026-04-20T05:39:56.621Z",
+    "orderId": "SLX-9014",
+    "__v": 0
+  },
+  {
+    "_id": "69e48d2b7088d16fbb47f39b",
+    "user": "69e488677088d16fbb47e490",
+    "customerName": "sheikhoo",
+    "whatsapp": "0312112112",
+    "address": "112",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 350,
+        "costPrice": 340,
+        "quantity": 1,
+        "weight": "Blue 3 Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e48d2b7088d16fbb47f39c"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7804",
+        "name": "Dove Intense Repair Shampoo",
+        "price": 510,
+        "costPrice": 570,
+        "quantity": 1,
+        "weight": "175ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dove-intense-repair-shampoo-175-ml_mxseuv",
+        "_id": "69e48d2b7088d16fbb47f39d"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7806",
+        "name": "Dove Hair Fall Rescue Shampoo",
+        "price": 460,
+        "costPrice": 430,
+        "quantity": 1,
+        "weight": "175ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dove-hair-fall-rescue-shampoo-175-ml_rg2lwm",
+        "_id": "69e48d2b7088d16fbb47f39e"
+      }
+    ],
+    "subtotal": 1320,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1470,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Thu, Apr 23",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-19T08:07:07.128Z",
+    "updatedAt": "2026-04-20T05:39:54.702Z",
+    "orderId": "SLX-9015",
+    "__v": 0
+  },
+  {
+    "_id": "69e48e007088d16fbb47f810",
+    "user": "69e488677088d16fbb47e490",
+    "customerName": "sheikhoo",
+    "whatsapp": "0312112112",
+    "address": "112",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7699",
+        "name": "Nestle Fruita Vitals Apple",
+        "price": 340,
+        "costPrice": 70,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-fruita-vitals-apple-fruit-nectar-200-ml_gb9jkx",
+        "_id": "69e48e007088d16fbb47f811"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7696",
+        "name": "Nestle Fruita Vitals Peach",
+        "price": 75,
+        "costPrice": 70,
+        "quantity": 1,
+        "weight": "200ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-fruite-vital-peach-fruit-drink-200-ml_hyt9jp",
+        "_id": "69e48e007088d16fbb47f812"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7696",
+        "name": "Nestle Fruita Vitals Peach",
+        "price": 390,
+        "costPrice": 70,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-fruite-vital-peach-fruit-drink-200-ml_hyt9jp",
+        "_id": "69e48e007088d16fbb47f813"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c768f",
+        "name": "Sting Energy Drink",
+        "price": 65,
+        "costPrice": 75,
+        "quantity": 1,
+        "weight": "250ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Sting_250ml_bxpyru",
+        "_id": "69e48e007088d16fbb47f814"
+      }
+    ],
+    "subtotal": 870,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1020,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-19T08:10:40.691Z",
+    "updatedAt": "2026-04-20T05:32:01.729Z",
+    "orderId": "SLX-9016",
+    "__v": 0
+  },
+  {
+    "_id": "69e5ba0dba35353948901c2d",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c773f",
+        "name": "Pistachios Salted (Namkeen Pista)",
+        "price": 1126,
+        "costPrice": 950,
+        "quantity": 1,
+        "weight": "200g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Pistachio_salted_200mg_نمکین_پستہ_ndznc4",
+        "_id": "69e5ba0dba35353948901c2e"
+      }
+    ],
+    "subtotal": 1126,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1276,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Wed, Apr 22",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T05:30:53.367Z",
+    "updatedAt": "2026-04-20T05:39:51.556Z",
+    "orderId": "SLX-9017",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c5ceba3535394890650d",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c781b",
+        "name": "Tang Pineapple",
+        "price": 343,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "375g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-pineapple-pouch-375-gm_dervfm",
+        "_id": "69e5c5ceba3535394890650e"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c781b",
+        "name": "Tang Pineapple",
+        "price": 98,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "125g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-pineapple-pouch-375-gm_dervfm",
+        "_id": "69e5c5ceba3535394890650f"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7818",
+        "name": "Tang Lemon Pepper",
+        "price": 98,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "130g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-lemon-pepper-pouch-375-gm_uycvr4",
+        "_id": "69e5c5ceba35353948906510"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7818",
+        "name": "Tang Lemon Pepper",
+        "price": 343,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "375g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-lemon-pepper-pouch-375-gm_uycvr4",
+        "_id": "69e5c5ceba35353948906511"
+      }
+    ],
+    "subtotal": 882,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1032,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:21:02.513Z",
+    "updatedAt": "2026-04-20T06:22:15.306Z",
+    "orderId": "SLX-9018",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c651ba35353948906c71",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7815",
+        "name": "Tang Mango",
+        "price": 818,
+        "costPrice": 340,
+        "quantity": 1,
+        "weight": "750g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-mango-tub-750-gm_otyvg9",
+        "_id": "69e5c651ba35353948906c72"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77d3",
+        "name": "Qarshi Jam-e-Shirin",
+        "price": 498,
+        "costPrice": 490,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/qarshi-jam-e-shirin-800-ml_nvsis1",
+        "_id": "69e5c651ba35353948906c73"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77d1",
+        "name": "Mitchells Orange Squash",
+        "price": 390,
+        "costPrice": 380,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/mitchells-orange-squash-800-ml_xjww3r",
+        "_id": "69e5c651ba35353948906c74"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77cf",
+        "name": "Mitchells Lemon Squash",
+        "price": 390,
+        "costPrice": 380,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/mitchells-lemon-squash-800-ml_rl62lt",
+        "_id": "69e5c651ba35353948906c75"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77da",
+        "name": "Qarshi Sharbat Ilacheen",
+        "price": 490,
+        "costPrice": 480,
+        "quantity": 1,
+        "weight": "800ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/qarshi-sharbat-ilacheen-800-ml_qet1lz",
+        "_id": "69e5c651ba35353948906c76"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7812",
+        "name": "Tang Orange",
+        "price": 343,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "375g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-orange-pouch-375-gm_sqrxn8",
+        "_id": "69e5c651ba35353948906c77"
+      }
+    ],
+    "subtotal": 2929,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 3079,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:23:13.405Z",
+    "updatedAt": "2026-04-20T11:07:13.196Z",
+    "orderId": "SLX-9019",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c706ba35353948907176",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c76d8",
+        "name": "Forhan's Toothpaste",
+        "price": 370,
+        "costPrice": 80,
+        "quantity": 1,
+        "weight": "180g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/forhans-toothpaste-40g",
+        "_id": "69e5c706ba35353948907177"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76d5",
+        "name": "Colgate MaxFresh Toothpaste",
+        "price": 210,
+        "costPrice": 190,
+        "quantity": 1,
+        "weight": "75g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/colgate-maxfresh-75g",
+        "_id": "69e5c706ba35353948907178"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76d5",
+        "name": "Colgate MaxFresh Toothpaste",
+        "price": 315,
+        "costPrice": 190,
+        "quantity": 1,
+        "weight": "125g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/colgate-maxfresh-75g",
+        "_id": "69e5c706ba35353948907179"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76d8",
+        "name": "Forhan's Toothpaste",
+        "price": 90,
+        "costPrice": 80,
+        "quantity": 1,
+        "weight": "40g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/forhans-toothpaste-40g",
+        "_id": "69e5c706ba3535394890717a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76db",
+        "name": "Medicam Dental Cream",
+        "price": 355,
+        "costPrice": 340,
+        "quantity": 1,
+        "weight": "180g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/medicam-dental-cream",
+        "_id": "69e5c706ba3535394890717b"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76dd",
+        "name": "Sensodyne Deep Clean",
+        "price": 380,
+        "costPrice": 370,
+        "quantity": 1,
+        "weight": "70g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/sensodyne-deep-clean",
+        "_id": "69e5c706ba3535394890717c"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76df",
+        "name": "Sensodyne Extra Whitening",
+        "price": 330,
+        "costPrice": 310,
+        "quantity": 1,
+        "weight": "70g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/sensodyne-extra-whitening",
+        "_id": "69e5c706ba3535394890717d"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76d2",
+        "name": "Colgate Herbal Toothpaste",
+        "price": 180,
+        "costPrice": 300,
+        "quantity": 1,
+        "weight": "200g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/colgate-herbal-150g",
+        "_id": "69e5c706ba3535394890717e"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c76e5",
+        "name": "Sensodyne Rapid Relief",
+        "price": 336,
+        "costPrice": 325,
+        "quantity": 1,
+        "weight": "70g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/sensodyne-rapid-relief",
+        "_id": "69e5c706ba3535394890717f"
+      }
+    ],
+    "subtotal": 2566,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2716,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:26:14.202Z",
+    "updatedAt": "2026-04-20T11:07:10.748Z",
+    "orderId": "SLX-9020",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c803ba35353948907bf2",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7895",
+        "name": "Dove Men Care Soap",
+        "price": 500,
+        "costPrice": 480,
+        "quantity": 1,
+        "weight": "106g Clean Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/DoveMen_CareCleanComfortBody_FaceBarSoap106gm_Canada_wqnd0k",
+        "_id": "69e5c803ba35353948907bf3"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 1050,
+        "costPrice": 970,
+        "quantity": 1,
+        "weight": "200ml Regular",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e5c803ba35353948907bf4"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c780e",
+        "name": "Lifebuoy Herbal Shampoo",
+        "price": 360,
+        "costPrice": 350,
+        "quantity": 1,
+        "weight": "175ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/lifebuoy-herbal-shampoo-175-ml_a7yflr",
+        "_id": "69e5c803ba35353948907bf5"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77f2",
+        "name": "Head & Shoulders Silky Black Shampoo",
+        "price": 460,
+        "costPrice": 450,
+        "quantity": 1,
+        "weight": "185ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/head-shoulders-silky-black-185-ml_xe1vem",
+        "_id": "69e5c803ba35353948907bf6"
+      }
+    ],
+    "subtotal": 2370,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2520,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:30:27.270Z",
+    "updatedAt": "2026-04-20T11:07:09.287Z",
+    "orderId": "SLX-9021",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c880ba353539489083b0",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7699",
+        "name": "Nestle Fruita Vitals Apple",
+        "price": 340,
+        "costPrice": 70,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-fruita-vitals-apple-fruit-nectar-200-ml_gb9jkx",
+        "_id": "69e5c880ba353539489083b1"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7696",
+        "name": "Nestle Fruita Vitals Peach",
+        "price": 75,
+        "costPrice": 70,
+        "quantity": 1,
+        "weight": "200ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-fruite-vital-peach-fruit-drink-200-ml_hyt9jp",
+        "_id": "69e5c880ba353539489083b2"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7892",
+        "name": "Axe Body Spray",
+        "price": 850,
+        "costPrice": 800,
+        "quantity": 1,
+        "weight": "150ml Musk",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/AxeMuskBodySprayDeodorant150ml_ffusbi",
+        "_id": "69e5c880ba353539489083b3"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7812",
+        "name": "Tang Orange",
+        "price": 343,
+        "costPrice": 95,
+        "quantity": 1,
+        "weight": "375g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tang-orange-pouch-375-gm_sqrxn8",
+        "_id": "69e5c880ba353539489083b4"
+      }
+    ],
+    "subtotal": 1608,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1758,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:32:32.130Z",
+    "updatedAt": "2026-04-20T11:07:07.663Z",
+    "orderId": "SLX-9022",
+    "__v": 0
+  },
+  {
+    "_id": "69e5c97dba35353948908cb0",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7755",
+        "name": "Dettol Antiseptic Liquid",
+        "price": 250,
+        "costPrice": 240,
+        "quantity": 1,
+        "weight": "60ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dettol_djdbxw",
+        "_id": "69e5c97dba35353948908cb1"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7839",
+        "name": "Brite Maximum Power",
+        "price": 1080,
+        "costPrice": 275,
+        "quantity": 1,
+        "weight": "2kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/brite-maximum-power-500-gm_owxosi",
+        "_id": "69e5c97dba35353948908cb2"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7836",
+        "name": "Ariel Original",
+        "price": 275,
+        "costPrice": 255,
+        "quantity": 1,
+        "weight": "500g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/ariel-original-500-gm_htvc1i",
+        "_id": "69e5c97dba35353948908cb3"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7836",
+        "name": "Ariel Original",
+        "price": 570,
+        "costPrice": 255,
+        "quantity": 1,
+        "weight": "1kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/ariel-original-500-gm_htvc1i",
+        "_id": "69e5c97dba35353948908cb4"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7832",
+        "name": "Surf Excel",
+        "price": 570,
+        "costPrice": 280,
+        "quantity": 1,
+        "weight": "1kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/surf-excel-500-gm_pdss7k",
+        "_id": "69e5c97dba35353948908cb5"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7832",
+        "name": "Surf Excel",
+        "price": 1080,
+        "costPrice": 280,
+        "quantity": 1,
+        "weight": "2kg",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/surf-excel-500-gm_pdss7k",
+        "_id": "69e5c97dba35353948908cb6"
+      }
+    ],
+    "subtotal": 3825,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 3975,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-20T06:36:45.423Z",
+    "updatedAt": "2026-04-20T11:07:05.348Z",
+    "orderId": "SLX-9023",
+    "__v": 0
+  },
+  {
+    "_id": "69e5cc9eba3535394890aa83",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7791",
+        "name": "Tapal Danedar Tea Bags",
+        "price": 495,
+        "costPrice": 235,
+        "quantity": 1,
+        "weight": "50 bags",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tapal-danedar-tea-bag-envelope-100-tea-bags_fdcvbz",
+        "_id": "69e5cc9eba3535394890aa84"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7791",
+        "name": "Tapal Danedar Tea Bags",
+        "price": 980,
+        "costPrice": 235,
+        "quantity": 1,
+        "weight": "100 bags",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tapal-danedar-tea-bag-envelope-100-tea-bags_fdcvbz",
+        "_id": "69e5cc9eba3535394890aa85"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c778b",
+        "name": "Tapal Danedar Tea",
+        "price": 190,
+        "costPrice": 180,
+        "quantity": 2,
+        "weight": "85g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/tapal-danedar-jar-440-gm_nxzdyk",
+        "_id": "69e5cc9eba3535394890aa86"
+      }
+    ],
+    "subtotal": 1855,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2005,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:50:06.380Z",
+    "updatedAt": "2026-04-20T11:07:03.790Z",
+    "orderId": "SLX-9024",
+    "__v": 0
+  },
+  {
+    "_id": "69e5cce4ba3535394890af64",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69e1c69c68f3f2e4ea9902f2",
+        "name": "National Malai Boti Mix",
+        "price": 145,
+        "costPrice": 125,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/v1772085722/sellmix/products/malai-boti.jpg",
+        "_id": "69e5cce4ba3535394890af65"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e5cce4ba3535394890af66"
+      }
+    ],
+    "subtotal": 465,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 615,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:51:16.396Z",
+    "updatedAt": "2026-04-20T11:07:01.880Z",
+    "orderId": "SLX-9025",
+    "__v": 0
+  },
+  {
+    "_id": "69e5cdaaba3535394890b765",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c788c",
+        "name": "Gillette Razor",
+        "price": 330,
+        "costPrice": 340,
+        "quantity": 1,
+        "weight": "Blue 2+",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-blue-3-comfort-disposable-razor-_ulbfgi",
+        "_id": "69e5cdaaba3535394890b766"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 980,
+        "costPrice": 970,
+        "quantity": 1,
+        "weight": "200ml Sensitive",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e5cdaaba3535394890b767"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7889",
+        "name": "Gillette Shaving Foam",
+        "price": 1050,
+        "costPrice": 970,
+        "quantity": 1,
+        "weight": "200ml Regular",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/gillette-shaving-foam-sensitive-200-ml-imported_l90vzh",
+        "_id": "69e5cdaaba3535394890b768"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c780a",
+        "name": "Palmolive Healthy & Smooth Shampoo",
+        "price": 390,
+        "costPrice": 350,
+        "quantity": 1,
+        "weight": "180ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/palmolive-healthy-and-smooth-shampoo-180-ml_pm2c3b",
+        "_id": "69e5cdaaba3535394890b769"
+      }
+    ],
+    "subtotal": 2750,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2900,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T06:54:35.004Z",
+    "updatedAt": "2026-04-20T11:07:00.412Z",
+    "orderId": "SLX-9026",
+    "__v": 0
+  },
+  {
+    "_id": "69e5d145ba3535394890ced6",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7734",
+        "name": "Jalwatri (Mace)",
+        "price": 200,
+        "costPrice": 175,
+        "quantity": 1,
+        "weight": "25g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Jalwatri_25mg_جلوتری_aiwcdk",
+        "_id": "69e5d145ba3535394890ced7"
+      }
+    ],
+    "subtotal": 200,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 350,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T07:09:57.363Z",
+    "updatedAt": "2026-04-20T11:06:58.596Z",
+    "orderId": "SLX-9027",
+    "__v": 0
+  },
+  {
+    "_id": "69e5d180ba3535394890d17f",
+    "user": "69e08134a765aa3ebeb36315",
+    "customerName": "manan",
+    "whatsapp": "03234234234",
+    "address": "234",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7895",
+        "name": "Dove Men Care Soap",
+        "price": 500,
+        "costPrice": 480,
+        "quantity": 1,
+        "weight": "106g Clean Comfort",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/DoveMen_CareCleanComfortBody_FaceBarSoap106gm_Canada_wqnd0k",
+        "_id": "69e5d180ba3535394890d180"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7895",
+        "name": "Dove Men Care Soap",
+        "price": 500,
+        "costPrice": 480,
+        "quantity": 1,
+        "weight": "106g Deep Clean",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/DoveMen_CareCleanComfortBody_FaceBarSoap106gm_Canada_wqnd0k",
+        "_id": "69e5d180ba3535394890d181"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787e",
+        "name": "Johnson's Baby Wipes",
+        "price": 320,
+        "costPrice": 230,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-wipes-gentle-84-pcs-imported_ozpxtq",
+        "_id": "69e5d180ba3535394890d182"
+      },
+      {
+        "product": "69e1c69c68f3f2e4ea9902ef",
+        "name": "National Seekh Kabab Mix",
+        "price": 145,
+        "costPrice": 125,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/v1772085730/sellmix/products/seekh-kabab.jpg",
+        "_id": "69e5d180ba3535394890d183"
+      }
+    ],
+    "subtotal": 1465,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1615,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T07:10:56.054Z",
+    "updatedAt": "2026-04-20T11:06:54.816Z",
+    "orderId": "SLX-9028",
+    "__v": 0
+  },
+  {
+    "_id": "69e6040aba3535394891e638",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Newborn (78 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e6040aba3535394891e639"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7887",
+        "name": "Nexton Baby Wipes",
+        "price": 277,
+        "costPrice": 500,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nexton-baby-wipes-extra-sensitive-84-pcs_hfc66v",
+        "_id": "69e6040aba3535394891e63a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787c",
+        "name": "Johnson's Baby Bath",
+        "price": 455,
+        "costPrice": 590,
+        "quantity": 1,
+        "weight": "200ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-bath-200-ml-imported_g0ayef",
+        "_id": "69e6040aba3535394891e63b"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c786f",
+        "name": "Extra Clean Kitchen Towel",
+        "price": 146,
+        "costPrice": 115,
+        "quantity": 1,
+        "weight": "2 rolls",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Extra_Clean_Kitchen_Towel_Twin_2X_c0tvgb",
+        "_id": "69e6040aba3535394891e63c"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7858",
+        "name": "Dettol Surface Cleaner",
+        "price": 182,
+        "costPrice": 148,
+        "quantity": 1,
+        "weight": "500ml Floral",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dettol-surface-cleaner-floral-500-ml_qfhtqn",
+        "_id": "69e6040aba3535394891e63d"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7858",
+        "name": "Dettol Surface Cleaner",
+        "price": 182,
+        "costPrice": 148,
+        "quantity": 1,
+        "weight": "500ml Citrus",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dettol-surface-cleaner-floral-500-ml_qfhtqn",
+        "_id": "69e6040aba3535394891e63e"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7858",
+        "name": "Dettol Surface Cleaner",
+        "price": 200,
+        "costPrice": 148,
+        "quantity": 1,
+        "weight": "500ml Lavender",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/dettol-surface-cleaner-floral-500-ml_qfhtqn",
+        "_id": "69e6040aba3535394891e63f"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c784d",
+        "name": "Vim Dishwash Bar",
+        "price": 156,
+        "costPrice": 120,
+        "quantity": 1,
+        "weight": "460g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/vim-2-in-1-dish-wash-long-bar-lemon-pudina-460-gm_nhgemt",
+        "_id": "69e6040aba3535394891e640"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7863",
+        "name": "Sun Brite Steel Scrubber",
+        "price": 80,
+        "costPrice": 55,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sun-brite-stainless-steel-1-pcs_q6diuy",
+        "_id": "69e6040aba3535394891e641"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7865",
+        "name": "Max Scrub Scouring Pad",
+        "price": 85,
+        "costPrice": 58,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/max-scrub-grease-cutting-scouring-pad-regular-1-pc_gvrcgk",
+        "_id": "69e6040aba3535394891e642"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7846",
+        "name": "Lemon Max Liquid",
+        "price": 165,
+        "costPrice": 160,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/lemon-max-liquid-275-ml_yw0waq",
+        "_id": "69e6040aba3535394891e643"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7843",
+        "name": "Lemon Max Dishwash Bar",
+        "price": 30,
+        "costPrice": 27,
+        "quantity": 1,
+        "weight": "85g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/lemon-max-dishwash-bar-85-gm_g3b0hw",
+        "_id": "69e6040aba3535394891e644"
+      }
+    ],
+    "subtotal": 4358,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 4508,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-20T10:46:34.180Z",
+    "updatedAt": "2026-04-20T11:06:52.472Z",
+    "orderId": "SLX-9029",
+    "__v": 0
+  },
+  {
+    "_id": "69e6044eba3535394891eb68",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7691",
+        "name": "Red Bull Energy Drink",
+        "price": 500,
+        "costPrice": 480,
+        "quantity": 1,
+        "weight": "250ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/red-bull-stimulant-energy-drink-250-ml_fusqcn",
+        "_id": "69e6044eba3535394891eb69"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c768f",
+        "name": "Sting Energy Drink",
+        "price": 65,
+        "costPrice": 75,
+        "quantity": 1,
+        "weight": "250ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Sting_250ml_bxpyru",
+        "_id": "69e6044eba3535394891eb6a"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7693",
+        "name": "Nestle Fruita Vitals Mango",
+        "price": 390,
+        "costPrice": 370,
+        "quantity": 1,
+        "weight": "1L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/NestleFruitaVitalsRoyalMangoesNectarFruitDrink200m_kgz3sd",
+        "_id": "69e6044eba3535394891eb6b"
+      }
+    ],
+    "subtotal": 955,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1105,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-20T10:47:42.992Z",
+    "updatedAt": "2026-04-20T11:06:46.963Z",
+    "orderId": "SLX-9030",
+    "__v": 0
+  },
+  {
+    "_id": "69e60907ba3535394892353f",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69e1c69c68f3f2e4ea9902f2",
+        "name": "National Malai Boti Mix",
+        "price": 145,
+        "costPrice": 125,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/v1772085722/sellmix/products/malai-boti.jpg",
+        "_id": "69e60907ba35353948923540"
+      },
+      {
+        "product": "69e1c69c68f3f2e4ea9902ef",
+        "name": "National Seekh Kabab Mix",
+        "price": 145,
+        "costPrice": 125,
+        "quantity": 1,
+        "weight": null,
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/v1772085730/sellmix/products/seekh-kabab.jpg",
+        "_id": "69e60907ba35353948923541"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Newborn (78 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e60907ba35353948923542"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c787c",
+        "name": "Johnson's Baby Bath",
+        "price": 455,
+        "costPrice": 590,
+        "quantity": 1,
+        "weight": "200ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/johnsons-baby-bath-200-ml-imported_g0ayef",
+        "_id": "69e60907ba35353948923543"
+      }
+    ],
+    "subtotal": 3145,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 3295,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "delivered",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-20T11:07:51.495Z",
+    "updatedAt": "2026-04-21T06:06:26.720Z",
+    "orderId": "SLX-9031",
+    "__v": 0
+  },
+  {
+    "_id": "69e72499ae641de1fe841214",
+    "user": "69e7246bae641de1fe840e27",
+    "customerName": "murtaza",
+    "whatsapp": "03012345678",
+    "address": "123",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Newborn (78 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e72499ae641de1fe841215"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Junior Size 5 (44 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e72499ae641de1fe841216"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Extra Large Size 6 (38 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e72499ae641de1fe841217"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c7887",
+        "name": "Nexton Baby Wipes",
+        "price": 510,
+        "costPrice": 500,
+        "quantity": 1,
+        "weight": "84 pcs",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nexton-baby-wipes-extra-sensitive-84-pcs_hfc66v",
+        "_id": "69e72499ae641de1fe841218"
+      }
+    ],
+    "subtotal": 7710,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 7860,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "placed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-21T07:17:45.598Z",
+    "updatedAt": "2026-04-21T07:17:45.598Z",
+    "orderId": "SLX-9032",
+    "__v": 0
+  },
+  {
+    "_id": "69e72742ae641de1fe8426d3",
+    "user": "69e7246bae641de1fe840e27",
+    "customerName": "murtaza",
+    "whatsapp": "03012345678",
+    "address": "123",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c765c",
+        "name": "Seasons Canola Oil",
+        "price": 575,
+        "costPrice": 575,
+        "quantity": 1,
+        "weight": "5L",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/sellmix/products/seasons-canola-oil-pouch",
+        "_id": "69e72742ae641de1fe8426d4"
+      }
+    ],
+    "subtotal": 575,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 725,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "placed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-21T07:29:06.851Z",
+    "updatedAt": "2026-04-21T07:29:06.851Z",
+    "orderId": "SLX-9033",
+    "__v": 0
+  },
+  {
+    "_id": "69e72784ae641de1fe842943",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c77de",
+        "name": "Nestle Milo Active Go",
+        "price": 60,
+        "costPrice": 56,
+        "quantity": 1,
+        "weight": "500g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-milo-active-go-sachet-15-gm_gtmvnr",
+        "_id": "69e72784ae641de1fe842944"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77de",
+        "name": "Nestle Milo Active Go",
+        "price": 60,
+        "costPrice": 56,
+        "quantity": 1,
+        "weight": "150g",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-milo-active-go-sachet-15-gm_gtmvnr",
+        "_id": "69e72784ae641de1fe842945"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77de",
+        "name": "Nestle Milo Active Go",
+        "price": 60,
+        "costPrice": 56,
+        "quantity": 1,
+        "weight": "15g sachet",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/nestle-milo-active-go-sachet-15-gm_gtmvnr",
+        "_id": "69e72784ae641de1fe842946"
+      },
+      {
+        "product": "69da35fa8ab28bb1568c77e8",
+        "name": "Pantene Smooth & Strong Shampoo",
+        "price": 440,
+        "costPrice": 420,
+        "quantity": 2,
+        "weight": "185ml",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/pantene-pro-v-smooth-and-strong-185-ml_lql98b",
+        "_id": "69e72784ae641de1fe842947"
+      }
+    ],
+    "subtotal": 1060,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 1210,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "packed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-21T07:30:12.070Z",
+    "updatedAt": "2026-04-21T07:32:23.815Z",
+    "orderId": "SLX-9034",
+    "__v": 0
+  },
+  {
+    "_id": "69e73d929528e97bfc8f6e94",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69da35fa8ab28bb1568c7883",
+        "name": "Molfix Baby Diapers",
+        "price": 2400,
+        "costPrice": 2350,
+        "quantity": 1,
+        "weight": "Junior Size 5 (44 pcs)",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800,c_limit/Molfix-Diapers-Size-1-Newborn-78_mdqets",
+        "_id": "69e73d929528e97bfc8f6e95"
+      }
+    ],
+    "subtotal": 2400,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 2550,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "placed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Today",
+      "slot": "4:00 PM – 7:00 PM"
+    },
+    "createdAt": "2026-04-21T09:04:18.238Z",
+    "updatedAt": "2026-04-21T09:04:18.238Z",
+    "orderId": "SLX-9035",
+    "__v": 0
+  },
+  {
+    "_id": "69e73e299528e97bfc8f7452",
+    "user": "69df1dfd6b9007af1c3e0458",
+    "customerName": "sheikhooo",
+    "whatsapp": "03064768198",
+    "address": "818",
+    "items": [
+      {
+        "product": "69e1c69c68f3f2e4ea9902ef",
+        "name": "National Seekh Kabab Mix",
+        "price": 145,
+        "costPrice": 125,
+        "quantity": 2,
+        "weight": "",
+        "image": "https://res.cloudinary.com/dnhuilgay/image/upload/v1772085730/sellmix/products/seekh-kabab.jpg",
+        "_id": "69e73e299528e97bfc8f7453"
+      }
+    ],
+    "subtotal": 290,
+    "deliveryFee": 150,
+    "discount": 0,
+    "total": 440,
+    "paymentMethod": "COD",
+    "paymentStatus": "pending",
+    "status": "placed",
+    "promoCode": "",
+    "notes": "",
+    "city": "Chichawatni",
+    "deliverySlot": {
+      "date": "Tomorrow",
+      "slot": "10:00 AM – 1:00 PM"
+    },
+    "createdAt": "2026-04-21T09:06:49.406Z",
+    "updatedAt": "2026-04-21T09:06:49.406Z",
+    "orderId": "SLX-9036",
+    "__v": 0
+  }
+]

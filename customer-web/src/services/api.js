@@ -25,11 +25,12 @@ export const productsAPI = {
 };
 
 export const categoriesAPI = {
-  getAll: () => api.get('/categories'),
+  getAll: (params) => api.get('/categories', { params }),
 };
 
 export const ordersAPI = {
   place: (data) => api.post('/orders', data),
+  validatePromo: (code, subtotal) => api.post('/orders/validate-promo', { code, subtotal }),
   getMyOrders: () => api.get('/orders/my'),
   track: (orderId) => api.get(`/orders/track/${orderId}`),
 };

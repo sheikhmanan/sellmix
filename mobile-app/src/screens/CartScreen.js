@@ -1,31 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, StyleSheet,
+  View, Text, FlatList, ScrollView, TouchableOpacity, StyleSheet,
   Image, TextInput, Alert, Modal,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { fixImageUrl } from '../services/api';
+import { fixImageUrl, ordersAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
 
+function BuyAgainRow({ user, addItem }) {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (!user) return;
+    ordersAPI.getMyOrders().then((r) => {
+      const seen = new Set();
+      const list = [];
+      (r.data || []).forEach((order) => {
+        (order.items || []).forEach((item) => {
+          const p = item.product;
+          if (p && p._id && !seen.has(p._id)) {
+            seen.add(p._id);
+            list.push({ ...p, _orderPrice: item.price });
+          }
+        });
+      });
+      setProducts(list.slice(0, 12));
+    }).catch(() => {});
+  }, [user]);
+
+  if (!user || products.length === 0) return null;
+
+  return (
+    <View style={ba.wrap}>
+      <Text style={ba.heading}>🔄  Buy Again</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={ba.row}>
+        {products.map((p) => (
+          <View key={p._id} style={ba.card}>
+            <View style={ba.imgBox}>
+              {p.images?.[0]
+                ? <Image source={{ uri: fixImageUrl(p.images[0]) }} style={ba.img} />
+                : <Text style={{ fontSize: 24 }}>🛒</Text>}
+            </View>
+            <Text style={ba.name} numberOfLines={2}>{p.name}</Text>
+            <Text style={ba.price}>Rs. {(p.discountPrice || p.price || p._orderPrice || 0).toLocaleString()}</Text>
+            <TouchableOpacity style={ba.btn} onPress={() => addItem(p, 1, null)}>
+              <Text style={ba.btnTxt}>+ Add</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
 const DELIVERY_FEE = 150;
-const PROMO_CODES = { SELLMIX20: 0.2, FIRST10: 0.1 };
 
 export default function CartScreen({ navigation }) {
-  const { items, updateQty, removeItem, subtotal, clearCart } = useCart();
+  const { items, addItem, updateQty, removeItem, subtotal, clearCart } = useCart();
   const { user } = useAuth();
   const [promo, setPromo] = useState('');
   const [discount, setDiscount] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  const applyPromo = () => {
-    const rate = PROMO_CODES[promo.toUpperCase()];
-    if (rate) {
-      setDiscount(Math.round(subtotal * rate));
+  const applyPromo = async () => {
+    try {
+      const res = await ordersAPI.validatePromo(promo, subtotal);
+      setDiscount(res.data.discount);
       setPromoApplied(true);
-      Alert.alert('✅ Promo Applied!', `You saved Rs. ${Math.round(subtotal * rate)}`);
-    } else {
+      Alert.alert('✅ Promo Applied!', `You saved Rs. ${res.data.discount}!`);
+    } catch {
       Alert.alert('Invalid Code', 'This promo code is not valid.');
     }
   };
@@ -49,7 +94,7 @@ export default function CartScreen({ navigation }) {
     <View style={s.root}>
       {/* Header */}
       <View style={s.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
           <Text style={s.back}>←</Text>
         </TouchableOpacity>
         <Text style={s.title}>My Cart</Text>
@@ -76,6 +121,7 @@ export default function CartScreen({ navigation }) {
         renderItem={({ item }) => {
           const unitPrice = item.discountPrice || item.price;
           const itemTotal = unitPrice * item.quantity;
+          const MAX = Math.min(5, item.stock > 0 ? item.stock : 5);
           return (
             <View style={s.cartCard}>
               {/* Product image */}
@@ -109,8 +155,8 @@ export default function CartScreen({ navigation }) {
                     </TouchableOpacity>
                     <Text style={s.qty}>{item.quantity}</Text>
                     <TouchableOpacity
-                      style={s.qtyBtn}
-                      onPress={() => updateQty(item._id, item.selectedWeight, item.quantity + 1)}
+                      style={[s.qtyBtn, item.quantity >= MAX && { opacity: 0.4 }]}
+                      onPress={() => item.quantity < MAX && updateQty(item._id, item.selectedWeight, item.quantity + 1)}
                     >
                       <Text style={s.qtyBtnTxt}>+</Text>
                     </TouchableOpacity>
@@ -123,6 +169,9 @@ export default function CartScreen({ navigation }) {
         }}
         ListFooterComponent={
           <View>
+            {/* Buy Again */}
+            <BuyAgainRow user={user} addItem={addItem} />
+
             {/* Promo Code */}
             <View style={s.promoCard}>
               <Text style={s.promoLabel}>PROMO CODE</Text>
@@ -192,7 +241,7 @@ export default function CartScreen({ navigation }) {
             }
           }}
         >
-          <Text style={s.checkoutTxt}>Proceed to Checkout  →</Text>
+          <Text style={s.checkoutTxt}>Checkout</Text>
         </TouchableOpacity>
       </View>
 
@@ -244,7 +293,8 @@ const s = StyleSheet.create({
     backgroundColor: COLORS.white, paddingHorizontal: 16, paddingTop: 50, paddingBottom: 14,
     borderBottomWidth: 1, borderColor: COLORS.border,
   },
-  back: { fontSize: 22, color: COLORS.text, paddingRight: 8 },
+  backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center' },
+  back: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
   title: { fontSize: 18, fontWeight: '700', color: COLORS.text },
   clearTxt: { fontSize: 14, color: COLORS.error, fontWeight: '600' },
 
@@ -339,4 +389,17 @@ const s = StyleSheet.create({
   modalSignupTxt: { color: COLORS.primary, fontWeight: '700', fontSize: 16 },
   modalCancelBtn: { padding: 10, marginTop: 4 },
   modalCancelTxt: { color: COLORS.textMuted, fontSize: 14 },
+});
+
+const ba = StyleSheet.create({
+  wrap: { backgroundColor: COLORS.white, borderRadius: 14, padding: 16, marginBottom: 12 },
+  heading: { fontSize: 15, fontWeight: '800', color: '#1a1a1a', marginBottom: 12 },
+  row: { gap: 10, paddingRight: 4 },
+  card: { width: 120, backgroundColor: COLORS.secondary, borderRadius: 12, padding: 10, alignItems: 'center' },
+  imgBox: { width: 80, height: 80, borderRadius: 10, backgroundColor: COLORS.white, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8 },
+  img: { width: 80, height: 80, resizeMode: 'contain' },
+  name: { fontSize: 11, fontWeight: '600', color: COLORS.text, textAlign: 'center', marginBottom: 4, lineHeight: 15 },
+  price: { fontSize: 12, fontWeight: '800', color: COLORS.primary, marginBottom: 8 },
+  btn: { backgroundColor: COLORS.primary, width: '100%', paddingVertical: 7, borderRadius: 8, alignItems: 'center' },
+  btnTxt: { color: COLORS.white, fontWeight: '700', fontSize: 12 },
 });

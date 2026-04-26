@@ -1,12 +1,17 @@
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { productsAPI } from '../services/api';
 
 const NAV = [
-  { to: '/dashboard', icon: '▦', label: 'Dash' },
-  { to: '/orders', icon: '🛒', label: 'Orders' },
-  { to: '/products', icon: '📦', label: 'Stock' },
-  { to: '/inventory', icon: '📋', label: 'Inventory' },
-  { to: '/reports',   icon: '📊', label: 'Reports' },
+  { to: '/dashboard',  icon: '▦',  label: 'Dash' },
+  { to: '/orders',     icon: '🛒', label: 'Orders' },
+  { to: '/products',   icon: '📦', label: 'Stock' },
+  { to: '/categories', icon: '🏷️', label: 'Cats' },
+  { to: '/inventory',  icon: '📋', label: 'Inventory' },
+  { to: '/low-stock',  icon: '🔴', label: 'Low Stock', alert: true },
+  { to: '/users',      icon: '👥', label: 'Users' },
+  { to: '/reports',    icon: '📊', label: 'Reports' },
 ];
 
 const s = {
@@ -17,11 +22,23 @@ const s = {
   navLabel: { fontSize: 10, fontWeight: 600 },
   spacer: { flex: 1 },
   logoutBtn: { background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', color: '#8E9BAA', gap: 4, fontSize: 20, padding: '8px 0' },
+  alertDot: { position: 'absolute', top: -6, right: -8, backgroundColor: '#FF3B30', color: '#fff', fontSize: 9, fontWeight: 800, minWidth: 16, height: 16, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px' },
 };
 
 export default function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [lowCount, setLowCount] = useState(0);
+
+  useEffect(() => {
+    productsAPI.getLowStock()
+      .then((r) => setLowCount(r.data.length))
+      .catch(() => {});
+    const t = setInterval(() => {
+      productsAPI.getLowStock().then((r) => setLowCount(r.data.length)).catch(() => {});
+    }, 60000);
+    return () => clearInterval(t);
+  }, []);
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
@@ -34,7 +51,12 @@ export default function Sidebar() {
           to={n.to}
           style={({ isActive }) => ({ ...s.navItem, ...(isActive ? s.navItemActive : {}) })}
         >
-          <span>{n.icon}</span>
+          <span style={{ position: 'relative', display: 'inline-flex' }}>
+            {n.icon}
+            {n.alert && lowCount > 0 && (
+              <span style={s.alertDot}>{lowCount}</span>
+            )}
+          </span>
           <span style={s.navLabel}>{n.label}</span>
         </NavLink>
       ))}

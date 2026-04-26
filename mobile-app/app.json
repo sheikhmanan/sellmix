@@ -5,12 +5,18 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.png",
     "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#3498db"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#3498db"
       },
       "package": "com.sellmix.app"
@@ -20,7 +26,13 @@
       "supportsTablet": false
     },
     "extra": {
-      "apiUrl": "http://10.0.2.2:5000/api"
-    }
+      "apiUrl": "http://10.0.2.2:5000/api",
+      "apiUrlDevice": "http://192.168.1.100:5000/api",
+      "apiUrlProd": "https://api.sellmix.pk/api"
+    },
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }

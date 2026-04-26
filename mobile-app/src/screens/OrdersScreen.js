@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator,
+  View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert,
 } from 'react-native';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -23,7 +23,7 @@ export default function OrdersScreen({ navigation }) {
     if (user) {
       ordersAPI.getMyOrders()
         .then((r) => setOrders(r.data))
-        .catch(() => {})
+        .catch((err) => Alert.alert('Error', err.message || 'Could not load orders'))
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
@@ -51,6 +51,9 @@ export default function OrdersScreen({ navigation }) {
     <View style={s.root}>
       {/* Header */}
       <View style={s.header}>
+        <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
+          <Text style={s.backArrow}>←</Text>
+        </TouchableOpacity>
         <Text style={s.title}>My Orders</Text>
         <Text style={s.count}>{orders.length} order{orders.length !== 1 ? 's' : ''}</Text>
       </View>
@@ -94,7 +97,7 @@ export default function OrdersScreen({ navigation }) {
                 <Text style={s.totalLabel}>Order Total</Text>
                 <View style={s.footerRight}>
                   <Text style={s.totalAmt}>Rs. {item.total?.toLocaleString()}</Text>
-                  <Text style={s.trackArrow}>Track  →</Text>
+                  <Text style={s.trackArrow}>Track {'>'}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -130,11 +133,16 @@ const s = StyleSheet.create({
   header: {
     backgroundColor: COLORS.white, paddingHorizontal: 18,
     paddingTop: 50, paddingBottom: 16,
-    flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between',
+    flexDirection: 'row', alignItems: 'center', gap: 12,
     borderBottomWidth: 1, borderColor: COLORS.border,
   },
-  title: { fontSize: 24, fontWeight: '800', color: COLORS.text },
-  count: { fontSize: 13, color: COLORS.textLight, marginBottom: 2 },
+  backBtn: {
+    width: 38, height: 38, borderRadius: 19,
+    backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center',
+  },
+  backArrow: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
+  title: { fontSize: 24, fontWeight: '800', color: COLORS.text, flex: 1 },
+  count: { fontSize: 13, color: COLORS.textLight },
 
   // List
   listContent: { padding: 14 },

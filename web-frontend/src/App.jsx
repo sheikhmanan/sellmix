@@ -8,6 +8,9 @@ import AddProduct from './pages/AddProduct';
 import Orders from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Reports from './pages/Reports';
+import Categories from './pages/Categories';
+import LowStock from './pages/LowStock';
+import Users from './pages/Users';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -27,7 +30,10 @@ export default function App() {
         <Route path="products/add" element={<AddProduct />} />
         <Route path="products/edit/:id" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
+        <Route path="categories" element={<Categories />} />
         <Route path="inventory" element={<Inventory />} />
+        <Route path="low-stock" element={<LowStock />} />
+        <Route path="users" element={<Users />} />
         <Route path="reports" element={<Reports />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

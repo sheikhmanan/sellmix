@@ -23,10 +23,12 @@ api.interceptors.response.use(
 export const authAPI = {
   login: (data) => api.post('/auth/login', data),
   getProfile: () => api.get('/auth/profile'),
+  getUsers: () => api.get('/auth/users'),
 };
 
 export const productsAPI = {
   getAll: (params) => api.get('/products', { params }),
+  getById: (id) => api.get(`/products/${id}`),
   create: (data) => api.post('/products', data),
   update: (id, data) => api.put(`/products/${id}`, data),
   updateStock: (id, stock) => api.patch(`/products/${id}/stock`, { stock }),
@@ -35,8 +37,10 @@ export const productsAPI = {
 };
 
 export const categoriesAPI = {
-  getAll: () => api.get('/categories'),
+  getAll: (params) => api.get('/categories', { params }),
   create: (data) => api.post('/categories', data),
+  update: (id, data) => api.put(`/categories/${id}`, data),
+  delete: (id) => api.delete(`/categories/${id}`),
 };
 
 export const ordersAPI = {

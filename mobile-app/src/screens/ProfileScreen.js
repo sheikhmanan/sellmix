@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert, Linking,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { ordersAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
 
 const MENU_ITEMS = [
   { icon: '📦', label: 'My Orders', screen: 'Orders' },
-  { icon: '📍', label: 'Delivery Addresses', screen: null },
-  { icon: '💳', label: 'Payment Methods', screen: null },
-  { icon: '🔔', label: 'Notifications', screen: null },
-  { icon: '📞', label: 'Contact Support', action: 'whatsapp' },
-  { icon: '⚙️', label: 'App Settings', screen: null },
+  { icon: '📞', label: 'Contact Us', screen: 'ContactUs' },
+  { icon: 'ℹ️', label: 'About Us', screen: 'AboutUs' },
 ];
 
 export default function ProfileScreen({ navigation }) {
   const { user, logout } = useAuth();
+  const { clearCart } = useCart();
+  const [orderCount, setOrderCount] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      ordersAPI.getMyOrders()
+        .then((r) => setOrderCount(r.data.length))
+        .catch(() => {});
+    }
+  }, [user]);
 
   const handleLogout = () => {
     Alert.alert('Logout', 'Are you sure you want to logout?', [
@@ -23,6 +32,7 @@ export default function ProfileScreen({ navigation }) {
       {
         text: 'Logout', style: 'destructive',
         onPress: async () => {
+          clearCart();
           await logout();
           navigation.replace('Login');
         },
@@ -32,9 +42,9 @@ export default function ProfileScreen({ navigation }) {
 
   const handleMenuPress = (item) => {
     if (item.screen) {
-      navigation.navigate(item.screen);
+      navigation.push(item.screen);
     } else if (item.action === 'whatsapp') {
-      Linking.openURL('whatsapp://send?phone=923001234567&text=Hi, I need help!');
+      Linking.openURL('whatsapp://send?phone=923178384342&text=Hi, I need help!');
     }
   };
 
@@ -87,7 +97,7 @@ export default function ProfileScreen({ navigation }) {
       {/* Stats Row */}
       <View style={s.statsRow}>
         <View style={s.statItem}>
-          <Text style={s.statNum}>0</Text>
+          <Text style={s.statNum}>{orderCount}</Text>
           <Text style={s.statLabel}>Orders</Text>
         </View>
         <View style={s.statDivider} />

@@ -39,6 +39,10 @@ const orderSchema = new mongoose.Schema({
   promoCode: { type: String, default: '' },
   notes: { type: String, default: '' },
   city: { type: String, default: 'Chichawatni' },
+  deliverySlot: {
+    date: { type: String, default: '' },   // e.g. "Mon, Apr 21"
+    slot: { type: String, default: '' },   // e.g. "10:00 AM – 1:00 PM"
+  },
 }, { timestamps: true });
 
 orderSchema.pre('save', async function (next) {

@@ -7,6 +7,7 @@ node_modules/
 **/.env
 .env.local
 .env.production
+deploy/env.production
 
 # Uploads (images served from Cloudinary, no need to version local copies)
 backend/uploads/

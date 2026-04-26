@@ -22,16 +22,18 @@ export function AuthProvider({ children }) {
 
   const login = async (mobile, password) => {
     const res = await authAPI.login({ mobile, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-    return res.data.user;
+    const { token, ...userData } = res.data;
+    localStorage.setItem('token', token);
+    setUser(userData);
+    return userData;
   };
 
   const register = async (form) => {
     const res = await authAPI.register(form);
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-    return res.data.user;
+    const { token, ...userData } = res.data;
+    localStorage.setItem('token', token);
+    setUser(userData);
+    return userData;
   };
 
   const logout = () => {
