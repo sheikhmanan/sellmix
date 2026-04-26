@@ -45,6 +45,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { items, itemCount, clearCart } = useCart();
   const navigate = useNavigate();
+  const [expandedCat, setExpandedCat] = useState(null);
   const [search, setSearch] = useState('');
   const [userOpen, setUserOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
@@ -257,25 +258,58 @@ export default function Navbar() {
 
             {megaOpen && (
               isMobile ? (
-                /* Mobile: card-style like mobile app */
+                /* Mobile: card-style with expandable subcategories */
                 <div style={s.mobileCatMenu}>
                   {tree.map((l1) => {
                     const color = CAT_COLORS[l1.name] || { bg: '#f5f5f5', icon: '#333' };
                     const subNames = l1.children?.map((c) => c.name).join(', ') || '';
+                    const isExpanded = expandedCat === l1._id;
                     return (
-                      <div
-                        key={l1._id}
-                        style={s.mobileCatCard}
-                        onClick={() => { navigate(`/products?category=${l1._id}`); setMegaOpen(false); window.scrollTo({ top: 0, behavior: 'instant' }); }}
-                      >
-                        <div style={{ ...s.mobileCatIconBox, backgroundColor: color.bg }}>
-                          <span style={{ fontSize: 32 }}>{l1.icon}</span>
+                      <div key={l1._id}>
+                        {/* L1 Card */}
+                        <div
+                          style={s.mobileCatCard}
+                          onClick={() => {
+                            if (l1.children?.length > 0) {
+                              setExpandedCat(isExpanded ? null : l1._id);
+                            } else {
+                              navigate(`/products?category=${l1._id}`);
+                              setMegaOpen(false);
+                              setExpandedCat(null);
+                              window.scrollTo({ top: 0, behavior: 'instant' });
+                            }
+                          }}
+                        >
+                          <div style={{ ...s.mobileCatIconBox, backgroundColor: color.bg }}>
+                            <span style={{ fontSize: 32 }}>{l1.icon}</span>
+                          </div>
+                          <div style={s.mobileCatInfo}>
+                            <p style={s.mobileCatName}>{l1.name}</p>
+                            {subNames && <p style={s.mobileCatSubs}>{subNames}</p>}
+                          </div>
+                          <span style={{ ...s.mobileCatArrow, color: color.icon, transform: isExpanded ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>›</span>
                         </div>
-                        <div style={s.mobileCatInfo}>
-                          <p style={s.mobileCatName}>{l1.name}</p>
-                          {subNames && <p style={s.mobileCatSubs} numberOfLines={1}>{subNames}</p>}
-                        </div>
-                        <span style={{ ...s.mobileCatArrow, color: color.icon }}>›</span>
+                        {/* Subcategories */}
+                        {isExpanded && l1.children?.length > 0 && (
+                          <div style={s.mobileSubList}>
+                            <div
+                              style={s.mobileSubViewAll}
+                              onClick={() => { navigate(`/products?category=${l1._id}`); setMegaOpen(false); setExpandedCat(null); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+                            >
+                              View All {l1.name}
+                            </div>
+                            {l1.children.map((l2) => (
+                              <div
+                                key={l2._id}
+                                style={s.mobileSubItem}
+                                onClick={() => { navigate(`/products?category=${l2._id}`); setMegaOpen(false); setExpandedCat(null); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+                              >
+                                <span>{l2.name}</span>
+                                <span style={s.mobileSubArrow}>›</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -424,7 +458,11 @@ bottomBar: { backgroundColor: '#f7f7f7', borderBottom: '1px solid #e8e8e8' },
   mobileCatInfo: { flex: 1, overflow: 'hidden' },
   mobileCatName: { fontSize: 15, fontWeight: 800, color: '#1a1a1a', marginBottom: 4 },
   mobileCatSubs: { fontSize: 12, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
-  mobileCatArrow: { fontSize: 22, fontWeight: 900, flexShrink: 0 },
+  mobileCatArrow: { fontSize: 22, fontWeight: 900, flexShrink: 0, display: 'inline-block' },
+  mobileSubList: { backgroundColor: '#f9f9f9', borderBottom: '2px solid #e8e8e8' },
+  mobileSubViewAll: { padding: '11px 16px 11px 82px', fontSize: 13, fontWeight: 700, color: '#3498db', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' },
+  mobileSubItem: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px 12px 82px', fontSize: 14, color: '#333', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' },
+  mobileSubArrow: { color: '#bbb', fontSize: 16 },
 
   megaThumb: { width: 40, height: 40, borderRadius: 6, overflow: 'hidden', backgroundColor: '#f5f5f5', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' },
   megaThumbGrid: { width: 40, height: 40, display: 'flex', flexWrap: 'wrap' },
