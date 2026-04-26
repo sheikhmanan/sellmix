@@ -49,7 +49,7 @@ function DealCard({ product }) {
   const imgUrl = product._variantImage || product.images?.[0] || '';
 
   return (
-    <Link to={`/products/${product._id}`} style={dc.card}>
+    <Link to={`/products/${product._id}${weight ? `?weight=${encodeURIComponent(weight)}` : ''}`} style={dc.card}>
       <div style={dc.imgBox}>
         {imgUrl
           ? <img src={imgUrl} alt={product.name} style={dc.img} />
