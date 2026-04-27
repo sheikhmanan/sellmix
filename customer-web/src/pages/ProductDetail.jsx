@@ -117,6 +117,9 @@ export default function ProductDetail() {
         <div style={ms.info}>
           <p style={ms.catLabel}>{product.category?.name?.toUpperCase()}</p>
           <h1 style={ms.name}>{product.name}</h1>
+          {(selectedWeight || product.unit) && (
+            <p style={ms.unitTxt}>{selectedWeight || product.unit}</p>
+          )}
 
           {/* Price */}
           <div style={ms.priceRow}>
@@ -356,6 +359,7 @@ const ms = {
   wChipWeight: { fontSize: 13, fontWeight: 700, color: '#1a1a1a' },
   wChipPrice: { fontSize: 11, color: '#888', marginTop: 2 },
   wChipPriceActive: { color: COLORS.primary },
+  unitTxt: { fontSize: 14, color: COLORS.primary, fontWeight: 700, marginBottom: 8 },
   priceRow: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 },
   price: { fontSize: 26, fontWeight: 900, color: COLORS.primary },
   oldPrice: { fontSize: 15, color: '#aaa', textDecoration: 'line-through' },
