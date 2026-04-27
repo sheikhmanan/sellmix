@@ -140,7 +140,7 @@ export default function Navbar() {
   const l3List = hoveredL2?.children || [];
 
   return (
-    <nav style={s.nav}>
+    <nav style={{ ...s.nav, ...(isMobile && megaOpen ? { zIndex: 10000 } : {}) }}>
       {/* Row 1: Logo + Right actions */}
       <div style={s.topBar}>
         <div style={s.topInner}>
