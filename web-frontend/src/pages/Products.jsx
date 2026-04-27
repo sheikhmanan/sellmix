@@ -2,6 +2,15 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productsAPI, categoriesAPI } from '../services/api';
 
+const UNIT_LABELS = {
+  g: 'grams', gram: 'grams', grams: 'grams',
+  ml: 'milliliters', milliliter: 'milliliters', milliliters: 'milliliters',
+  litre: 'litres', liter: 'litres', litres: 'litres', liters: 'litres', l: 'litres',
+  piece: 'pieces', pieces: 'pieces', pcs: 'pieces', pc: 'pieces',
+  kg: 'kg',
+};
+const formatUnit = (u) => UNIT_LABELS[u?.toLowerCase()] || u || '';
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -100,7 +109,7 @@ export default function Products() {
                           </button>
                         )}
                       </div>
-                      <p style={s.productUnit}>{p.unit}</p>
+                      <p style={s.productUnit}>{formatUnit(p.unit)}</p>
                     </td>
                     <td style={s.td}>{p.category?.name || '—'}</td>
                     <td style={s.td}>Rs. {p.price?.toLocaleString()}</td>
