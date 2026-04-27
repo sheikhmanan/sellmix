@@ -462,7 +462,7 @@ bottomBar: { backgroundColor: '#f7f7f7', borderBottom: '1px solid #e8e8e8' },
   backdrop: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.45)', zIndex: 499 },
 
   // Mobile categories menu — card style like mobile app
-  mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, width: '100vw', backgroundColor: '#f5f6f8', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '80vh', overflowY: 'auto' },
+  mobileCatMenu: { position: 'fixed', top: 130, left: 0, right: 0, bottom: 0, width: '100vw', backgroundColor: '#f5f6f8', borderTop: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, overflowY: 'auto' },
   mobileCatCard: { display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', backgroundColor: '#fff', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' },
   mobileCatIconBox: { width: 64, height: 64, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
   mobileCatInfo: { flex: 1, overflow: 'hidden' },
