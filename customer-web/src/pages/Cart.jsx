@@ -64,9 +64,9 @@ const ba = {
 const DELIVERY_FEE = 0;
 
 function useIsMobile() {
-  const [mobile, setMobile] = useState(window.innerWidth <= 768);
+  const [mobile, setMobile] = useState(window.innerWidth <= 600);
   useEffect(() => {
-    const fn = () => setMobile(window.innerWidth <= 768);
+    const fn = () => setMobile(window.innerWidth <= 600);
     window.addEventListener('resize', fn);
     return () => window.removeEventListener('resize', fn);
   }, []);
@@ -146,9 +146,6 @@ export default function Cart() {
               </div>
             );
           })}
-
-          {/* Buy Again */}
-          <BuyAgain user={user} addItem={addItem} />
 
           {/* Promo Code */}
           <div style={m.section}>
@@ -249,7 +246,6 @@ export default function Cart() {
             <button style={s.clearBtn} onClick={() => { if (window.confirm('Clear entire cart?')) clearCart(); }}>
               🗑️ Clear Cart
             </button>
-            <BuyAgain user={user} addItem={addItem} />
           </div>
 
           <div style={s.summaryCol}>
