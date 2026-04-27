@@ -88,24 +88,24 @@ function DeliverySlotToast() {
 
   return (
     <div style={ts.overlay}>
-      <div style={ts.toast}>
+      <div style={ts.toast} className="slx-toast">
         <div style={ts.icon}>🚚</div>
         <div style={ts.body}>
-          <p style={ts.title}>We deliver twice a day in Chichawatni!</p>
-          <div style={ts.slots}>
-            <div style={ts.slot}>
-              <span style={ts.slotIcon}>🌅</span>
+          <p style={ts.title} className="slx-toast-title">We deliver twice a day in Chichawatni!</p>
+          <div style={ts.slots} className="slx-toast-slots">
+            <div style={ts.slot} className="slx-toast-slot">
+              <span style={ts.slotIcon} className="slx-toast-slot-icon">🌅</span>
               <div>
-                <p style={ts.slotName}>Morning Slot</p>
-                <p style={ts.slotTime}>10:00 AM – 1:00 PM</p>
+                <p style={ts.slotName} className="slx-toast-slot-name">Morning Slot</p>
+                <p style={ts.slotTime} className="slx-toast-slot-time">10:00 AM – 1:00 PM</p>
               </div>
             </div>
-            <div style={ts.divider} />
-            <div style={ts.slot}>
-              <span style={ts.slotIcon}>🌆</span>
+            <div style={ts.divider} className="slx-toast-divider" />
+            <div style={ts.slot} className="slx-toast-slot">
+              <span style={ts.slotIcon} className="slx-toast-slot-icon">🌆</span>
               <div>
-                <p style={ts.slotName}>Afternoon Slot</p>
-                <p style={ts.slotTime}>4:00 PM – 7:00 PM</p>
+                <p style={ts.slotName} className="slx-toast-slot-name">Afternoon Slot</p>
+                <p style={ts.slotTime} className="slx-toast-slot-time">4:00 PM – 7:00 PM</p>
               </div>
             </div>
           </div>
@@ -138,11 +138,23 @@ const ts = {
   progressFill: { height: '100%', backgroundColor: '#7c3aed', animation: 'slx-drain 20s linear forwards', width: '100%' },
 };
 
-// Inject keyframe once
+// Inject keyframe + responsive styles once
 if (typeof document !== 'undefined' && !document.getElementById('slx-toast-style')) {
   const style = document.createElement('style');
   style.id = 'slx-toast-style';
-  style.textContent = '@keyframes slx-drain { from { width: 100% } to { width: 0% } }';
+  style.textContent = `
+    @keyframes slx-drain { from { width: 100% } to { width: 0% } }
+    @media (max-width: 480px) {
+      .slx-toast { padding: 18px 16px 14px !important; }
+      .slx-toast-title { font-size: 16px !important; margin-bottom: 12px !important; }
+      .slx-toast-slots { flex-direction: column !important; gap: 10px !important; }
+      .slx-toast-divider { width: 100% !important; height: 1px !important; }
+      .slx-toast-slot { gap: 10px !important; }
+      .slx-toast-slot-icon { font-size: 22px !important; }
+      .slx-toast-slot-name { font-size: 12px !important; }
+      .slx-toast-slot-time { font-size: 14px !important; }
+    }
+  `;
   document.head.appendChild(style);
 }
 
