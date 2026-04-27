@@ -70,30 +70,49 @@ export default function Orders() {
                     <span style={{ ...s.statusBadge, backgroundColor: st.bg, color: st.color }}>{st.label}</span>
                   </div>
 
-                  <div style={s.cardMid}>
-                    <div style={s.itemsRow}>
-                      {order.items?.slice(0, 3).map((item, i) => (
-                        <div key={i} style={s.itemThumb}>
+                  {/* Items list */}
+                  <div style={s.itemsList}>
+                    {order.items?.map((item, i) => (
+                      <div key={i} style={s.itemRow}>
+                        <div style={s.itemImgBox}>
                           {item.image
-                            ? <img src={item.image} alt={item.name} style={s.thumbImg} />
-                            : <span style={{ fontSize: 20 }}>🛒</span>}
+                            ? <img src={item.image} alt={item.name} style={s.itemImg} />
+                            : <span style={{ fontSize: 18 }}>🛒</span>}
                         </div>
-                      ))}
-                      {order.items?.length > 3 && (
-                        <div style={s.moreItems}>+{order.items.length - 3}</div>
-                      )}
+                        <div style={s.itemInfo}>
+                          <p style={s.itemName}>{item.name}</p>
+                          {item.weight && <p style={s.itemWeight}>{item.weight}</p>}
+                          <p style={s.itemQty}>Qty: {item.quantity}</p>
+                        </div>
+                        <p style={s.itemPrice}>Rs. {(item.price * item.quantity).toLocaleString()}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Order summary */}
+                  <div style={s.summaryBox}>
+                    <div style={s.summaryRow}>
+                      <span style={s.summaryLabel}>Subtotal</span>
+                      <span style={s.summaryVal}>Rs. {order.subtotal?.toLocaleString()}</span>
                     </div>
-                    <p style={s.itemNames}>
-                      {order.items?.slice(0, 2).map((i) => i.name).join(', ')}
-                      {order.items?.length > 2 ? ` +${order.items.length - 2} more` : ''}
-                    </p>
+                    {order.discount > 0 && (
+                      <div style={s.summaryRow}>
+                        <span style={s.summaryLabel}>Discount</span>
+                        <span style={{ ...s.summaryVal, color: COLORS.success }}>− Rs. {order.discount?.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div style={s.summaryRow}>
+                      <span style={s.summaryLabel}>Delivery Fee</span>
+                      <span style={s.summaryVal}>Rs. {order.deliveryFee?.toLocaleString()}</span>
+                    </div>
+                    <div style={{ ...s.summaryRow, borderTop: `1px solid ${COLORS.lightGrey}`, paddingTop: 10, marginTop: 4 }}>
+                      <span style={s.totalLabel}>Total</span>
+                      <span style={s.totalAmt}>Rs. {order.total?.toLocaleString()}</span>
+                    </div>
                   </div>
 
                   <div style={s.cardFooter}>
-                    <div>
-                      <p style={s.payMethod}>{order.paymentMethod}</p>
-                      <p style={s.totalAmt}>Rs. {order.total?.toLocaleString()}</p>
-                    </div>
+                    <p style={s.payMethod}>💳 {order.paymentMethod}</p>
                     <button
                       style={s.trackBtn}
                       onClick={() => navigate(`/track?orderId=${order.orderId}`)}
@@ -131,14 +150,25 @@ const s = {
   orderId: { fontSize: 16, fontWeight: 800, color: COLORS.text, marginBottom: 4 },
   orderDate: { fontSize: 13, color: COLORS.textMuted },
   statusBadge: { padding: '6px 14px', borderRadius: 20, fontSize: 13, fontWeight: 700 },
-  cardMid: { borderTop: `1px solid ${COLORS.lightGrey}`, borderBottom: `1px solid ${COLORS.lightGrey}`, paddingTop: 14, paddingBottom: 14, marginBottom: 14 },
-  itemsRow: { display: 'flex', gap: 8, marginBottom: 8 },
-  itemThumb: { width: 44, height: 44, borderRadius: 8, backgroundColor: COLORS.lightGrey, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-  thumbImg: { width: '100%', height: '100%', objectFit: 'cover' },
-  moreItems: { width: 44, height: 44, borderRadius: 8, backgroundColor: COLORS.primary + '20', color: COLORS.primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 },
-  itemNames: { fontSize: 13, color: COLORS.textLight },
+  // Items list
+  itemsList: { borderTop: `1px solid ${COLORS.lightGrey}`, paddingTop: 14, marginBottom: 12 },
+  itemRow: { display: 'flex', alignItems: 'flex-start', gap: 12, paddingBottom: 12, marginBottom: 12, borderBottom: `1px solid #f5f5f5` },
+  itemImgBox: { width: 52, height: 52, borderRadius: 10, backgroundColor: COLORS.lightGrey, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  itemImg: { width: '100%', height: '100%', objectFit: 'contain' },
+  itemInfo: { flex: 1 },
+  itemName: { fontSize: 14, fontWeight: 600, color: COLORS.text, marginBottom: 2 },
+  itemWeight: { fontSize: 12, color: COLORS.primary, fontWeight: 600, marginBottom: 2 },
+  itemQty: { fontSize: 12, color: COLORS.textMuted },
+  itemPrice: { fontSize: 14, fontWeight: 700, color: COLORS.text, whiteSpace: 'nowrap' },
+  // Summary
+  summaryBox: { backgroundColor: COLORS.secondary, borderRadius: 10, padding: '12px 14px', marginBottom: 14 },
+  summaryRow: { display: 'flex', justifyContent: 'space-between', marginBottom: 8 },
+  summaryLabel: { fontSize: 13, color: COLORS.textLight },
+  summaryVal: { fontSize: 13, fontWeight: 600, color: COLORS.text },
+  totalLabel: { fontSize: 15, fontWeight: 800, color: COLORS.text },
+  totalAmt: { fontSize: 16, fontWeight: 800, color: COLORS.primary },
+  // Footer
   cardFooter: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  payMethod: { fontSize: 12, color: COLORS.textMuted, marginBottom: 4 },
-  totalAmt: { fontSize: 18, fontWeight: 800, color: COLORS.primary },
+  payMethod: { fontSize: 13, color: COLORS.textMuted, fontWeight: 500 },
   trackBtn: { backgroundColor: COLORS.primary, color: COLORS.white, border: 'none', borderRadius: 10, padding: '10px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
 };
