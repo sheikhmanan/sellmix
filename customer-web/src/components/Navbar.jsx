@@ -236,6 +236,14 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Backdrop overlay when mobile menu is open */}
+      {isMobile && megaOpen && (
+        <div
+          style={s.backdrop}
+          onClick={() => { setMegaOpen(false); setExpandedCat(null); }}
+        />
+      )}
+
       {/* Bottom nav bar with mega menu */}
       <div style={s.bottomBar}>
         <div style={s.bottomInner}>
@@ -450,6 +458,8 @@ bottomBar: { backgroundColor: '#f7f7f7', borderBottom: '1px solid #e8e8e8' },
   megaCol3: { width: 200, padding: '12px 0', maxHeight: 500, overflowY: 'auto' },
   megaL3Title: { fontSize: 12, fontWeight: 800, color: '#3498db', padding: '4px 16px 10px', textTransform: 'uppercase', letterSpacing: 0.5 },
   megaL3Item: { padding: '8px 16px', fontSize: 13, color: '#333', cursor: 'pointer' },
+
+  backdrop: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.45)', zIndex: 499 },
 
   // Mobile categories menu — card style like mobile app
   mobileCatMenu: { position: 'absolute', top: '100%', left: 0, right: 0, width: '100vw', backgroundColor: '#f5f6f8', border: '1px solid #e8e8e8', boxShadow: '0 8px 24px rgba(0,0,0,0.12)', zIndex: 500, maxHeight: '80vh', overflowY: 'auto' },
