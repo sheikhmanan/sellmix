@@ -141,12 +141,12 @@ export default function Home() {
         body { overflow-x: hidden; }
         @media (max-width: 600px) {
           .home-product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-          .home-why-bar { padding: 14px 0 !important; }
-          .home-why-inner { display: grid !important; grid-template-columns: auto 1fr 1fr 1fr !important; align-items: center !important; gap: 8px !important; padding: 0 12px !important; }
-          .home-why-label { font-size: 12px !important; font-weight: 800 !important; white-space: nowrap !important; }
-          .home-why-item { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 6px !important; }
-          .home-why-icon { width: 36px !important; height: 36px !important; flex-shrink: 0 !important; }
-          .home-why-icon svg { width: 16px !important; height: 16px !important; }
+          .home-why-bar { padding: 12px 0 !important; }
+          .home-why-label { display: none !important; }
+          .home-why-inner { display: flex !important; justify-content: space-around !important; align-items: flex-start !important; flex-wrap: nowrap !important; gap: 0 !important; padding: 0 8px !important; }
+          .home-why-item { flex: 1 !important; flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 6px !important; padding: 0 4px !important; }
+          .home-why-icon { width: 38px !important; height: 38px !important; flex-shrink: 0 !important; }
+          .home-why-icon svg { width: 17px !important; height: 17px !important; }
           .home-why-title { font-size: 10px !important; font-weight: 700 !important; white-space: normal !important; line-height: 1.3 !important; }
           .home-why-sub { display: none !important; }
           .home-container { padding: 16px 10px !important; }
