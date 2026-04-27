@@ -29,11 +29,7 @@ router.get('/', async (req, res) => {
     if (featured === 'true') query.isFeatured = true;
     if (search) {
       const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      query.$or = [
-        { name: { $regex: escaped, $options: 'i' } },
-        { description: { $regex: escaped, $options: 'i' } },
-        { tags: { $regex: escaped, $options: 'i' } },
-      ];
+      query.name = { $regex: escaped, $options: 'i' };
     }
 
     const products = await Product.find(query)
