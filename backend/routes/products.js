@@ -27,7 +27,14 @@ router.get('/', async (req, res) => {
       }
     }
     if (featured === 'true') query.isFeatured = true;
-    if (search) query.$text = { $search: search };
+    if (search) {
+      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      query.$or = [
+        { name: { $regex: escaped, $options: 'i' } },
+        { description: { $regex: escaped, $options: 'i' } },
+        { tags: { $regex: escaped, $options: 'i' } },
+      ];
+    }
 
     const products = await Product.find(query)
       .populate('category', 'name icon')
