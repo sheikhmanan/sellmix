@@ -38,7 +38,7 @@ const PAYMENT_METHODS = [
 ];
 
 export default function CheckoutScreen({ route, navigation }) {
-  const { subtotal, discount = 0, deliveryFee = 150, total, promoCode = '' } = route.params;
+  const { subtotal, discount = 0, deliveryFee = 0, total, promoCode = '' } = route.params;
   const { items, clearCart } = useCart();
   const { user } = useAuth();
   const [form, setForm] = useState({
@@ -273,7 +273,7 @@ export default function CheckoutScreen({ route, navigation }) {
       <View style={s.totalSection}>
         <View style={s.totalHeaderRow}>
           <Text style={s.totalLabel}>Total Amount</Text>
-          <Text style={s.deliveryNote}>Delivery Fee: Rs. {deliveryFee}</Text>
+          <Text style={s.deliveryNote}><Text style={{ textDecorationLine: 'line-through', color: '#aaa' }}>Rs. 150</Text> <Text style={{ color: '#27ae60', fontWeight: '700' }}>FREE Delivery</Text></Text>
         </View>
         <Text style={s.totalAmt}>Rs. {total.toLocaleString()}</Text>
       </View>

@@ -34,7 +34,7 @@ const BANNERS = [
 
 const WHY_US = [
   { title: 'Value for money', sub: 'Discount on 100+ Products' },
-  { title: 'Fast Delivery', sub: 'Rs. 150 flat • Chichawatni' },
+  { title: 'Fast Delivery', sub: 'FREE • Chichawatni' },
   { title: 'Quality assurance', sub: 'You Can Trust us' },
 ];
 

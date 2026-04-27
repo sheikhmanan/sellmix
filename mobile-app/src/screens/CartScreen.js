@@ -54,7 +54,7 @@ function BuyAgainRow({ user, addItem }) {
   );
 }
 
-const DELIVERY_FEE = 150;
+const DELIVERY_FEE = 0;
 
 export default function CartScreen({ navigation }) {
   const { items, addItem, updateQty, removeItem, subtotal, clearCart } = useCart();
@@ -209,7 +209,10 @@ export default function CartScreen({ navigation }) {
               )}
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Delivery Fee (Chichawatni)</Text>
-                <Text style={[s.sumVal, { color: COLORS.success }]}>Rs. {DELIVERY_FEE}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Text style={{ textDecorationLine: 'line-through', color: '#aaa', fontSize: 13 }}>Rs. 150</Text>
+                  <Text style={{ color: COLORS.success, fontWeight: '700', fontSize: 13 }}>FREE</Text>
+                </View>
               </View>
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Tax</Text>

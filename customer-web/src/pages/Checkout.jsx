@@ -114,7 +114,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { items, clearCart } = useCart();
   const { user } = useAuth();
-  const { subtotal = 0, discount = 0, deliveryFee = 150, total = 0, promoCode = '' } = state || {};
+  const { subtotal = 0, discount = 0, deliveryFee = 0, total = 0, promoCode = '' } = state || {};
 
   useEffect(() => { if (!user) navigate('/login', { replace: true }); }, [user]);
 
@@ -253,7 +253,7 @@ export default function Checkout() {
             <p style={m.cardTitle}>Order Total</p>
             <div style={m.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
             {discount > 0 && <div style={m.sumRow}><span>Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
-            <div style={m.sumRow}><span>Delivery Fee</span><span style={{ color: COLORS.success }}>Rs. {deliveryFee}</span></div>
+            <div style={m.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
             <div style={m.totalRow}>
               <span style={m.totalLabel}>Total Amount</span>
@@ -372,7 +372,7 @@ export default function Checkout() {
               <h2 style={s.cardTitle}>Order Total</h2>
               <div style={s.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
               {discount > 0 && <div style={s.sumRow}><span>Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
-              <div style={s.sumRow}><span>Delivery Fee</span><span style={{ color: COLORS.success }}>Rs. {deliveryFee}</span></div>
+              <div style={s.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={{ ...s.sumRow, ...s.totalRow }}>
                 <span style={s.totalLabel}>Total Amount</span>
                 <span style={s.totalAmt}>Rs. {total.toLocaleString()}</span>

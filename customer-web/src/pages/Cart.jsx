@@ -61,7 +61,7 @@ const ba = {
   btn: { backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 8, padding: '7px 0', fontSize: 12, fontWeight: 700, cursor: 'pointer', marginTop: 'auto' },
 };
 
-const DELIVERY_FEE = 150;
+const DELIVERY_FEE = 0;
 
 function useIsMobile() {
   const [mobile, setMobile] = useState(window.innerWidth <= 768);
@@ -170,7 +170,7 @@ export default function Cart() {
           <div style={m.summaryBox}>
             <div style={m.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
             {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
-            <div style={m.sumRow}><span>Delivery Fee (Chichawatni)</span><span style={{ color: COLORS.success }}>Rs. {DELIVERY_FEE}</span></div>
+            <div style={m.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
             <div style={m.totalRow}>
               <span style={m.totalLabel}>Order Total</span>
@@ -275,7 +275,7 @@ export default function Cart() {
               <h3 style={s.summaryTitle}>Order Summary</h3>
               <div style={s.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
               {discount > 0 && <div style={s.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
-              <div style={s.sumRow}><span>Delivery Fee (Chichawatni)</span><span style={{ color: COLORS.success }}>Rs. {DELIVERY_FEE}</span></div>
+              <div style={s.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={s.sumRow}><span>Tax</span><span>Rs. 0</span></div>
               <div style={{ ...s.sumRow, ...s.totalRow }}>
                 <span style={s.totalLabel}>Order Total</span>
