@@ -254,8 +254,8 @@ export default function Home() {
 const s = {
   page: { backgroundColor: '#f5f5f5', minHeight: '100vh', overflowX: 'hidden' },
 
-  heroWrap: { backgroundColor: '#f5f5f5', padding: '0 20px' },
-  hero: { position: 'relative', overflow: 'hidden', backgroundColor: '#000', lineHeight: 0, width: '100%', maxWidth: 1256, margin: '0 auto', paddingTop: 'min(28.58%, 359px)', borderRadius: 8 },
+  heroWrap: { backgroundColor: '#f5f5f5', padding: 0 },
+  hero: { position: 'relative', overflow: 'hidden', backgroundColor: '#000', lineHeight: 0, width: '100%', maxWidth: '100%', margin: 0, paddingTop: 'min(28.58%, 420px)', borderRadius: 0 },
   heroImg: { position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center center' },
   dots: { position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8 },
   dot: { width: 8, height: 8, borderRadius: '50%', border: 'none', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.4)', padding: 0 },
