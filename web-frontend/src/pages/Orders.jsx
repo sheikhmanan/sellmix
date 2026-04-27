@@ -499,7 +499,6 @@ const s = {
   newOrderBanner: { backgroundColor: '#1a9e4f', color: '#fff', fontWeight: 800, fontSize: 15, padding: '12px 20px', borderRadius: 10, marginBottom: 16, textAlign: 'center', boxShadow: '0 4px 12px rgba(26,158,79,0.3)' },
   morningBanner: { backgroundColor: '#c0392b', color: '#fff', fontWeight: 700, fontSize: 14, padding: '14px 20px', borderRadius: 10, marginBottom: 16, textAlign: 'center', boxShadow: '0 4px 12px rgba(192,57,43,0.3)', lineHeight: 1.5 },
   afternoonBanner: { backgroundColor: '#7c3aed', color: '#fff', fontWeight: 700, fontSize: 14, padding: '14px 20px', borderRadius: 10, marginBottom: 16, textAlign: 'center', boxShadow: '0 4px 12px rgba(124,58,237,0.3)', lineHeight: 1.5 },
-  urgentBadge: { display: 'inline-block', marginLeft: 8, backgroundColor: '#FF9500', color: '#fff', fontSize: 10, fontWeight: 900, padding: '2px 7px', borderRadius: 6, letterSpacing: 0.5, verticalAlign: 'middle' },
   header: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 },
   title: { fontSize: 28, fontWeight: 800, color: '#1a1a1a' },
   sub: { fontSize: 14, color: '#8E8E93', marginTop: 4 },
