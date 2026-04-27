@@ -362,7 +362,7 @@ const ms = {
   descBox: { backgroundColor: '#fff', borderRadius: 10, padding: '12px 14px', marginBottom: 14 },
   descLabel: { fontSize: 13, fontWeight: 700, color: '#1a1a1a', marginBottom: 6 },
   desc: { fontSize: 13, color: '#555', lineHeight: 1.7 },
-  badges: { display: 'flex', flexWrap: 'nowrap', gap: 6, marginBottom: 16, overflowX: 'auto' },
+  badges: { display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 },
   badge: { backgroundColor: '#fff', border: '1px solid #e8e8e8', padding: '6px 10px', borderRadius: 20, fontSize: 11, color: '#333', whiteSpace: 'nowrap', flexShrink: 0 },
   accordCard: { backgroundColor: '#fff', borderRadius: 10, border: '1px solid #e8e8e8', overflow: 'hidden', marginBottom: 8 },
   accordBtn: { width: '100%', display: 'flex', justifyContent: 'space-between', padding: '14px 16px', background: 'none', border: 'none', cursor: 'pointer', fontSize: 14 },

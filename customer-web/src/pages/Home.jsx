@@ -137,16 +137,18 @@ export default function Home() {
   return (
     <div style={s.page}>
       <style>{`
+        * { box-sizing: border-box; }
+        body { overflow-x: hidden; }
         @media (max-width: 600px) {
           .home-product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-          .home-why-bar { padding: 10px 0 !important; }
-          .home-why-inner { flex-wrap: nowrap !important; gap: 6px !important; padding: 0 8px !important; align-items: center !important; }
-          .home-why-label { font-size: 11px !important; font-weight: 800 !important; margin-right: 4px !important; white-space: nowrap !important; flex-shrink: 0 !important; }
-          .home-why-item { gap: 5px !important; flex-shrink: 1 !important; min-width: 0 !important; }
-          .home-why-icon { width: 28px !important; height: 28px !important; flex-shrink: 0 !important; }
-          .home-why-icon svg { width: 13px !important; height: 13px !important; }
-          .home-why-title { font-size: 10px !important; font-weight: 700 !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
-          .home-why-sub { font-size: 9px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+          .home-why-bar { padding: 14px 0 !important; }
+          .home-why-inner { display: grid !important; grid-template-columns: auto 1fr 1fr 1fr !important; align-items: center !important; gap: 8px !important; padding: 0 12px !important; }
+          .home-why-label { font-size: 12px !important; font-weight: 800 !important; white-space: nowrap !important; }
+          .home-why-item { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 6px !important; }
+          .home-why-icon { width: 36px !important; height: 36px !important; flex-shrink: 0 !important; }
+          .home-why-icon svg { width: 16px !important; height: 16px !important; }
+          .home-why-title { font-size: 10px !important; font-weight: 700 !important; white-space: normal !important; line-height: 1.3 !important; }
+          .home-why-sub { display: none !important; }
           .home-container { padding: 16px 10px !important; }
         }
       `}</style>
@@ -250,7 +252,7 @@ export default function Home() {
 }
 
 const s = {
-  page: { backgroundColor: '#f5f5f5', minHeight: '100vh' },
+  page: { backgroundColor: '#f5f5f5', minHeight: '100vh', overflowX: 'hidden' },
 
   heroWrap: { backgroundColor: '#f5f5f5', padding: '0 20px' },
   hero: { position: 'relative', overflow: 'hidden', backgroundColor: '#000', lineHeight: 0, width: '100%', maxWidth: 1256, margin: '0 auto', paddingTop: 'min(28.58%, 359px)', borderRadius: 8 },
