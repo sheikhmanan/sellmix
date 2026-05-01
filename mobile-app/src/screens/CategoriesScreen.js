@@ -11,16 +11,14 @@ import QtyControl from '../components/QtyControl';
 function expandVariants(products) {
   return products.flatMap((p) => {
     if (p.weightOptions?.length > 0) {
-      const hasVariantImages = p.weightOptions.some((w) => w.image);
-      const opts = hasVariantImages ? p.weightOptions.filter((w) => w.image) : p.weightOptions;
       const discountRatio = p.price > 0 && p.discountPrice > 0 ? p.discountPrice / p.price : 1;
-      return opts.map((w) => {
+      return p.weightOptions.map((w) => {
         const variantSalePrice = w.salePrice > 0 ? w.salePrice : Math.round((w.price || p.price) * discountRatio);
         return {
           ...p,
           _cardId: `${p._id}-${w.weight}`,
           _variantWeight: w.weight,
-          _variantImage: w.image || null,
+          _variantImage: w.image || p.images?.[0] || null,
           price: w.price || p.price,
           discountPrice: variantSalePrice < (w.price || p.price) ? variantSalePrice : 0,
         };
