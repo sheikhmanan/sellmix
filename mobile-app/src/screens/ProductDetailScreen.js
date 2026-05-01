@@ -97,6 +97,11 @@ export default function ProductDetailScreen({ route, navigation }) {
             <TouchableOpacity><Text style={s.heart}>🤍</Text></TouchableOpacity>
           </View>
 
+          {/* Unit / Weight */}
+          {(selectedWeight || product.unit) ? (
+            <Text style={s.unitLabel}>{selectedWeight || product.unit}</Text>
+          ) : null}
+
           {/* Price Row */}
           <View style={s.priceRow}>
             <Text style={s.price}>Rs. {price.toLocaleString()}</Text>
@@ -254,6 +259,7 @@ const s = StyleSheet.create({
   name: { fontSize: 22, fontWeight: '800', color: COLORS.black, flex: 1, marginRight: 8, lineHeight: 28 },
   heart: { fontSize: 22 },
   unit: { fontSize: 15, color: COLORS.primary, fontWeight: '700', marginBottom: 14 },
+  unitLabel: { fontSize: 15, color: COLORS.primary, fontWeight: '700', marginBottom: 10, marginTop: -2 },
 
   // Price
   priceRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 18 },
