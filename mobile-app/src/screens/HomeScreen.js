@@ -34,7 +34,7 @@ function ProductRow({ product, navigation, addItem, items, updateQty }) {
   const qty = inCart?.quantity || 0;
   const imgSrc = product._variantImage || product.images?.[0];
   return (
-    <TouchableOpacity style={r.card} activeOpacity={0.85} onPress={() => navigation.navigate('ProductDetail', { productId: product._id, selectedWeight: weight })}>
+    <TouchableOpacity style={r.card} activeOpacity={0.85} onPress={() => navigation.push('ProductDetail', { productId: product._id, selectedWeight: weight })}>
       <View style={r.imgBox}>
         {imgSrc
           ? <Image source={{ uri: fixImageUrl(imgSrc) }} style={r.img} resizeMode="contain" />

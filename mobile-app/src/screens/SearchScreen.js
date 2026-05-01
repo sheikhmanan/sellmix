@@ -38,7 +38,7 @@ function DealCard({ item, navigation }) {
   const imgUrl = item._variantImage ? fixImageUrl(item._variantImage) : item.images?.[0] ? fixImageUrl(item.images[0]) : null;
   const unit = item._variantWeight || item.weightOptions?.[0]?.weight || item.unit || '';
   return (
-    <TouchableOpacity style={s.card} activeOpacity={0.85} onPress={() => navigation.navigate('ProductDetail', { productId: item._id })}>
+    <TouchableOpacity style={s.card} activeOpacity={0.85} onPress={() => navigation.push('ProductDetail', { productId: item._id, selectedWeight: item._variantWeight || null })}>
       <View style={s.imgBox}>
         {imgUrl ? <Image source={{ uri: imgUrl }} style={s.img} resizeMode="contain" /> : <Text style={{ fontSize: 36 }}>🛒</Text>}
         {pct > 0 && <View style={s.pctBadge}><Text style={s.pctTxt}>-{pct}%</Text></View>}
