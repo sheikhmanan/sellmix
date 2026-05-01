@@ -6,6 +6,8 @@ import {
 import { categoriesAPI, productsAPI, fixImageUrl } from '../services/api';
 import { COLORS } from '../constants/colors';
 
+const CAT_ORDER = ['Grocery & Staples', 'Drinks', 'Health & Beauty', 'Laundry & Household', 'Biscuits, Snacks & Chocolate'];
+
 function buildTree(cats) {
   const map = {};
   cats.forEach((c) => { map[c._id] = { ...c, children: [] }; });
@@ -14,6 +16,11 @@ function buildTree(cats) {
     const pid = c.parent?._id || c.parent;
     if (pid && map[pid]) map[pid].children.push(map[c._id]);
     else roots.push(map[c._id]);
+  });
+  roots.sort((a, b) => {
+    const ai = CAT_ORDER.indexOf(a.name);
+    const bi = CAT_ORDER.indexOf(b.name);
+    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
   });
   return roots;
 }
