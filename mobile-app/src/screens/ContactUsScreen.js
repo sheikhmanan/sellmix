@@ -59,7 +59,7 @@ export default function ContactUsScreen({ navigation }) {
           <View style={s.infoRow}><Text style={s.infoKey}>📞 Mobile:</Text><Text style={s.infoVal}>03178384342</Text></View>
           <View style={s.infoRow}><Text style={s.infoKey}>🕐 Hours:</Text><Text style={s.infoVal}>Mon – Sun, 9:00am – 7:00pm</Text></View>
           <View style={s.infoRow}><Text style={s.infoKey}>📍 Address:</Text><Text style={s.infoVal}>Block #16, Govt Crescent Girls College Road, Chichawatni</Text></View>
-          <View style={s.infoRow}><Text style={s.infoKey}>🚚 Delivery:</Text><Text style={s.infoVal}>Chichawatni city only • Rs. 150 flat</Text></View>
+          <View style={s.infoRow}><Text style={s.infoKey}>🚚 Delivery:</Text><Text style={s.infoVal}>Chichawatni city only • Free Delivery</Text></View>
         </View>
 
         {/* Delivery Slots */}

@@ -64,7 +64,7 @@ export default function ContactUs() {
             </div>
             <div style={s.infoRow}>
               <span style={s.infoKey}>🚚 Delivery Area:</span>
-              <span style={s.infoVal}>Chichawatni city only</span>
+              <span style={s.infoVal}>Chichawatni city only • Free Delivery</span>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function ContactUs() {
               <p style={s.slotTime}>4:00 PM – 7:00 PM</p>
             </div>
           </div>
-          <p style={s.slotNote}>Delivery fee: Rs. 150 flat • Chichawatni city only</p>
+          <p style={s.slotNote}>Free Delivery • Chichawatni city only</p>
         </div>
 
       </div>
