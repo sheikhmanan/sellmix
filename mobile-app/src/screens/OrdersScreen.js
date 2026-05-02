@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert,
+  View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, Image,
 } from 'react-native';
+import { fixImageUrl } from '../services/api';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
@@ -66,11 +67,7 @@ export default function OrdersScreen({ navigation }) {
         renderItem={({ item }) => {
           const st = STATUS_CONFIG[item.status] || STATUS_CONFIG.placed;
           return (
-            <TouchableOpacity
-              style={s.card}
-              activeOpacity={0.75}
-              onPress={() => navigation.navigate('OrderTracking', { orderId: item.orderId })}
-            >
+            <View style={s.card}>
               {/* Card Header */}
               <View style={s.cardTop}>
                 <View>
@@ -86,21 +83,54 @@ export default function OrdersScreen({ navigation }) {
                 </View>
               </View>
 
-              {/* Items info */}
-              <View style={s.cardMid}>
-                <Text style={s.itemCount}>{item.items?.length || 0} item(s)</Text>
-                <Text style={s.payMethod}>{item.paymentMethod}</Text>
+              {/* Product list */}
+              <View style={s.itemsList}>
+                {item.items?.map((prod, i) => (
+                  <View key={i} style={s.itemRow}>
+                    <View style={s.itemImgBox}>
+                      {prod.image
+                        ? <Image source={{ uri: fixImageUrl(prod.image) }} style={s.itemImg} />
+                        : <Text style={{ fontSize: 18 }}>🛒</Text>}
+                    </View>
+                    <View style={s.itemInfo}>
+                      <Text style={s.itemName} numberOfLines={1}>{prod.name}</Text>
+                      {prod.weight ? <Text style={s.itemWeight}>{prod.weight}</Text> : null}
+                      <Text style={s.itemQty}>Qty: {prod.quantity}</Text>
+                    </View>
+                    <Text style={s.itemPrice}>Rs. {(prod.price * prod.quantity).toLocaleString()}</Text>
+                  </View>
+                ))}
+              </View>
+
+              {/* Summary */}
+              <View style={s.summaryBox}>
+                {item.discount > 0 && (
+                  <View style={s.sumRow}>
+                    <Text style={s.sumLabel}>Discount</Text>
+                    <Text style={[s.sumVal, { color: COLORS.success }]}>− Rs. {item.discount?.toLocaleString()}</Text>
+                  </View>
+                )}
+                <View style={s.sumRow}>
+                  <Text style={s.sumLabel}>Delivery</Text>
+                  <Text style={[s.sumVal, { color: COLORS.success }]}>Free</Text>
+                </View>
+                <View style={[s.sumRow, s.totalRow]}>
+                  <Text style={s.totalLabel}>Order Total</Text>
+                  <Text style={s.totalAmt}>Rs. {item.total?.toLocaleString()}</Text>
+                </View>
               </View>
 
               {/* Footer */}
               <View style={s.cardFooter}>
-                <Text style={s.totalLabel}>Order Total</Text>
-                <View style={s.footerRight}>
-                  <Text style={s.totalAmt}>Rs. {item.total?.toLocaleString()}</Text>
-                  <Text style={s.trackArrow}>Track {'>'}</Text>
-                </View>
+                <Text style={s.payMethod}>💳 {item.paymentMethod}</Text>
+                <TouchableOpacity
+                  style={s.trackBtn}
+                  onPress={() => navigation.navigate('OrderTracking', { orderId: item.orderId })}
+                >
+                  <Text style={s.trackBtnTxt}>Track Order →</Text>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
+            </View>
           );
         }}
         ListEmptyComponent={
@@ -159,19 +189,31 @@ const s = StyleSheet.create({
   statusBadge: { paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20 },
   statusTxt: { fontSize: 12, fontWeight: '700' },
 
-  cardMid: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    paddingVertical: 10, borderTopWidth: 1, borderBottomWidth: 1, borderColor: COLORS.lightGrey,
-    marginBottom: 12,
-  },
-  itemCount: { fontSize: 13, color: COLORS.textLight },
-  payMethod: { fontSize: 13, color: COLORS.textLight },
+  // Items list
+  itemsList: { borderTopWidth: 1, borderColor: COLORS.lightGrey, paddingTop: 12, marginBottom: 10 },
+  itemRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 12 },
+  itemImgBox: { width: 50, height: 50, borderRadius: 8, backgroundColor: COLORS.lightGrey, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  itemImg: { width: 50, height: 50, resizeMode: 'contain' },
+  itemInfo: { flex: 1 },
+  itemName: { fontSize: 13, fontWeight: '600', color: COLORS.text, marginBottom: 2 },
+  itemWeight: { fontSize: 12, color: COLORS.primary, fontWeight: '600', marginBottom: 2 },
+  itemQty: { fontSize: 12, color: COLORS.textMuted },
+  itemPrice: { fontSize: 13, fontWeight: '700', color: COLORS.text },
 
+  // Summary
+  summaryBox: { backgroundColor: COLORS.background, borderRadius: 10, padding: 12, marginBottom: 12 },
+  sumRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 },
+  sumLabel: { fontSize: 13, color: COLORS.textLight },
+  sumVal: { fontSize: 13, fontWeight: '600', color: COLORS.text },
+  totalRow: { borderTopWidth: 1, borderColor: COLORS.border, paddingTop: 10, marginTop: 4, marginBottom: 0 },
+  totalLabel: { fontSize: 14, fontWeight: '700', color: COLORS.text },
+  totalAmt: { fontSize: 16, fontWeight: '800', color: COLORS.primary },
+
+  // Footer
   cardFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  totalLabel: { fontSize: 13, color: COLORS.textLight },
-  footerRight: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  totalAmt: { fontSize: 17, fontWeight: '800', color: COLORS.primary },
-  trackArrow: { fontSize: 13, fontWeight: '600', color: COLORS.primary },
+  payMethod: { fontSize: 13, color: COLORS.textMuted },
+  trackBtn: { backgroundColor: COLORS.primary, paddingHorizontal: 16, paddingVertical: 9, borderRadius: 10 },
+  trackBtnTxt: { color: COLORS.white, fontWeight: '700', fontSize: 13 },
 
   // Empty
   emptyWrap: { alignItems: 'center', paddingTop: 60, padding: 24 },
