@@ -24,7 +24,7 @@ export default function ContactUs() {
             <span style={s.cardIcon}>📞</span>
             <p style={s.cardLabel}>Call Us</p>
             <p style={s.cardValue}>03178384342</p>
-            <p style={s.cardNote}>9:00 AM – 9:00 PM, 7 days</p>
+            <p style={s.cardNote}>9:00 AM – 7:00 PM, 7 days</p>
           </a>
 
           <a href="https://wa.me/923178384342" target="_blank" rel="noreferrer" style={{ ...s.card, borderColor: '#25D36640' }}>
@@ -56,7 +56,7 @@ export default function ContactUs() {
             </div>
             <div style={s.infoRow}>
               <span style={s.infoKey}>🕐 Hours:</span>
-              <span style={s.infoVal}>Mon – Sun, 9:00am – 9:00pm</span>
+              <span style={s.infoVal}>Mon – Sun, 9:00am – 7:00pm</span>
             </div>
             <div style={s.infoRow}>
               <span style={s.infoKey}>📍 Address:</span>
