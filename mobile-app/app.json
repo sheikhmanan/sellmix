@@ -2,7 +2,7 @@
   "expo": {
     "name": "SellMix",
     "slug": "sellmix",
-    "version": "0.1",
+    "version": "0.03",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/icon.png",
@@ -20,7 +20,9 @@
         "backgroundColor": "#3498db"
       },
       "package": "com.sellmix.SellMix",
-      "versionCode": 1,
+      "versionCode": 4,
+      "permissions": [],
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"],
       "signing": {
         "keystore": "./Dev.keystore",
         "keystorePassword": "SellMix@2024",
