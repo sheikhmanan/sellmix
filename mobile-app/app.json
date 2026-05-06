@@ -20,7 +20,13 @@
         "backgroundColor": "#3498db"
       },
       "package": "com.sellmix.SellMix",
-      "versionCode": 1
+      "versionCode": 1,
+      "signing": {
+        "keystore": "./Dev.keystore",
+        "keystorePassword": "SellMix@2024",
+        "keyAlias": "sellmix",
+        "keyPassword": "SellMix@2024"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.sellmix.SellMix",

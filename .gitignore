@@ -27,6 +27,10 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Android keystore (contains private keys — never commit)
+*.keystore
+*.jks
+
 # IDE
 .vscode/
 .idea/
