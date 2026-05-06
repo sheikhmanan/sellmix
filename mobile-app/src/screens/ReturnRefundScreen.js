@@ -24,7 +24,7 @@ export default function ReturnRefundScreen({ navigation }) {
     <View style={s.root}>
       <View style={s.header}>
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
-          <Text style={s.backArrow}>←</Text>
+          <View style={{width:11,height:11,borderLeftWidth:2.5,borderBottomWidth:2.5,borderColor:'#fff',transform:[{rotate:'45deg'}],marginLeft:5}} />
         </TouchableOpacity>
         <Text style={s.brand}>SellMix</Text>
         <View style={{ width: 38 }} />

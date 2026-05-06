@@ -199,20 +199,20 @@ export default function AppNavigator() {
       <CancelWatcher />
       <DeliverySlotToast />
       <Stack.Navigator screenOptions={{ headerShown: false, headerBackVisible: false, gestureEnabled: true }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="Main" component={MainTabs} />
-        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        <Stack.Screen name="Checkout" component={CheckoutScreen} />
-        <Stack.Screen name="OrderTracking" component={OrderTrackingScreen} />
-        <Stack.Screen name="SubCategories" component={CategoriesScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Orders" component={OrdersScreen} />
-        <Stack.Screen name="AboutUs" component={AboutUsScreen} />
-        <Stack.Screen name="ContactUs" component={ContactUsScreen} />
+        <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="OrderTracking" component={OrderTrackingScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="SubCategories" component={CategoriesScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Orders" component={OrdersScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="AboutUs" component={AboutUsScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="ContactUs" component={ContactUsScreen} options={{ headerShown: false, headerBackVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
