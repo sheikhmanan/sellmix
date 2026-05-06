@@ -58,13 +58,7 @@ export default function OnboardingScreen({ navigation }) {
           <View style={[s.slide, { width }]}>
             {item.isWelcome ? (
               <View style={s.welcomeCard}>
-                <View style={s.welcomeLeft}>
-                  <Text style={s.welcomeTo}>Welcome to</Text>
-                  <Text style={s.welcomeBrand}>SellMix</Text>
-                  <View style={s.welcomeDivider} />
-                  <Text style={s.welcomeTag}>One Stop Shop</Text>
-                </View>
-                <Image source={{ uri: BASKET_IMG }} style={s.welcomeImg} resizeMode="contain" />
+                <Image source={{ uri: BASKET_IMG }} style={s.welcomeImg} resizeMode="cover" />
               </View>
             ) : item.isDelivery ? (
               <View style={s.deliveryBox}>
@@ -144,13 +138,8 @@ const s = StyleSheet.create({
   boxIcon:     { fontSize: 110 },
 
   // Welcome slide
-  welcomeCard:    { width: width * 0.86, height: width * 0.74, borderRadius: 28, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', overflow: 'hidden', marginBottom: 32, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 16, elevation: 6 },
-  welcomeLeft:    { flex: 1, paddingLeft: 22, paddingVertical: 20 },
-  welcomeTo:      { fontSize: 16, fontWeight: '600', color: '#1a2980', marginBottom: 2 },
-  welcomeBrand:   { fontSize: 34, fontWeight: '900', color: '#1a2980', lineHeight: 38, marginBottom: 10 },
-  welcomeDivider: { width: 36, height: 3, backgroundColor: '#1a2980', borderRadius: 2, marginBottom: 10 },
-  welcomeTag:     { fontSize: 15, fontWeight: '700', color: '#1a2980' },
-  welcomeImg:     { width: width * 0.45, height: '100%' },
+  welcomeCard:    { width: width * 0.86, height: width * 0.74, borderRadius: 28, backgroundColor: '#fff', overflow: 'hidden', marginBottom: 32, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 16, elevation: 6 },
+  welcomeImg:     { width: '100%', height: '100%' },
 
   // Delivery slide
   deliveryBox:     { width: width * 0.82, borderRadius: 32, backgroundColor: 'rgba(255,255,255,0.15)', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 32, padding: 22 },
