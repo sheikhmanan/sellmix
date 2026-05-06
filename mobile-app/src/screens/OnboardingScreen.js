@@ -17,9 +17,9 @@ const slides = [
   },
   {
     id: '2',
-    isPayment: true,
-    title: 'Secure Payments',
-    subtitle: 'Pay securely with local favorites\nor choose Cash on Delivery\nfor your peace of mind.',
+    isDelivery: true,
+    title: 'Fast & Free Delivery',
+    subtitle: 'We deliver twice a day in Chichawatni.\nChoose your slot at checkout.\nPay cash when your order arrives.',
   },
 ];
 
@@ -57,17 +57,32 @@ export default function OnboardingScreen({ navigation }) {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={[s.slide, { width }]}>
-            {item.isPayment ? (
-              <View style={s.payBox}>
-                <View style={s.payRow}>
-                  <View style={s.payCard}><Text style={s.payCardText}>EASYPAISA</Text></View>
-                  <View style={s.payCard}><Text style={s.payCardText}>JAZZCASH</Text></View>
+            {item.isDelivery ? (
+              <View style={s.deliveryBox}>
+                <View style={s.deliverySlotRow}>
+                  <View style={s.slotCard}>
+                    <Text style={s.slotEmoji}>🌅</Text>
+                    <Text style={s.slotName}>Morning</Text>
+                    <Text style={s.slotTime}>10AM – 1PM</Text>
+                  </View>
+                  <View style={s.slotCard}>
+                    <Text style={s.slotEmoji}>🌆</Text>
+                    <Text style={s.slotName}>Afternoon</Text>
+                    <Text style={s.slotTime}>4PM – 7PM</Text>
+                  </View>
                 </View>
-                <View style={[s.payCard, s.codCard]}>
-                  <Text style={s.codIcon}>💵</Text>
+                <View style={s.freeRow}>
+                  <Text style={s.freeIcon}>🚚</Text>
                   <View>
-                    <Text style={s.codTitle}>Cash on Delivery</Text>
-                    <Text style={s.codSub}>Pay at your doorstep</Text>
+                    <Text style={s.freeTitle}>Free Delivery</Text>
+                    <Text style={s.freeSub}>Chichawatni city only</Text>
+                  </View>
+                </View>
+                <View style={s.codRow}>
+                  <Text style={s.freeIcon}>💵</Text>
+                  <View>
+                    <Text style={s.freeTitle}>Cash on Delivery</Text>
+                    <Text style={s.freeSub}>Pay when your order arrives</Text>
                   </View>
                 </View>
               </View>
@@ -119,15 +134,18 @@ const s = StyleSheet.create({
   box:         { width: width * 0.74, height: width * 0.74, borderRadius: 32, alignItems: 'center', justifyContent: 'center', marginBottom: 32 },
   boxIcon:     { fontSize: 110 },
 
-  // Payment slide
-  payBox:      { width: width * 0.74, height: width * 0.74, borderRadius: 32, backgroundColor: 'rgba(255,255,255,0.15)', alignItems: 'center', justifyContent: 'center', gap: 14, marginBottom: 32, padding: 20 },
-  payRow:      { flexDirection: 'row', gap: 14, width: '100%' },
-  payCard:     { flex: 1, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 14, paddingVertical: 18, alignItems: 'center', justifyContent: 'center' },
-  payCardText: { fontSize: 12, fontWeight: '800', color: COLORS.white, letterSpacing: 1 },
-  codCard:     { flex: undefined, width: '100%', flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 14 },
-  codIcon:     { fontSize: 28 },
-  codTitle:    { fontSize: 15, fontWeight: '700', color: COLORS.white },
-  codSub:      { fontSize: 12, color: 'rgba(255,255,255,0.75)', marginTop: 2 },
+  // Delivery slide
+  deliveryBox:     { width: width * 0.82, borderRadius: 32, backgroundColor: 'rgba(255,255,255,0.15)', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 32, padding: 22 },
+  deliverySlotRow: { flexDirection: 'row', gap: 12, width: '100%', marginBottom: 4 },
+  slotCard:        { flex: 1, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 16, paddingVertical: 18, alignItems: 'center', gap: 4 },
+  slotEmoji:       { fontSize: 32 },
+  slotName:        { fontSize: 13, fontWeight: '800', color: COLORS.white },
+  slotTime:        { fontSize: 11, color: 'rgba(255,255,255,0.8)', fontWeight: '600' },
+  freeRow:         { flexDirection: 'row', alignItems: 'center', gap: 14, width: '100%', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 14, padding: 14 },
+  codRow:          { flexDirection: 'row', alignItems: 'center', gap: 14, width: '100%', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 14, padding: 14 },
+  freeIcon:        { fontSize: 26 },
+  freeTitle:       { fontSize: 14, fontWeight: '700', color: COLORS.white },
+  freeSub:         { fontSize: 11, color: 'rgba(255,255,255,0.75)', marginTop: 2 },
 
   title:       { fontSize: 26, fontWeight: '800', color: COLORS.white, textAlign: 'center', marginBottom: 12, letterSpacing: -0.3 },
   subtitle:    { fontSize: 15, color: 'rgba(255,255,255,0.82)', textAlign: 'center', lineHeight: 24 },
