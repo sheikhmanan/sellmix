@@ -58,7 +58,7 @@ export default function OnboardingScreen({ navigation }) {
           <View style={[s.slide, { width }]}>
             {item.isWelcome ? (
               <View style={s.welcomeCard}>
-                <Image source={{ uri: BASKET_IMG }} style={s.welcomeImg} resizeMode="cover" />
+                <Image source={{ uri: BASKET_IMG }} style={s.welcomeImg} resizeMode="contain" />
               </View>
             ) : item.isDelivery ? (
               <View style={s.deliveryBox}>
@@ -138,7 +138,7 @@ const s = StyleSheet.create({
   boxIcon:     { fontSize: 110 },
 
   // Welcome slide
-  welcomeCard:    { width: width * 0.86, height: width * 0.74, borderRadius: 28, backgroundColor: '#fff', overflow: 'hidden', marginBottom: 32, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 16, elevation: 6 },
+  welcomeCard:    { width: width * 0.88, height: width * 0.58, borderRadius: 24, backgroundColor: '#fff', overflow: 'hidden', marginBottom: 28, shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 16, elevation: 6 },
   welcomeImg:     { width: '100%', height: '100%' },
 
   // Delivery slide
