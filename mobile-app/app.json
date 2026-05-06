@@ -2,7 +2,7 @@
   "expo": {
     "name": "SellMix",
     "slug": "sellmix",
-    "version": "1.0.0",
+    "version": "0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "icon": "./assets/icon.png",
@@ -19,11 +19,13 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#3498db"
       },
-      "package": "com.sellmix.app"
+      "package": "com.sellmix.SellMix",
+      "versionCode": 1
     },
     "ios": {
-      "bundleIdentifier": "com.sellmix.app",
-      "supportsTablet": false
+      "bundleIdentifier": "com.sellmix.SellMix",
+      "supportsTablet": false,
+      "buildNumber": "1"
     },
     "extra": {
       "apiUrl": "http://10.0.2.2:5000/api",
