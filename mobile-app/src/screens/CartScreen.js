@@ -95,7 +95,7 @@ export default function CartScreen({ navigation }) {
       {/* Header */}
       <View style={s.header}>
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
-          <Text style={s.back}>←</Text>
+          <View style={{width:11,height:11,borderLeftWidth:2.5,borderBottomWidth:2.5,borderColor:'#fff',transform:[{rotate:'45deg'}],marginLeft:5}} />
         </TouchableOpacity>
         <Text style={s.title}>My Cart</Text>
         <TouchableOpacity onPress={() =>
@@ -234,6 +234,10 @@ export default function CartScreen({ navigation }) {
         <TouchableOpacity
           style={s.checkoutBtn}
           onPress={() => {
+            if (subtotal < 999) {
+              Alert.alert('Minimum Order', `Minimum order value is Rs. 999. Add Rs. ${(999 - subtotal).toLocaleString()} more to proceed.`);
+              return;
+            }
             if (!user) {
               setShowAuthModal(true);
             } else {

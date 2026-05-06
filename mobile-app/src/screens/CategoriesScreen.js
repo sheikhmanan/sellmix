@@ -98,7 +98,7 @@ export default function CategoriesScreen({ route, navigation }) {
       {/* Header */}
       <View style={s.header}>
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
-          <Text style={s.backText}>←</Text>
+          <View style={{width:11,height:11,borderLeftWidth:2.5,borderBottomWidth:2.5,borderColor:'#fff',transform:[{rotate:'45deg'}],marginLeft:5}} />
         </TouchableOpacity>
         <Text style={s.headerTitle}>{categoryName}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={s.cartWrap}>
@@ -190,7 +190,6 @@ const s = StyleSheet.create({
     paddingTop: 50, paddingBottom: 14, borderBottomWidth: 1, borderColor: COLORS.border,
   },
   backBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center' },
-  backText: { fontSize: 20, color: '#fff', fontWeight: '700', lineHeight: 24 },
   headerTitle: { fontSize: 18, fontWeight: '700', color: COLORS.text, flex: 1, textAlign: 'center' },
   cartIcon: { fontSize: 24 },
   cartWrap: { position: 'relative', padding: 4 },

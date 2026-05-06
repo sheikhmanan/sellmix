@@ -62,6 +62,7 @@ const ba = {
 };
 
 const DELIVERY_FEE = 0;
+const MIN_ORDER = 999;
 
 function useIsMobile() {
   const [mobile, setMobile] = useState(window.innerWidth <= 600);
@@ -181,9 +182,17 @@ export default function Cart() {
 
         {/* Fixed Checkout Button */}
         <div style={m.bottomBar}>
+          {subtotal < MIN_ORDER && (
+            <p style={{ fontSize: 12, color: '#e74c3c', textAlign: 'center', marginBottom: 6, fontWeight: 600 }}>
+              Minimum order Rs. 999 — add Rs. {(MIN_ORDER - subtotal).toLocaleString()} more
+            </p>
+          )}
           <button
-            style={m.checkoutBtn}
-            onClick={() => { if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); } }}
+            style={{ ...m.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary }}
+            onClick={() => {
+              if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
+              if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+            }}
           >
             Checkout
           </button>
@@ -277,9 +286,17 @@ export default function Cart() {
                 <span style={s.totalLabel}>Order Total</span>
                 <span style={s.totalAmt}>Rs. {total.toLocaleString()}</span>
               </div>
+              {subtotal < MIN_ORDER && (
+                <p style={{ fontSize: 13, color: '#e74c3c', fontWeight: 600, marginBottom: 10, textAlign: 'center' }}>
+                  Minimum order Rs. 999 — add Rs. {(MIN_ORDER - subtotal).toLocaleString()} more
+                </p>
+              )}
               <button
-                style={s.checkoutBtn}
-                onClick={() => { if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); } }}
+                style={{ ...s.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary, cursor: subtotal < MIN_ORDER ? 'not-allowed' : 'pointer' }}
+                onClick={() => {
+                  if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
+                  if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+                }}
               >
                 Proceed to Checkout →
               </button>
