@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, Alert, Image,
 } from 'react-native';
-import { fixImageUrl } from '../services/api';
-import { ordersAPI } from '../services/api';
+import { ordersAPI, fixImageUrl } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
 
