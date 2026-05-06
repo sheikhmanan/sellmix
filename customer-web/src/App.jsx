@@ -62,6 +62,7 @@ import Categories from './pages/Categories';
 import ForgotPassword from './pages/ForgotPassword';
 import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 const SLOT_TOAST_KEY = 'slx_slot_toast_shown';
 
@@ -191,6 +192,7 @@ function Layout() {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="*" element={<Home />} />
       </Routes>
       {!hideShell && <Footer />}
