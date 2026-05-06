@@ -198,7 +198,7 @@ export default function AppNavigator() {
     <NavigationContainer>
       <CancelWatcher />
       <DeliverySlotToast />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{ headerShown: false, headerBackVisible: false, gestureEnabled: true }}>
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
