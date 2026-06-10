@@ -18,26 +18,34 @@ export default function Products() {
   const [selectedCat, setSelectedCat] = useState('');
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState({});
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     categoriesAPI.getAll().then((r) => setCategories(r.data)).catch(() => {});
-    load();
   }, []);
 
   useEffect(() => {
     const t = setTimeout(load, 400);
     return () => clearTimeout(t);
+  }, [search, selectedCat, page]);
+
+  useEffect(() => {
+    setPage(1);
   }, [search, selectedCat]);
 
   const load = async () => {
     setLoading(true);
     try {
-      const params = { limit: 100 };
+      const params = { limit: 100, page };
       if (search) params.search = search;
       if (selectedCat) params.category = selectedCat;
       const res = await productsAPI.getAll(params);
       setProducts(res.data.products);
+      setPages(res.data.pages || 1);
+      setTotal(res.data.total || 0);
     } catch {}
     setLoading(false);
   };
@@ -163,6 +171,13 @@ export default function Products() {
               )}
             </tbody>
           </table>
+          <div style={s.pagination}>
+            <span style={s.pageInfo}>{total} products — Page {page} of {pages}</span>
+            <div>
+              <button style={s.pageBtn} disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>← Prev</button>
+              <button style={s.pageBtn} disabled={page >= pages} onClick={() => setPage((p) => p + 1)}>Next →</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -198,4 +213,7 @@ const s = {
   editBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, marginRight: 8 },
   editBtnSm: { backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 10px', fontSize: 11, fontWeight: 700, cursor: 'pointer' },
   deleteBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 16 },
+  pagination: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderTop: '1px solid #F2F2F7' },
+  pageInfo: { fontSize: 13, color: '#8E8E93', fontWeight: 600 },
+  pageBtn: { backgroundColor: '#fff', border: '1.5px solid #E5E5EA', borderRadius: 8, padding: '8px 16px', fontSize: 13, fontWeight: 700, color: '#1a1a1a', cursor: 'pointer', marginLeft: 8 },
 };
