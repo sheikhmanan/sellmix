@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { productsAPI, categoriesAPI } from '../services/api';
+import { productsAPI, categoriesAPI, settingsAPI } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const UNIT_LABELS = {
   g: 'grams', gram: 'grams', grams: 'grams',
@@ -21,11 +22,22 @@ export default function Products() {
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [locked, setLocked] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isOwner = user?.role === 'owner';
 
   useEffect(() => {
     categoriesAPI.getAll().then((r) => setCategories(r.data)).catch(() => {});
+    settingsAPI.getProductsLock().then((r) => setLocked(r.data.productsLocked)).catch(() => {});
   }, []);
+
+  const toggleLock = async () => {
+    try {
+      const res = await settingsAPI.setProductsLock(!locked);
+      setLocked(res.data.productsLocked);
+    } catch {}
+  };
 
   useEffect(() => {
     const t = setTimeout(load, 400);
@@ -65,8 +77,28 @@ export default function Products() {
     <div style={s.page}>
       <div style={s.header}>
         <h1 style={s.title}>Products</h1>
-        <button style={s.addBtn} onClick={() => navigate('/products/add')}>+ Add Product</button>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          {isOwner && (
+            <button
+              style={{ ...s.lockBtn, ...(locked ? s.lockBtnActive : {}) }}
+              onClick={toggleLock}
+            >
+              {locked ? '🔒 Products Locked' : '🔓 Lock Products'}
+            </button>
+          )}
+          <button
+            style={{ ...s.addBtn, ...((locked && !isOwner) ? s.btnDisabled : {}) }}
+            disabled={locked && !isOwner}
+            onClick={() => navigate('/products/add')}
+          >
+            + Add Product
+          </button>
+        </div>
       </div>
+
+      {locked && !isOwner && (
+        <div style={s.lockBanner}>Product management is currently locked.</div>
+      )}
 
       {/* Filters */}
       <div style={s.filters}>
@@ -136,8 +168,16 @@ export default function Products() {
                       <span style={{ ...s.statusDot, backgroundColor: p.isFeatured ? '#34C759' : '#E5E5EA' }} />
                     </td>
                     <td style={s.td}>
-                      <button style={s.editBtn} onClick={() => navigate(`/products/edit/${p._id}`)}>✏️</button>
-                      <button style={s.deleteBtn} onClick={() => handleDelete(p._id, p.name)}>🗑️</button>
+                      <button
+                        style={s.editBtn}
+                        disabled={locked && !isOwner}
+                        onClick={() => navigate(`/products/edit/${p._id}`)}
+                      >✏️</button>
+                      <button
+                        style={s.deleteBtn}
+                        disabled={locked && !isOwner}
+                        onClick={() => handleDelete(p._id, p.name)}
+                      >🗑️</button>
                     </td>
                   </tr>,
 
@@ -189,6 +229,10 @@ const s = {
   header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
   title: { fontSize: 28, fontWeight: 800, color: '#1a1a1a' },
   addBtn: { backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: 10, padding: '12px 24px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
+  btnDisabled: { backgroundColor: '#B0BEC5', cursor: 'not-allowed' },
+  lockBtn: { backgroundColor: '#fff', color: '#1a1a1a', border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
+  lockBtnActive: { backgroundColor: '#FF3B3020', borderColor: '#FF3B30', color: '#FF3B30' },
+  lockBanner: { backgroundColor: '#FF3B3020', color: '#FF3B30', borderRadius: 10, padding: '12px 16px', fontSize: 13, fontWeight: 700, marginBottom: 16 },
   filters: { display: 'flex', gap: 12, marginBottom: 20 },
   search: { flex: 1, border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff' },
   select: { border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff', minWidth: 180 },

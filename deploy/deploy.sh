@@ -42,6 +42,7 @@ rsync -a --delete \
   --exclude='node_modules' \
   --exclude='.env' \
   --exclude='uploads' \
+  --exclude='config/settings.json' \
   "$REPO_DIR/backend/" "$APP_DIR/backend/"
 
 # Reinstall in destination

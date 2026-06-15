@@ -51,6 +51,11 @@ export const ordersAPI = {
   getRangeReport: (days) => api.get('/orders/reports/range', { params: { days } }),
 };
 
+export const settingsAPI = {
+  getProductsLock: () => api.get('/settings/products-lock'),
+  setProductsLock: (productsLocked) => api.put('/settings/products-lock', { productsLocked }),
+};
+
 export const uploadAPI = {
   single: (file) => {
     const fd = new FormData();

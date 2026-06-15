@@ -38,6 +38,7 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/categories', require('./routes/categories'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/settings', require('./routes/settings'));
 
 app.get('/', (req, res) => res.json({ message: 'SellMix API running - Chichawatni' }));
 

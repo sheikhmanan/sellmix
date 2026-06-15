@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   address: { type: String, default: '' },
   city: { type: String, default: 'Chichawatni' },
-  role: { type: String, enum: ['customer', 'admin'], default: 'customer' },
+  role: { type: String, enum: ['customer', 'admin', 'owner'], default: 'customer' },
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 

@@ -5,6 +5,15 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 const { protect } = require('../middleware/auth');
 const { adminOnly } = require('../middleware/adminAuth');
+const { readSettings } = require('../utils/settings');
+
+const checkProductsUnlocked = (req, res, next) => {
+  const { productsLocked } = readSettings();
+  if (productsLocked && req.user.role !== 'owner') {
+    return res.status(403).json({ message: 'Product management is currently locked' });
+  }
+  next();
+};
 
 // GET /api/products
 router.get('/', async (req, res) => {
@@ -77,7 +86,7 @@ function pickProductFields(body) {
 }
 
 // POST /api/products
-router.post('/', protect, adminOnly, async (req, res) => {
+router.post('/', protect, adminOnly, checkProductsUnlocked, async (req, res) => {
   try {
     const { name, price, category } = req.body;
     if (!name?.trim()) return res.status(400).json({ message: 'Product name is required' });
@@ -91,7 +100,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
 });
 
 // PUT /api/products/:id
-router.put('/:id', protect, adminOnly, async (req, res) => {
+router.put('/:id', protect, adminOnly, checkProductsUnlocked, async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(
       req.params.id,
@@ -106,7 +115,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
 });
 
 // PATCH /api/products/:id/stock
-router.patch('/:id/stock', protect, adminOnly, async (req, res) => {
+router.patch('/:id/stock', protect, adminOnly, checkProductsUnlocked, async (req, res) => {
   try {
     const { stock } = req.body;
     const product = await Product.findByIdAndUpdate(req.params.id, { stock }, { new: true });
@@ -117,7 +126,7 @@ router.patch('/:id/stock', protect, adminOnly, async (req, res) => {
 });
 
 // DELETE /api/products/:id
-router.delete('/:id', protect, adminOnly, async (req, res) => {
+router.delete('/:id', protect, adminOnly, checkProductsUnlocked, async (req, res) => {
   try {
     await Product.findByIdAndUpdate(req.params.id, { isActive: false });
     res.json({ message: 'Product removed' });

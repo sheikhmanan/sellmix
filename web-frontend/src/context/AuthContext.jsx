@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
 
   const login = async (mobile, password) => {
     const { data } = await authAPI.login({ mobile, password });
-    if (data.role !== 'admin') throw new Error('Admin access required');
+    if (data.role !== 'admin' && data.role !== 'owner') throw new Error('Admin access required');
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data));
     setUser(data);
