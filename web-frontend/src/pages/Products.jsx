@@ -87,7 +87,7 @@ export default function Products() {
             </button>
           )}
           <button
-            style={{ ...s.addBtn, ...((locked && !isOwner) ? s.btnDisabled : {}) }}
+            style={s.addBtn}
             disabled={locked && !isOwner}
             onClick={() => navigate('/products/add')}
           >
@@ -225,7 +225,6 @@ const s = {
   header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
   title: { fontSize: 28, fontWeight: 800, color: '#1a1a1a' },
   addBtn: { backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: 10, padding: '12px 24px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
-  btnDisabled: { backgroundColor: '#B0BEC5', cursor: 'not-allowed' },
   lockBtn: { backgroundColor: '#fff', color: '#1a1a1a', border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
   lockBtnActive: { backgroundColor: '#FF3B3020', borderColor: '#FF3B30', color: '#FF3B30' },
   filters: { display: 'flex', gap: 12, marginBottom: 20 },
