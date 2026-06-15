@@ -96,10 +96,6 @@ export default function Products() {
         </div>
       </div>
 
-      {locked && !isOwner && (
-        <div style={s.lockBanner}>Product management is currently locked.</div>
-      )}
-
       {/* Filters */}
       <div style={s.filters}>
         <input
@@ -232,7 +228,6 @@ const s = {
   btnDisabled: { backgroundColor: '#B0BEC5', cursor: 'not-allowed' },
   lockBtn: { backgroundColor: '#fff', color: '#1a1a1a', border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '12px 20px', fontSize: 14, fontWeight: 700, cursor: 'pointer' },
   lockBtnActive: { backgroundColor: '#FF3B3020', borderColor: '#FF3B30', color: '#FF3B30' },
-  lockBanner: { backgroundColor: '#FF3B3020', color: '#FF3B30', borderRadius: 10, padding: '12px 16px', fontSize: 13, fontWeight: 700, marginBottom: 16 },
   filters: { display: 'flex', gap: 12, marginBottom: 20 },
   search: { flex: 1, border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff' },
   select: { border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff', minWidth: 180 },
