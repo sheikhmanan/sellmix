@@ -77,14 +77,25 @@ export default function CategoriesScreen({ route, navigation }) {
   const load = async () => {
     setLoading(true);
     try {
-      const [subRes, prodRes] = await Promise.all([
+      const [subRes, firstRes] = await Promise.all([
         categoriesAPI.getAll({ parent: categoryId }),
-        productsAPI.getAll({ category: categoryId, limit: 200 }),
+        productsAPI.getAll({ category: categoryId, limit: 50, page: 1 }),
       ]);
       setSubcategories(subRes.data);
-      setProducts(prodRes.data.products);
-    } catch {}
-    setLoading(false);
+      const firstBatch = firstRes.data.products || [];
+      const totalPages = firstRes.data.pages || 1;
+      setProducts(firstBatch);
+      setLoading(false);
+
+      if (totalPages > 1) {
+        const rest = await Promise.all(
+          Array.from({ length: totalPages - 1 }, (_, i) =>
+            productsAPI.getAll({ category: categoryId, limit: 50, page: i + 2 })
+          )
+        );
+        setProducts([...firstBatch, ...rest.flatMap((r) => r.data.products || [])]);
+      }
+    } catch { setLoading(false); }
   };
 
   const allTags = ['All', ...new Set(products.flatMap((p) => p.tags || []))];
@@ -98,7 +109,7 @@ export default function CategoriesScreen({ route, navigation }) {
       {/* Header */}
       <View style={s.header}>
         <TouchableOpacity style={s.backBtn} onPress={() => navigation.goBack()}>
-          <View style={{width:11,height:11,borderLeftWidth:2.5,borderBottomWidth:2.5,borderColor:'#fff',transform:[{rotate:'45deg'}],marginLeft:5}} />
+          <View style={{ width: 11, height: 11, borderLeftWidth: 2.5, borderBottomWidth: 2.5, borderColor: '#fff', transform: [{ rotate: '45deg' }], marginLeft: 5 }} />
         </TouchableOpacity>
         <Text style={s.headerTitle}>{categoryName}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={s.cartWrap}>
