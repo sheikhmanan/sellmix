@@ -79,7 +79,7 @@ export default function CategoriesScreen({ route, navigation }) {
     try {
       const [subRes, prodRes] = await Promise.all([
         categoriesAPI.getAll({ parent: categoryId }),
-        productsAPI.getAll({ category: categoryId, limit: 50 }),
+        productsAPI.getAll({ category: categoryId, limit: 200 }),
       ]);
       setSubcategories(subRes.data);
       setProducts(prodRes.data.products);
@@ -131,7 +131,6 @@ export default function CategoriesScreen({ route, navigation }) {
                   style={s.subChip}
                   onPress={() => navigation.push('SubCategories', { categoryId: sub._id, categoryName: sub.name })}
                 >
-                  <Text style={s.subChipIcon}>{sub.icon}</Text>
                   <Text style={s.subChipText}>{sub.name}</Text>
                 </TouchableOpacity>
               ))}

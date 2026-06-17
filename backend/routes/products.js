@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
 
     const products = await Product.find(query)
       .populate('category', 'name icon')
-      .sort({ createdAt: -1 })
+      .sort({ name: 1 })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit));
 
