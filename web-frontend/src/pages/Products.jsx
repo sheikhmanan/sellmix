@@ -75,6 +75,13 @@ export default function Products() {
 
   return (
     <div style={s.page}>
+      <style>{`
+        @media (max-width: 640px) {
+          .col-cat, .col-disc, .col-feat { display: none !important; }
+          .col-actions { position: sticky !important; right: 0 !important; background: #fff !important; z-index: 2 !important; box-shadow: -2px 0 6px rgba(0,0,0,0.08) !important; }
+          .col-actions-head { position: sticky !important; right: 0 !important; background: #FAFAFA !important; z-index: 2 !important; box-shadow: -2px 0 6px rgba(0,0,0,0.08) !important; }
+        }
+      `}</style>
       <div style={s.header}>
         <h1 style={s.title}>Products</h1>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -117,8 +124,17 @@ export default function Products() {
           <table style={s.table}>
             <thead>
               <tr>
-                {['Image', 'Product', 'Category', 'Price', 'Discount', 'Stock', 'Featured', 'Actions'].map((h) => (
-                  <th key={h} style={h === 'Actions' ? { ...s.th, ...s.stickyCol, backgroundColor: '#FAFAFA' } : s.th}>{h}</th>
+                {[
+                  { label: 'Image', cls: '' },
+                  { label: 'Product', cls: '' },
+                  { label: 'Category', cls: 'col-cat' },
+                  { label: 'Price', cls: '' },
+                  { label: 'Discount', cls: 'col-disc' },
+                  { label: 'Stock', cls: '' },
+                  { label: 'Featured', cls: 'col-feat' },
+                  { label: 'Actions', cls: 'col-actions-head' },
+                ].map(({ label, cls }) => (
+                  <th key={label} className={cls} style={s.th}>{label}</th>
                 ))}
               </tr>
             </thead>
@@ -147,9 +163,9 @@ export default function Products() {
                       </div>
                       <p style={s.productUnit}>{formatUnit(p.unit)}</p>
                     </td>
-                    <td style={s.td}>{p.category?.name || '—'}</td>
+                    <td className="col-cat" style={s.td}>{p.category?.name || '—'}</td>
                     <td style={s.td}>Rs. {p.price?.toLocaleString()}</td>
-                    <td style={s.td}>
+                    <td className="col-disc" style={s.td}>
                       {p.discountPrice > 0 ? (
                         <span style={s.discBadge}>Rs. {p.discountPrice.toLocaleString()}</span>
                       ) : '—'}
@@ -160,10 +176,10 @@ export default function Products() {
                         {p.stock <= 10 && <span style={s.lowBadge}>LOW</span>}
                       </span>
                     </td>
-                    <td style={s.td}>
+                    <td className="col-feat" style={s.td}>
                       <span style={{ ...s.statusDot, backgroundColor: p.isFeatured ? '#34C759' : '#E5E5EA' }} />
                     </td>
-                    <td style={{ ...s.td, ...s.stickyCol }}>
+                    <td className="col-actions" style={s.td}>
                       <button
                         style={s.editBtn}
                         disabled={locked && !isOwner}
