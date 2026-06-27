@@ -13,6 +13,7 @@ const UNIT_LABELS = {
 const formatUnit = (u) => UNIT_LABELS[u?.toLowerCase()] || u || '';
 
 export default function Products() {
+  const isMobile = window.innerWidth < 768;
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState('');
@@ -147,6 +148,12 @@ export default function Products() {
                         )}
                       </div>
                       <p style={s.productUnit}>{formatUnit(p.unit)}</p>
+                      {isMobile && (
+                        <div style={{ marginTop: 6, display: 'flex', gap: 8 }}>
+                          <button style={s.mobileEditBtn} disabled={locked && !isOwner} onClick={() => navigate(`/products/edit/${p._id}`)}>✏️ Edit</button>
+                          <button style={s.mobileDeleteBtn} disabled={locked && !isOwner} onClick={() => handleDelete(p._id, p.name)}>🗑️</button>
+                        </div>
+                      )}
                     </td>
                     <td style={s.td}>{p.category?.name || '—'}</td>
                     <td style={s.td}>Rs. {p.price?.toLocaleString()}</td>
@@ -252,6 +259,8 @@ const s = {
   lowBadge: { marginLeft: 6, backgroundColor: '#FF3B3020', color: '#FF3B30', padding: '2px 6px', borderRadius: 4, fontSize: 10, fontWeight: 700 },
   statusDot: { display: 'inline-block', width: 12, height: 12, borderRadius: '50%' },
   editBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, marginRight: 8 },
+  mobileEditBtn: { backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: 6, padding: '5px 12px', fontSize: 13, fontWeight: 700, cursor: 'pointer' },
+  mobileDeleteBtn: { backgroundColor: '#FF3B3020', color: '#FF3B30', border: 'none', borderRadius: 6, padding: '5px 10px', fontSize: 13, cursor: 'pointer' },
   editBtnSm: { backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 10px', fontSize: 11, fontWeight: 700, cursor: 'pointer' },
   deleteBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 16 },
   pagination: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 16px', borderTop: '1px solid #F2F2F7' },
