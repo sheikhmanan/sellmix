@@ -232,7 +232,7 @@ const s = {
   select: { border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff', minWidth: 180 },
   tableWrap: { backgroundColor: '#fff', borderRadius: 16, overflowX: 'auto', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
   stickyCol: { position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1, boxShadow: '-2px 0 6px rgba(0,0,0,0.06)' },
-  table: { width: '100%', borderCollapse: 'collapse' },
+  table: { width: '100%', minWidth: 700, borderCollapse: 'collapse' },
   th: { textAlign: 'left', padding: '14px 16px', fontSize: 11, fontWeight: 700, color: '#8E8E93', letterSpacing: 1, borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA', whiteSpace: 'nowrap' },
   tr: { borderBottom: '1px solid #F2F2F7' },
   variantRow: { borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA' },
