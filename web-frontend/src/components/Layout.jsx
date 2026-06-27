@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 
 const styles = {
   wrapper: { display: 'flex', height: '100vh', overflow: 'hidden' },
-  main: { flex: 1, overflowY: 'auto', backgroundColor: '#f5f6f3' },
+  main: { flex: 1, overflowY: 'auto', overflowX: 'hidden', backgroundColor: '#f5f6f3' },
 };
 
 export default function Layout() {

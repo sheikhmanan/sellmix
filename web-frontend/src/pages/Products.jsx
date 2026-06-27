@@ -114,6 +114,7 @@ export default function Products() {
         <p style={{ color: '#8E8E93', padding: 24 }}>Loading...</p>
       ) : (
         <div style={s.tableWrap}>
+          <div style={s.scrollX}>
           <table style={s.table}>
             <thead>
               <tr>
@@ -207,6 +208,7 @@ export default function Products() {
               )}
             </tbody>
           </table>
+          </div>
           <div style={s.pagination}>
             <span style={s.pageInfo}>{total} products — Page {page} of {pages}</span>
             <div>
@@ -230,7 +232,8 @@ const s = {
   filters: { display: 'flex', gap: 12, marginBottom: 20 },
   search: { flex: 1, border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff' },
   select: { border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff', minWidth: 180 },
-  tableWrap: { backgroundColor: '#fff', borderRadius: 16, overflow: 'auto', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
+  tableWrap: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
+  scrollX: { overflowX: 'auto', WebkitOverflowScrolling: 'touch' },
   table: { width: '100%', minWidth: 860, borderCollapse: 'collapse' },
   th: { textAlign: 'left', padding: '14px 16px', fontSize: 11, fontWeight: 700, color: '#8E8E93', letterSpacing: 1, borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA', whiteSpace: 'nowrap' },
   tr: { borderBottom: '1px solid #F2F2F7' },
