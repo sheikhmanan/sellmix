@@ -118,7 +118,7 @@ export default function Products() {
             <thead>
               <tr>
                 {['Image', 'Product', 'Category', 'Price', 'Discount', 'Stock', 'Featured', 'Actions'].map((h) => (
-                  <th key={h} style={s.th}>{h}</th>
+                  <th key={h} style={h === 'Actions' ? { ...s.th, ...s.stickyCol, backgroundColor: '#FAFAFA' } : s.th}>{h}</th>
                 ))}
               </tr>
             </thead>
@@ -163,7 +163,7 @@ export default function Products() {
                     <td style={s.td}>
                       <span style={{ ...s.statusDot, backgroundColor: p.isFeatured ? '#34C759' : '#E5E5EA' }} />
                     </td>
-                    <td style={s.td}>
+                    <td style={{ ...s.td, ...s.stickyCol }}>
                       <button
                         style={s.editBtn}
                         disabled={locked && !isOwner}
@@ -230,9 +230,10 @@ const s = {
   filters: { display: 'flex', gap: 12, marginBottom: 20 },
   search: { flex: 1, border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff' },
   select: { border: '1.5px solid #E5E5EA', borderRadius: 10, padding: '11px 16px', fontSize: 14, outline: 'none', backgroundColor: '#fff', minWidth: 180 },
-  tableWrap: { backgroundColor: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
+  tableWrap: { backgroundColor: '#fff', borderRadius: 16, overflowX: 'auto', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' },
+  stickyCol: { position: 'sticky', right: 0, backgroundColor: '#fff', zIndex: 1, boxShadow: '-2px 0 6px rgba(0,0,0,0.06)' },
   table: { width: '100%', borderCollapse: 'collapse' },
-  th: { textAlign: 'left', padding: '14px 16px', fontSize: 11, fontWeight: 700, color: '#8E8E93', letterSpacing: 1, borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA' },
+  th: { textAlign: 'left', padding: '14px 16px', fontSize: 11, fontWeight: 700, color: '#8E8E93', letterSpacing: 1, borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA', whiteSpace: 'nowrap' },
   tr: { borderBottom: '1px solid #F2F2F7' },
   variantRow: { borderBottom: '1px solid #F2F2F7', backgroundColor: '#FAFAFA' },
   td: { padding: '12px 16px', fontSize: 14, color: '#1a1a1a', verticalAlign: 'middle' },
