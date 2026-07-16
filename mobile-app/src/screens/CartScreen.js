@@ -75,6 +75,8 @@ export default function CartScreen({ navigation }) {
     }
   };
 
+  const mrpTotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const productDiscount = mrpTotal - subtotal;
   const total = subtotal - discount + DELIVERY_FEE;
 
   if (items.length === 0) {
@@ -199,12 +201,18 @@ export default function CartScreen({ navigation }) {
             <View style={s.summaryCard}>
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Subtotal ({items.length} items)</Text>
-                <Text style={s.sumVal}>Rs. {subtotal.toLocaleString()}</Text>
+                <Text style={s.sumVal}>Rs. {mrpTotal.toLocaleString()}</Text>
               </View>
+              {productDiscount > 0 && (
+                <View style={s.sumRow}>
+                  <Text style={[s.sumLabel, { color: COLORS.success, fontWeight: '600' }]}>Discount</Text>
+                  <Text style={[s.sumVal, { color: COLORS.success }]}>− Rs. {productDiscount.toLocaleString()}</Text>
+                </View>
+              )}
               {discount > 0 && (
                 <View style={s.sumRow}>
                   <Text style={s.sumLabel}>Promo Discount</Text>
-                  <Text style={[s.sumVal, { color: COLORS.success }]}>- Rs. {discount.toLocaleString()}</Text>
+                  <Text style={[s.sumVal, { color: COLORS.success }]}>− Rs. {discount.toLocaleString()}</Text>
                 </View>
               )}
               <View style={s.sumRow}>
@@ -242,7 +250,7 @@ export default function CartScreen({ navigation }) {
               setShowAuthModal(true);
             } else {
               navigation.navigate('Checkout', {
-                subtotal, discount, deliveryFee: DELIVERY_FEE, total,
+                subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total,
                 promoCode: promoApplied ? promo : '',
               });
             }
