@@ -125,10 +125,7 @@ export default function Home() {
   useEffect(() => {
     productsAPI.getAll({ featured: true, limit: 12 }).then((r) => setFeatured(r.data.products || [])).catch(() => {});
     productsAPI.getAll({ limit: 12 }).then((r) => setProducts(r.data.products || [])).catch(() => {});
-    productsAPI.getAll({ limit: 50 }).then((r) => {
-      const withDiscount = (r.data.products || []).filter((p) => p.discountPrice > 0 && p.discountPrice < p.price);
-      setDeals(withDiscount.slice(0, 8));
-    }).catch(() => {});
+    productsAPI.getAll({ deal: true, limit: 8 }).then((r) => setDeals(r.data.products || [])).catch(() => {});
 
     const t = setInterval(() => setSlide((p) => (p + 1) % BANNERS.length), 4500);
     return () => clearInterval(t);
