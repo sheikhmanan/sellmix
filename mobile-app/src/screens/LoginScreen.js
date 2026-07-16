@@ -3,6 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   ScrollView, Alert, ActivityIndicator, StatusBar, Dimensions, Image,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const LOGIN_IMG = 'https://res.cloudinary.com/dnhuilgay/image/upload/f_auto,q_auto,w_800/ChatGPT_Image_Apr_7_2026_03_22_38_PM_hp4voo';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +12,7 @@ import { COLORS } from '../constants/colors';
 const { height } = Dimensions.get('window');
 
 export default function LoginScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
   const [tab, setTab] = useState('login');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +41,7 @@ export default function LoginScreen({ navigation }) {
       <Image source={{ uri: LOGIN_IMG }} style={s.hero} resizeMode="cover" />
 
       {/* Card */}
-      <ScrollView style={s.card} contentContainerStyle={s.cardContent} keyboardShouldPersistTaps="handled">
+      <ScrollView style={s.card} contentContainerStyle={[s.cardContent, { paddingBottom: Math.max(40, insets.bottom + 24) }]} keyboardShouldPersistTaps="handled">
         {/* Tabs */}
         <View style={s.tabs}>
           <TouchableOpacity style={[s.tab, tab === 'login' && s.tabActive]} onPress={() => setTab('login')}>

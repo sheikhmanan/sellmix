@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, Alert, View, TouchableOpacity, Animated, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useRef, useState } from 'react';
 import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -144,6 +145,7 @@ import OffersScreen from '../screens/OffersScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -162,6 +164,8 @@ function TabIcon({ name, focused }) {
 }
 
 function MainTabs() {
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = 62 + insets.bottom;
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -172,9 +176,9 @@ function MainTabs() {
           backgroundColor: COLORS.white,
           borderTopColor: '#eee',
           borderTopWidth: 1,
-          paddingBottom: 6,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 6,
           paddingTop: 4,
-          height: 62,
+          height: tabBarHeight,
         },
         tabBarIcon: ({ focused }) => <TabIcon name={route.name} focused={focused} />,
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600', marginTop: 2 },
@@ -213,6 +217,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Orders" component={OrdersScreen} options={{ headerShown: false, headerBackVisible: false }} />
         <Stack.Screen name="AboutUs" component={AboutUsScreen} options={{ headerShown: false, headerBackVisible: false }} />
         <Stack.Screen name="ContactUs" component={ContactUsScreen} options={{ headerShown: false, headerBackVisible: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false, headerBackVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

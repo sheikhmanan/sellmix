@@ -3,10 +3,12 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   ScrollView, Alert, ActivityIndicator, StatusBar,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
 
 export default function SignUpScreen({ navigation }) {
+  const insets = useSafeAreaInsets();
   const [form, setForm] = useState({ name: '', mobile: '', password: '', address: '' });
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
@@ -33,7 +35,7 @@ export default function SignUpScreen({ navigation }) {
   return (
     <ScrollView
       style={s.scroll}
-      contentContainerStyle={s.container}
+      contentContainerStyle={[s.container, { paddingBottom: Math.max(32, insets.bottom + 24) }]}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >

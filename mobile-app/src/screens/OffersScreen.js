@@ -65,6 +65,7 @@ export default function OffersScreen({ navigation }) {
               </View>
               <QtyControl
                 qty={qty}
+                outOfStock={item.stock === 0}
                 onAdd={() => addItem(item, 1, null)}
                 onIncrease={() => updateQty(item._id, null, qty + 1)}
                 onDecrease={() => updateQty(item._id, null, qty - 1)}

@@ -11,6 +11,7 @@ const MENU_ITEMS = [
   { icon: '📦', label: 'My Orders', screen: 'Orders' },
   { icon: '📞', label: 'Contact Us', screen: 'ContactUs' },
   { icon: 'ℹ️', label: 'About Us', screen: 'AboutUs' },
+  { icon: '⚙️', label: 'Settings', screen: 'Settings' },
 ];
 
 export default function ProfileScreen({ navigation }) {
@@ -132,7 +133,7 @@ export default function ProfileScreen({ navigation }) {
       {/* App info */}
       <View style={s.appInfo}>
         <Text style={s.appInfoTxt}>SellMix  •  Chichawatni, Pakistan</Text>
-        <Text style={s.appVersion}>Version 1.0.0</Text>
+        <Text style={s.appVersion}>Version 0.10</Text>
       </View>
 
       {/* Logout */}

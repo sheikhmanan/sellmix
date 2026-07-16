@@ -89,9 +89,7 @@ export default function OnboardingScreen({ navigation }) {
                   </View>
                 </View>
               </View>
-            ) : (
-              <Image source={{ uri: LOGIN_IMG }} style={s.box} resizeMode="cover" />
-            )}
+            ) : null}
             <Text style={s.title}>{item.title}</Text>
             <Text style={s.subtitle}>{item.subtitle}</Text>
           </View>

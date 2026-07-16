@@ -51,6 +51,7 @@ export default function ProductCard({ product, onPress }) {
           <QtyControl
             qty={qty}
             compact
+            outOfStock={product.stock === 0}
             onAdd={() => addItem(product, 1, weight)}
             onIncrease={() => updateQty(product._id, weight, qty + 1)}
             onDecrease={() => updateQty(product._id, weight, qty - 1)}
