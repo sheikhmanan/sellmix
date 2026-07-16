@@ -96,6 +96,8 @@ export default function Cart() {
     }
   };
 
+  const mrpTotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const productDiscount = mrpTotal - subtotal;
   const total = subtotal - discount + DELIVERY_FEE;
 
   if (items.length === 0) return (
@@ -166,7 +168,8 @@ export default function Cart() {
 
           {/* Order Summary */}
           <div style={m.summaryBox}>
-            <div style={m.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
+            <div style={m.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {mrpTotal.toLocaleString()}</span></div>
+            {productDiscount > 0 && <div style={m.sumRow}><span style={{ color: COLORS.success, fontWeight: 600 }}>Discount</span><span style={{ color: COLORS.success, fontWeight: 700 }}>− Rs. {productDiscount.toLocaleString()}</span></div>}
             {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
             <div style={m.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
@@ -278,7 +281,8 @@ export default function Cart() {
 
             <div style={s.summaryCard}>
               <h3 style={s.summaryTitle}>Order Summary</h3>
-              <div style={s.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
+              <div style={s.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {mrpTotal.toLocaleString()}</span></div>
+              {productDiscount > 0 && <div style={s.sumRow}><span style={{ color: COLORS.success, fontWeight: 600 }}>Discount</span><span style={{ color: COLORS.success, fontWeight: 700 }}>− Rs. {productDiscount.toLocaleString()}</span></div>}
               {discount > 0 && <div style={s.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
               <div style={s.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={s.sumRow}><span>Tax</span><span>Rs. 0</span></div>
