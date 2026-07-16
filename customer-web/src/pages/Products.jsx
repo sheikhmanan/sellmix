@@ -35,7 +35,7 @@ function ListCard({ product }) {
       </div>
       {outOfStock ? (
         <button style={{ ...lc.addBtn, backgroundColor: '#ccc', cursor: 'default' }} disabled onClick={(e) => e.preventDefault()}>
-          Out of Stock
+          Sold Out
         </button>
       ) : qty === 0 ? (
         <button style={lc.addBtn} onClick={(e) => { e.preventDefault(); addItem(product, 1, weight); }}>

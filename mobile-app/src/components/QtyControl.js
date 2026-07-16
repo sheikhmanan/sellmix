@@ -13,7 +13,15 @@ const MAX = 5;
  *   onDecrease  – called when − is pressed (qty 1 → removes item)
  *   compact     – smaller variant for grid cards (default false)
  */
-export default function QtyControl({ qty, onAdd, onIncrease, onDecrease, compact = false }) {
+export default function QtyControl({ qty, onAdd, onIncrease, onDecrease, compact = false, outOfStock = false }) {
+  if (outOfStock && qty <= 0) {
+    return (
+      <View style={[s.outOfStockBtn, compact && s.outOfStockCompact]}>
+        <Text style={[s.outOfStockTxt, compact && s.outOfStockTxtCompact]}>{compact ? '✕' : 'Sold Out'}</Text>
+      </View>
+    );
+  }
+
   if (qty <= 0) {
     return (
       <TouchableOpacity style={[s.addBtn, compact && s.addBtnCompact]} onPress={onAdd} activeOpacity={0.8}>
@@ -72,6 +80,24 @@ const s = StyleSheet.create({
   },
   btnDisabled: { opacity: 0.4 },
   btnTxtDisabled: {},
+
+  outOfStockBtn: {
+    backgroundColor: '#E5E5EA',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+  outOfStockTxt: { color: '#8E8E93', fontWeight: '700', fontSize: 13 },
+  outOfStockCompact: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  outOfStockTxtCompact: { fontSize: 14, lineHeight: 16 },
 
   // ── Compact (grid cards) ─────────────────────────────────────────────────
   addBtnCompact: {

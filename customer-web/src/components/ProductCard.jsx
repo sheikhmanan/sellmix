@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
 
         {outOfStock ? (
           <button style={{ ...s.addBtn, backgroundColor: '#ccc', cursor: 'default' }} disabled>
-            Out of Stock
+            Sold Out
           </button>
         ) : qty === 0 ? (
           <button style={s.addBtn} onClick={() => addItem({ ...product, price, discountPrice: 0 }, 1, weight)}>

@@ -180,7 +180,7 @@ export default function ProductDetail() {
         <div style={ms.bottomBar}>
           {outOfStock ? (
             <button style={{ ...ms.addBtn, flex: 1, backgroundColor: '#ccc', cursor: 'default' }} disabled>
-              Out of Stock
+              Sold Out
             </button>
           ) : !inCart ? (
             <button
@@ -249,7 +249,7 @@ export default function ProductDetail() {
 
             {outOfStock ? (
               <button style={{ ...s.addBtn, backgroundColor: '#ccc', cursor: 'default' }} disabled>
-                Out of Stock
+                Sold Out
               </button>
             ) : !inCart ? (
               <button

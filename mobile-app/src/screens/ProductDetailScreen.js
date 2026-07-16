@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet,
-  Image, ActivityIndicator,
+  Image, ActivityIndicator, Alert,
 } from 'react-native';
 import { productsAPI, fixImageUrl } from '../services/api';
 import { useCart } from '../context/CartContext';
@@ -184,7 +184,7 @@ export default function ProductDetailScreen({ route, navigation }) {
       <View style={s.bottomBar}>
         {outOfStock ? (
           <View style={[s.addBasketBtn, { backgroundColor: '#ccc' }]}>
-            <Text style={s.addBasketTxt}>Out of Stock</Text>
+            <Text style={s.addBasketTxt}>Sold Out</Text>
           </View>
         ) : !inCart ? (
           <TouchableOpacity
