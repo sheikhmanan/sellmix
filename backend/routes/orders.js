@@ -29,11 +29,14 @@ router.post('/', protect, async (req, res) => {
 
     // Snapshot costPrice from Product; recalculate subtotal server-side to prevent manipulation
     let serverSubtotal = 0;
+    let serverMrpTotal = 0;
     const itemsWithCost = await Promise.all(
       items.map(async (item) => {
         const prod = item.product ? await Product.findById(item.product).select('costPrice price discountPrice') : null;
         const unitPrice = prod ? (prod.discountPrice > 0 ? prod.discountPrice : prod.price) : (item.price || 0);
+        const unitMrp = prod ? prod.price : unitPrice;
         serverSubtotal += unitPrice * (item.quantity || 1);
+        serverMrpTotal += unitMrp * (item.quantity || 1);
         return {
           product: item.product,
           name: item.name,
@@ -45,6 +48,7 @@ router.post('/', protect, async (req, res) => {
         };
       })
     );
+    const serverProductDiscount = serverMrpTotal - serverSubtotal;
 
     // Validate promo code server-side
     let serverDiscount = 0;
@@ -63,6 +67,7 @@ router.post('/', protect, async (req, res) => {
       city: city || process.env.BUSINESS_CITY || 'Chichawatni',
       items: itemsWithCost,
       subtotal: serverSubtotal,
+      productDiscount: serverProductDiscount,
       deliveryFee: serverDeliveryFee,
       discount: serverDiscount,
       total: serverTotal,

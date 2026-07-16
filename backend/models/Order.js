@@ -18,6 +18,7 @@ const orderSchema = new mongoose.Schema({
   address: { type: String, required: true },
   items: [orderItemSchema],
   subtotal: { type: Number, required: true },
+  productDiscount: { type: Number, default: 0 },
   deliveryFee: { type: Number, default: 150 },
   discount: { type: Number, default: 0 },
   total: { type: Number, required: true },
