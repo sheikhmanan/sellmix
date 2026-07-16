@@ -119,7 +119,7 @@ export default function Products() {
           <table style={s.table}>
             <thead>
               <tr>
-                {['Image', 'Product', 'Category', 'Price', 'Discount', 'Stock', 'Featured', 'Actions'].map((h) => (
+                {['Image', 'Product', 'Category', 'Price', 'Discount', 'Stock', 'Featured', 'Daily Deal', 'Actions'].map((h) => (
                   <th key={h} style={s.th}>{h}</th>
                 ))}
               </tr>
@@ -163,13 +163,16 @@ export default function Products() {
                       ) : '—'}
                     </td>
                     <td style={s.td}>
-                      <span style={{ color: p.stock <= 10 ? '#FF3B30' : '#34C759', fontWeight: 700 }}>
+                      <span style={{ color: p.stock <= 6 ? '#FF3B30' : '#34C759', fontWeight: 700 }}>
                         {p.stock} units
-                        {p.stock <= 10 && <span style={s.lowBadge}>LOW</span>}
+                        {p.stock <= 6 && <span style={s.lowBadge}>LOW</span>}
                       </span>
                     </td>
                     <td style={s.td}>
                       <span style={{ ...s.statusDot, backgroundColor: p.isFeatured ? '#34C759' : '#E5E5EA' }} />
+                    </td>
+                    <td style={s.td}>
+                      <span style={{ ...s.statusDot, backgroundColor: p.isDailyDeal ? '#e74c3c' : '#E5E5EA' }} />
                     </td>
                     <td style={s.td}>
                       <button
@@ -203,6 +206,7 @@ export default function Products() {
                       <td style={s.tdV} />
                       <td style={s.tdV} />
                       <td style={s.tdV} />
+                      <td style={s.tdV} />
                       <td style={s.tdV}>
                         <button style={s.editBtnSm} onClick={() => navigate(`/products/edit/${p._id}?variant=${vi}`)}>✏️ Edit</button>
                       </td>
@@ -211,7 +215,7 @@ export default function Products() {
                 ];
               })}
               {!products.length && (
-                <tr><td colSpan={8} style={{ ...s.td, textAlign: 'center', color: '#8E8E93', padding: 40 }}>No products found</td></tr>
+                <tr><td colSpan={9} style={{ ...s.td, textAlign: 'center', color: '#8E8E93', padding: 40 }}>No products found</td></tr>
               )}
             </tbody>
           </table>
