@@ -9,6 +9,7 @@ export default function DailyDeals() {
   const [searchQ, setSearchQ] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
   const [saving, setSaving] = useState({});
   const [pendingExpiry, setPendingExpiry] = useState({});
 
@@ -23,20 +24,22 @@ export default function DailyDeals() {
 
   useEffect(() => { loadDeals(); }, []);
 
-  // Debounced search for the "add" panel
+  // Search: show all non-deal products on focus, filter by query when typing
   useEffect(() => {
-    if (!searchQ.trim()) { setSearchResults([]); return; }
+    if (!inputFocused) return;
     const t = setTimeout(async () => {
       setSearching(true);
       try {
-        const res = await productsAPI.getAll({ search: searchQ, limit: 12 });
+        const params = { limit: 50 };
+        if (searchQ.trim()) params.search = searchQ.trim();
+        const res = await productsAPI.getAll(params);
         const dealIds = new Set(deals.map((d) => d._id));
         setSearchResults((res.data.products || []).filter((p) => !dealIds.has(p._id)));
       } catch {}
       setSearching(false);
-    }, 400);
+    }, searchQ.trim() ? 400 : 0);
     return () => clearTimeout(t);
-  }, [searchQ, deals]);
+  }, [searchQ, deals, inputFocused]);
 
   const setSavingFor = (id, val) => setSaving((prev) => ({ ...prev, [id]: val }));
 
@@ -47,6 +50,7 @@ export default function DailyDeals() {
       setDeals((prev) => [...prev, { ...product, isDailyDeal: true, dealExpiresAt: null }]);
       setSearchResults((prev) => prev.filter((p) => p._id !== product._id));
       setSearchQ('');
+      setInputFocused(false);
     } catch {}
     setSavingFor(product._id, false);
   };
@@ -97,13 +101,15 @@ export default function DailyDeals() {
         <p style={s.sectionLabel}>ADD PRODUCT TO DAILY DEALS</p>
         <input
           style={s.searchInput}
-          placeholder="🔍  Search products by name..."
+          placeholder="🔍  Click to browse or type to search products..."
           value={searchQ}
           onChange={(e) => setSearchQ(e.target.value)}
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setTimeout(() => setInputFocused(false), 200)}
         />
-        {searching && <p style={s.hint}>Searching...</p>}
-        {!searching && searchQ.trim() && searchResults.length === 0 && (
-          <p style={s.hint}>No products found (or all matches are already daily deals).</p>
+        {searching && <p style={s.hint}>Loading...</p>}
+        {!searching && inputFocused && searchResults.length === 0 && (
+          <p style={s.hint}>No products found (or all are already daily deals).</p>
         )}
         {searchResults.length > 0 && (
           <div style={s.searchResults}>
