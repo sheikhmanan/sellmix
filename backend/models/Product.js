@@ -13,6 +13,8 @@ const productSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 },
   isActive: { type: Boolean, default: true },
   isFeatured: { type: Boolean, default: false },
+  isDailyDeal: { type: Boolean, default: false },
+  dealExpiresAt: { type: Date, default: null },
   tags: [{ type: String }],
   nutritionalInfo: { type: String, default: '' },
   cookingInstructions: { type: String, default: '' },

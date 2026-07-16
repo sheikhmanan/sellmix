@@ -18,7 +18,7 @@ const checkProductsUnlocked = (req, res, next) => {
 // GET /api/products
 router.get('/', async (req, res) => {
   try {
-    const { category, search, featured, limit = 20, page = 1 } = req.query;
+    const { category, search, featured, deal, limit = 20, page = 1 } = req.query;
     const query = { isActive: true };
     if (category) {
       const resolveCategoryIds = async (rootId) => {
@@ -36,6 +36,10 @@ router.get('/', async (req, res) => {
       }
     }
     if (featured === 'true') query.isFeatured = true;
+    if (deal === 'true') {
+      query.isDailyDeal = true;
+      query.$or = [{ dealExpiresAt: null }, { dealExpiresAt: { $gte: new Date() } }];
+    }
     if (search) {
       const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       query.name = { $regex: escaped, $options: 'i' };
@@ -80,9 +84,9 @@ router.get('/:id', async (req, res) => {
 
 function pickProductFields(body) {
   const { name, description, price, discountPrice, costPrice, category, stock,
-          unit, images, weightOptions, isActive, featured, tags } = body;
+          unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, tags } = body;
   return { name, description, price, discountPrice, costPrice, category, stock,
-           unit, images, weightOptions, isActive, featured, tags };
+           unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, tags };
 }
 
 // POST /api/products
