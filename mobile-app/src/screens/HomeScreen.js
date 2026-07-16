@@ -55,6 +55,7 @@ function ProductRow({ product, navigation, addItem, items, updateQty }) {
       </View>
       <QtyControl
         qty={qty}
+        outOfStock={product.stock === 0}
         onAdd={() => addItem(product, 1, weight)}
         onIncrease={() => updateQty(product._id, weight, qty + 1)}
         onDecrease={() => updateQty(product._id, weight, qty - 1)}
@@ -106,7 +107,7 @@ export default function HomeScreen({ navigation }) {
     try {
       const [featRes, dealsRes] = await Promise.all([
         productsAPI.getFeatured(),
-        productsAPI.getAll({ limit: 6 }),
+        productsAPI.getAll({ deal: true, limit: 6 }),
       ]);
       setFeatured(expandVariants(featRes.data.products || []));
       setDeals(expandVariants(dealsRes.data.products || []));
