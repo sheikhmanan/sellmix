@@ -194,7 +194,7 @@ export default function Cart() {
             style={{ ...m.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary }}
             onClick={() => {
               if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
-              if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+              if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
             }}
           >
             Checkout
@@ -299,7 +299,7 @@ export default function Cart() {
                 style={{ ...s.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary, cursor: subtotal < MIN_ORDER ? 'not-allowed' : 'pointer' }}
                 onClick={() => {
                   if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
-                  if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+                  if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
                 }}
               >
                 Proceed to Checkout →
