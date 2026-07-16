@@ -10,6 +10,7 @@ const NAV = [
   { to: '/categories', icon: '🏷️', label: 'Cats' },
   { to: '/inventory',  icon: '📋', label: 'Inventory' },
   { to: '/low-stock',  icon: '🔴', label: 'Low Stock', alert: true },
+  { to: '/daily-deals', icon: '🔥', label: 'Deals' },
   { to: '/users',      icon: '👥', label: 'Users' },
   { to: '/reports',    icon: '📊', label: 'Reports' },
 ];

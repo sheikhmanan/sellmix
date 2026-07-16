@@ -31,6 +31,7 @@ export const productsAPI = {
   getById: (id) => api.get(`/products/${id}`),
   create: (data) => api.post('/products', data),
   update: (id, data) => api.put(`/products/${id}`, data),
+  updateDeal: (id, isDailyDeal, dealExpiresAt) => api.put(`/products/${id}`, { isDailyDeal, dealExpiresAt }),
   updateStock: (id, stock) => api.patch(`/products/${id}/stock`, { stock }),
   delete: (id) => api.delete(`/products/${id}`),
   getLowStock: () => api.get('/products/low-stock'),

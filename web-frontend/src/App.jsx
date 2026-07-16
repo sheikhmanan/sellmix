@@ -11,6 +11,7 @@ import Reports from './pages/Reports';
 import Categories from './pages/Categories';
 import LowStock from './pages/LowStock';
 import Users from './pages/Users';
+import DailyDeals from './pages/DailyDeals';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -34,6 +35,7 @@ export default function App() {
         <Route path="inventory" element={<Inventory />} />
         <Route path="low-stock" element={<LowStock />} />
         <Route path="users" element={<Users />} />
+        <Route path="daily-deals" element={<DailyDeals />} />
         <Route path="reports" element={<Reports />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
