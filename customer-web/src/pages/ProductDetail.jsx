@@ -185,7 +185,7 @@ export default function ProductDetail() {
           ) : !inCart ? (
             <button
               style={{ ...ms.addBtn, flex: 1 }}
-              onClick={() => addItem({ ...product, price, discountPrice: 0 }, 1, selectedWeight)}
+              onClick={() => addItem({ ...product, price: mrpPrice, discountPrice: hasDiscount ? price : 0 }, 1, selectedWeight)}
             >
               + Add to Cart
             </button>
@@ -254,7 +254,7 @@ export default function ProductDetail() {
             ) : !inCart ? (
               <button
                 style={s.addBtn}
-                onClick={() => addItem({ ...product, price, discountPrice: 0 }, 1, selectedWeight)}
+                onClick={() => addItem({ ...product, price: mrpPrice, discountPrice: hasDiscount ? price : 0 }, 1, selectedWeight)}
               >
                 + Add to Cart
               </button>

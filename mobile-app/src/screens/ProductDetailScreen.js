@@ -189,7 +189,7 @@ export default function ProductDetailScreen({ route, navigation }) {
         ) : !inCart ? (
           <TouchableOpacity
             style={s.addBasketBtn}
-            onPress={() => addItem({ ...product, price, discountPrice: 0 }, 1, selectedWeight)}
+            onPress={() => addItem({ ...product, price: mrpPrice, discountPrice: hasDiscount ? price : 0 }, 1, selectedWeight)}
           >
             <Text style={s.addBasketTxt}>+ Add to Cart</Text>
           </TouchableOpacity>
