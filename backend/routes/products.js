@@ -7,6 +7,9 @@ const { protect } = require('../middleware/auth');
 const { adminOnly } = require('../middleware/adminAuth');
 const { readSettings } = require('../utils/settings');
 
+const isDev = process.env.NODE_ENV !== 'production';
+const errMsg = (err) => isDev ? err.message : 'Internal server error';
+
 const checkProductsUnlocked = (req, res, next) => {
   const { productsLocked } = readSettings();
   if (productsLocked && req.user.role !== 'owner') {
@@ -18,7 +21,8 @@ const checkProductsUnlocked = (req, res, next) => {
 // GET /api/products
 router.get('/', async (req, res) => {
   try {
-    const { category, search, featured, deal, limit = 20, page = 1 } = req.query;
+    const { category, search, featured, deal, page = 1 } = req.query;
+    const limit = Math.min(Number(req.query.limit) || 20, 200);
     const query = { isActive: true };
     if (category) {
       const resolveCategoryIds = async (rootId) => {
@@ -48,13 +52,13 @@ router.get('/', async (req, res) => {
     const products = await Product.find(query)
       .populate('category', 'name icon')
       .sort({ name: 1 })
-      .limit(Number(limit))
-      .skip((Number(page) - 1) * Number(limit));
+      .limit(limit)
+      .skip((Number(page) - 1) * limit);
 
     const total = await Product.countDocuments(query);
-    res.json({ products, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+    res.json({ products, total, page: Number(page), pages: Math.ceil(total / limit) });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -65,7 +69,7 @@ router.get('/low-stock', protect, adminOnly, async (req, res) => {
       .populate('category', 'name');
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -78,7 +82,7 @@ router.get('/:id', async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -99,7 +103,7 @@ router.post('/', protect, adminOnly, checkProductsUnlocked, async (req, res) => 
     const product = await Product.create(pickProductFields(req.body));
     res.status(201).json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -114,7 +118,7 @@ router.put('/:id', protect, adminOnly, checkProductsUnlocked, async (req, res) =
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -125,7 +129,7 @@ router.patch('/:id/stock', protect, adminOnly, checkProductsUnlocked, async (req
     const product = await Product.findByIdAndUpdate(req.params.id, { stock }, { new: true });
     res.json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -135,7 +139,7 @@ router.delete('/:id', protect, adminOnly, checkProductsUnlocked, async (req, res
     await Product.findByIdAndUpdate(req.params.id, { isActive: false });
     res.json({ message: 'Product removed' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 

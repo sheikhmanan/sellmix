@@ -4,6 +4,9 @@ const Category = require('../models/Category');
 const { protect } = require('../middleware/auth');
 const { adminOnly } = require('../middleware/adminAuth');
 
+const isDev = process.env.NODE_ENV !== 'production';
+const errMsg = (err) => isDev ? err.message : 'Internal server error';
+
 router.get('/', async (req, res) => {
   try {
     const { level, parent } = req.query;
@@ -14,7 +17,7 @@ router.get('/', async (req, res) => {
     const cats = await Category.find(query).populate('parent', 'name icon level');
     res.json(cats);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -28,7 +31,7 @@ router.post('/', protect, adminOnly, async (req, res) => {
     const cat = await Category.create(pickCatFields(req.body));
     res.status(201).json(cat);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -42,7 +45,7 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
     if (!cat) return res.status(404).json({ message: 'Category not found' });
     res.json(cat);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -51,7 +54,7 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
     await Category.findByIdAndUpdate(req.params.id, { isActive: false });
     res.json({ message: 'Category deactivated' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 

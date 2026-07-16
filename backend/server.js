@@ -1,14 +1,26 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
 const path = require('path');
 const connectDB = require('./config/db');
 
 dotenv.config();
+
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET environment variable is not set');
+  process.exit(1);
+}
+
 connectDB();
 
 const app = express();
+
+// Trust Nginx reverse proxy so rate-limit uses real client IP from X-Forwarded-For
+app.set('trust proxy', 1);
+
+app.use(helmet());
 
 // CORS — in development allow all localhost ports; in production restrict to ALLOWED_ORIGINS
 const isDev = process.env.NODE_ENV !== 'production';
@@ -27,10 +39,10 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({ limit: '1mb' }));
 
-// Global rate limit — 1000 requests per 15 minutes per IP
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000, standardHeaders: true, legacyHeaders: false }));
+// Global rate limit — 500 requests per 15 minutes per IP
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 500, standardHeaders: true, legacyHeaders: false }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/api/auth', require('./routes/auth'));

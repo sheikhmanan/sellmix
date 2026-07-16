@@ -5,14 +5,26 @@ const rateLimit = require('express-rate-limit');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
 
+const isDev = process.env.NODE_ENV !== 'production';
+const errMsg = (err) => isDev ? err.message : 'Internal server error';
+
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '30d' });
 
-// Rate limit for auth endpoints — 200 attempts per 15 min per IP
+// Rate limit: 20 login/register attempts per 15 min per IP
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 200,
+  max: 20,
   message: { message: 'Too many attempts, please try again after 15 minutes' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Stricter limit for password reset: 5 attempts per hour per IP
+const resetLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  message: { message: 'Too many reset attempts, please try again after 1 hour' },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -37,7 +49,7 @@ router.post('/register', authLimiter, async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -58,12 +70,12 @@ router.post('/login', authLimiter, async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
 // POST /api/auth/reset-password
-router.post('/reset-password', authLimiter, async (req, res) => {
+router.post('/reset-password', resetLimiter, async (req, res) => {
   try {
     const { mobile, newPassword } = req.body;
     if (!mobile || !newPassword) return res.status(400).json({ message: 'Mobile and new password are required' });
@@ -74,7 +86,7 @@ router.post('/reset-password', authLimiter, async (req, res) => {
     await user.save();
     res.json({ message: 'Password reset successful' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -85,7 +97,7 @@ router.get('/users', protect, adminOnly, async (req, res) => {
     const users = await User.find({ role: 'customer' }, 'name mobile address city createdAt').sort({ createdAt: -1 });
     res.json(users);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -102,7 +114,7 @@ router.put('/profile', protect, async (req, res) => {
     const updated = await user.save();
     res.json({ _id: updated._id, name: updated.name, mobile: updated.mobile, address: updated.address });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 

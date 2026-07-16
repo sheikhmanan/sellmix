@@ -9,6 +9,8 @@ const { sendWhatsApp, orderPlacedAdminMsg, orderPlacedCustomerMsg } = require('.
 // POST /api/orders — place order (requires login)
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const isDev = process.env.NODE_ENV !== 'production';
+const errMsg = (err) => isDev ? err.message : 'Internal server error';
 router.post('/', protect, async (req, res) => {
   try {
     const { customerName, whatsapp, address, items, subtotal, deliveryFee, discount,
@@ -97,7 +99,7 @@ router.post('/', protect, async (req, res) => {
 
     res.status(201).json(order);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -112,15 +114,24 @@ router.post('/validate-promo', (req, res) => {
   res.json({ valid: true, discount, rate });
 });
 
-// GET /api/orders/track/:orderId — public tracking
+// GET /api/orders/track/:orderId — public tracking (safe subset only)
 router.get('/track/:orderId', async (req, res) => {
   try {
+    // Validate orderId format to prevent injection/enumeration probing
+    if (!/^SLX-\d+$/.test(req.params.orderId)) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
     const order = await Order.findOne({ orderId: req.params.orderId })
+      .select('orderId status customerName city deliverySlot items subtotal deliveryFee discount total paymentMethod createdAt')
       .populate('items.product', 'name images');
     if (!order) return res.status(404).json({ message: 'Order not found' });
-    res.json(order);
+
+    // Strip costPrice from items before sending — it's internal business data
+    const safeOrder = order.toObject();
+    safeOrder.items = safeOrder.items.map(({ costPrice: _, ...item }) => item);
+    res.json(safeOrder);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -149,7 +160,7 @@ router.get('/stats/dashboard', protect, adminOnly, async (req, res) => {
       recentOrders,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -208,7 +219,7 @@ router.get('/reports/daily', protect, adminOnly, async (req, res) => {
       products: Object.values(productMap).sort((a, b) => b.qtySold - a.qtySold),
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -247,7 +258,7 @@ router.get('/reports/range', protect, adminOnly, async (req, res) => {
     }
     res.json(result);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -259,7 +270,7 @@ router.get('/my', protect, async (req, res) => {
       .populate('items.product', 'name images price discountPrice stock');
     res.json(orders);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -276,7 +287,7 @@ router.get('/', protect, adminOnly, async (req, res) => {
     ]);
     res.json({ orders, total, page: Number(page) });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
@@ -307,7 +318,7 @@ router.patch('/:id/status', protect, adminOnly, async (req, res) => {
     await order.save();
     res.json(order);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: errMsg(err) });
   }
 });
 
