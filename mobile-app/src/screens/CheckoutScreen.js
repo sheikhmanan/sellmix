@@ -122,7 +122,11 @@ export default function CheckoutScreen({ route, navigation }) {
         ]
       );
     } catch (err) {
-      Alert.alert('Order Failed', err.message);
+      const isSessionExpired = err.message?.toLowerCase().includes('token');
+      Alert.alert(
+        isSessionExpired ? 'Session Expired' : 'Order Failed',
+        isSessionExpired ? 'Your session has expired. Please log in again.' : err.message
+      );
     } finally {
       setLoading(false);
     }

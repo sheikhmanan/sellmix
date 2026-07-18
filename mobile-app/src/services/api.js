@@ -7,6 +7,10 @@ const BASE_URL = API_BASE_URL;
 
 const api = axios.create({ baseURL: BASE_URL, timeout: 10000 });
 
+// Set by AuthContext so the interceptor can trigger logout on 401
+let _logoutCallback = null;
+export const setLogoutCallback = (fn) => { _logoutCallback = fn; };
+
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
@@ -15,8 +19,13 @@ api.interceptors.request.use(async (config) => {
 
 api.interceptors.response.use(
   (res) => res,
-  (err) => {
+  async (err) => {
+    const status = err.response?.status;
     const msg = err.response?.data?.message || 'Network error';
+    if (status === 401 && _logoutCallback) {
+      await AsyncStorage.multiRemove(['token', 'user']);
+      _logoutCallback();
+    }
     return Promise.reject(new Error(msg));
   }
 );
