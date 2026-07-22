@@ -102,7 +102,6 @@ function printOrder(o) {
   </table>
   <div class="totals">
     <div><span>Subtotal</span><span>Rs. ${(o.productDiscount > 0 ? o.subtotal + o.productDiscount : o.subtotal)?.toLocaleString()}</span></div>
-    ${o.productDiscount > 0 ? `<div style="color:#34C759"><span>Product Discount</span><span>- Rs. ${o.productDiscount?.toLocaleString()}</span></div>` : ''}
     <div><span>Delivery Fee</span><span>Rs. ${o.deliveryFee?.toLocaleString()}</span></div>
     ${o.discount > 0 ? `<div style="color:#34C759"><span>Promo Discount</span><span>- Rs. ${o.discount?.toLocaleString()}</span></div>` : ''}
     <div class="grand"><span>Total</span><span>Rs. ${o.total?.toLocaleString()}</span></div>
@@ -470,7 +469,6 @@ export default function Orders() {
                             </div>
                             <div style={s.summaryRight}>
                               <div style={s.summaryRow}><span>Subtotal</span><span>Rs. {(o.productDiscount > 0 ? o.subtotal + o.productDiscount : o.subtotal)?.toLocaleString()}</span></div>
-                              {o.productDiscount > 0 && <div style={{ ...s.summaryRow, color: '#34C759' }}><span>Product Discount</span><span>− Rs. {o.productDiscount?.toLocaleString()}</span></div>}
                               <div style={s.summaryRow}><span>Delivery Fee</span><span>Rs. {o.deliveryFee?.toLocaleString()}</span></div>
                               {o.discount > 0 && <div style={{ ...s.summaryRow, color: '#34C759' }}><span>Promo Discount</span><span>− Rs. {o.discount?.toLocaleString()}</span></div>}
                               <div style={{ ...s.summaryRow, fontWeight: 800, fontSize: 15, borderTop: '1.5px solid #dbeafe', paddingTop: 8, marginTop: 4 }}>
