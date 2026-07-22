@@ -200,7 +200,7 @@ export default function Checkout() {
             ))}
             <div style={m.subtotalRow}>
               <span style={m.subtotalLabel}>Cart Subtotal</span>
-              <span style={m.subtotalVal}>Rs. {(mrpTotal || subtotal).toLocaleString()}</span>
+              <span style={m.subtotalVal}>Rs. {subtotal.toLocaleString()}</span>
             </div>
           </div>
 
@@ -251,7 +251,7 @@ export default function Checkout() {
           {/* Order Total */}
           <div style={m.card}>
             <p style={m.cardTitle}>Order Total</p>
-            <div style={m.sumRow}><span>Subtotal</span><span>Rs. {(mrpTotal || subtotal).toLocaleString()}</span></div>
+            <div style={m.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
             {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
             <div style={m.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
@@ -321,7 +321,7 @@ export default function Checkout() {
               ))}
               <div style={s.subtotalRow}>
                 <span style={s.subtotalLabel}>Cart Subtotal</span>
-                <span style={s.subtotalVal}>Rs. {(mrpTotal || subtotal).toLocaleString()}</span>
+                <span style={s.subtotalVal}>Rs. {subtotal.toLocaleString()}</span>
               </div>
             </div>
 
@@ -370,7 +370,7 @@ export default function Checkout() {
           <div style={s.summaryCol}>
             <div style={s.summaryCard}>
               <h2 style={s.cardTitle}>Order Total</h2>
-              <div style={s.sumRow}><span>Subtotal</span><span>Rs. {(mrpTotal || subtotal).toLocaleString()}</span></div>
+              <div style={s.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
               {discount > 0 && <div style={s.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
               <div style={s.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={{ ...s.sumRow, ...s.totalRow }}>

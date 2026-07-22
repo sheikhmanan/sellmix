@@ -201,14 +201,8 @@ export default function CartScreen({ navigation }) {
             <View style={s.summaryCard}>
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Subtotal ({items.length} items)</Text>
-                <Text style={s.sumVal}>Rs. {mrpTotal.toLocaleString()}</Text>
+                <Text style={s.sumVal}>Rs. {subtotal.toLocaleString()}</Text>
               </View>
-              {productDiscount > 0 && (
-                <View style={s.sumRow}>
-                  <Text style={[s.sumLabel, { color: COLORS.success, fontWeight: '600' }]}>Discount</Text>
-                  <Text style={[s.sumVal, { color: COLORS.success }]}>− Rs. {productDiscount.toLocaleString()}</Text>
-                </View>
-              )}
               {discount > 0 && (
                 <View style={s.sumRow}>
                   <Text style={s.sumLabel}>Promo Discount</Text>
