@@ -9,8 +9,8 @@ export default function AddProduct() {
   const isEdit = !!id;
 
   const [form, setForm] = useState({
-    name: '', description: '', category: '', price: '', discountPrice: '', costPrice: '',
-    unit: 'kg', stock: '', isFeatured: false, nutritionalInfo: '', cookingInstructions: '',
+    name: '', description: '', category: '', price: '', discountPrice: '', costPrice: '', expiryDate: '',
+    unit: 'kg', stock: '', isFeatured: false, isDailyDeal: false, dealExpiresAt: '', nutritionalInfo: '', cookingInstructions: '',
   });
   const [categories, setCategories] = useState([]);
   const [selectedL1, setSelectedL1] = useState('');
@@ -40,9 +40,12 @@ export default function AddProduct() {
         price: p.price || '',
         discountPrice: p.discountPrice || '',
         costPrice: p.costPrice || '',
+        expiryDate: p.expiryDate ? p.expiryDate.slice(0, 10) : '',
         unit: p.unit || 'kg',
         stock: p.stock ?? '',
         isFeatured: p.isFeatured || false,
+        isDailyDeal: p.isDailyDeal || false,
+        dealExpiresAt: p.dealExpiresAt ? p.dealExpiresAt.slice(0, 10) : '',
         nutritionalInfo: p.nutritionalInfo || '',
         cookingInstructions: p.cookingInstructions || '',
       });
@@ -144,6 +147,8 @@ export default function AddProduct() {
         discountPrice: Number(form.discountPrice) || 0,
         costPrice: Number(form.costPrice) || 0,
         stock: Number(form.stock),
+        dealExpiresAt: form.dealExpiresAt || null,
+        expiryDate: form.expiryDate || null,
         images: imageUrl ? [imageUrl] : [],
         weightOptions,
       };
@@ -225,6 +230,10 @@ export default function AddProduct() {
               <label style={s.label}>Sale Price (PKR) <span style={{ color: '#e74c3c', fontSize: 11, fontWeight: 600 }}>shown to customer</span></label>
               <input style={s.input} type="number" placeholder="0.00" value={form.discountPrice} onChange={(e) => set('discountPrice', e.target.value)} />
             </div>
+            <div style={{ ...s.field, flex: 1 }}>
+              <label style={s.label}>Expiry Date <span style={{ color: '#aaa', fontSize: 11 }}>optional</span></label>
+              <input style={s.input} type="date" value={form.expiryDate} onChange={(e) => set('expiryDate', e.target.value)} />
+            </div>
           </div>
 
           <div style={s.row}>
@@ -267,6 +276,17 @@ export default function AddProduct() {
             <input type="checkbox" checked={form.isFeatured} onChange={(e) => set('isFeatured', e.target.checked)} style={{ width: 18, height: 18 }} />
             Featured Product (show on home page)
           </label>
+
+          <label style={{ ...s.label, display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginTop: 12 }}>
+            <input type="checkbox" checked={form.isDailyDeal} onChange={(e) => set('isDailyDeal', e.target.checked)} style={{ width: 18, height: 18 }} />
+            Daily Deal (show in Daily Deals section)
+          </label>
+          {form.isDailyDeal && (
+            <div style={{ ...s.field, marginTop: 12 }}>
+              <label style={s.label}>Deal Expires On <span style={{ color: '#aaa', fontSize: 11 }}>optional — leave blank to keep running until unchecked</span></label>
+              <input style={s.input} type="date" value={form.dealExpiresAt} onChange={(e) => set('dealExpiresAt', e.target.value)} />
+            </div>
+          )}
 
           {error && <p style={s.error}>{error}</p>}
         </div>

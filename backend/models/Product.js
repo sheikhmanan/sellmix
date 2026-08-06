@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
   weightOptions: [{ weight: String, price: Number, salePrice: { type: Number, default: 0 }, image: { type: String, default: '' } }],
   unit: { type: String, default: 'kg' },
   stock: { type: Number, default: 0 },
+  expiryDate: { type: Date, default: null },
   isActive: { type: Boolean, default: true },
   isFeatured: { type: Boolean, default: false },
   isDailyDeal: { type: Boolean, default: false },

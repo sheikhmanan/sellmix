@@ -88,9 +88,9 @@ router.get('/:id', async (req, res) => {
 
 function pickProductFields(body) {
   const { name, description, price, discountPrice, costPrice, category, stock,
-          unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, tags } = body;
+          unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, expiryDate, tags } = body;
   return { name, description, price, discountPrice, costPrice, category, stock,
-           unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, tags };
+           unit, images, weightOptions, isActive, isFeatured, isDailyDeal, dealExpiresAt, expiryDate, tags };
 }
 
 // POST /api/products
