@@ -13,8 +13,8 @@ const isDev = process.env.NODE_ENV !== 'production';
 const errMsg = (err) => isDev ? err.message : 'Internal server error';
 router.post('/', protect, async (req, res) => {
   try {
-    const { customerName, whatsapp, address, items, subtotal, deliveryFee, discount,
-            total, paymentMethod, promoCode, notes, city, deliverySlot } = req.body;
+    const { customerName, whatsapp, address, items, subtotal, deliveryFee,
+            total, paymentMethod, notes, city, deliverySlot } = req.body;
 
     // Basic field validation
     if (!customerName?.trim()) return res.status(400).json({ message: 'Customer name is required' });
@@ -52,14 +52,8 @@ router.post('/', protect, async (req, res) => {
     );
     const serverProductDiscount = serverMrpTotal - serverSubtotal;
 
-    // Validate promo code server-side
-    let serverDiscount = 0;
-    if (promoCode && PROMO_CODES[promoCode.toUpperCase()]) {
-      serverDiscount = Math.round(serverSubtotal * PROMO_CODES[promoCode.toUpperCase()]);
-    }
-
     const serverDeliveryFee = typeof deliveryFee === 'number' ? deliveryFee : 150;
-    const serverTotal = serverSubtotal + serverDeliveryFee - serverDiscount;
+    const serverTotal = serverSubtotal + serverDeliveryFee;
 
     const order = await Order.create({
       user: req.user._id,
@@ -71,10 +65,8 @@ router.post('/', protect, async (req, res) => {
       subtotal: serverSubtotal,
       productDiscount: serverProductDiscount,
       deliveryFee: serverDeliveryFee,
-      discount: serverDiscount,
       total: serverTotal,
       paymentMethod: paymentMethod || 'COD',
-      promoCode: promoCode?.toUpperCase() || '',
       notes: notes?.trim() || '',
       deliverySlot: deliverySlot || {},
     });
@@ -101,17 +93,6 @@ router.post('/', protect, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: errMsg(err) });
   }
-});
-
-// POST /api/orders/validate-promo — validate promo code without placing order
-const PROMO_CODES = { SELLMIX20: 0.20, FIRST10: 0.10 };
-router.post('/validate-promo', (req, res) => {
-  const { code, subtotal } = req.body;
-  if (!code) return res.status(400).json({ message: 'Promo code required' });
-  const rate = PROMO_CODES[code.toUpperCase()];
-  if (!rate) return res.status(400).json({ message: 'Invalid promo code' });
-  const discount = Math.round((subtotal || 0) * rate);
-  res.json({ valid: true, discount, rate });
 });
 
 // GET /api/orders/track/:orderId — public tracking (safe subset only)

@@ -114,7 +114,7 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { items, clearCart } = useCart();
   const { user } = useAuth();
-  const { subtotal = 0, mrpTotal = 0, productDiscount = 0, discount = 0, deliveryFee = 0, total = 0, promoCode = '' } = state || {};
+  const { subtotal = 0, mrpTotal = 0, productDiscount = 0, deliveryFee = 0, total = 0 } = state || {};
 
   useEffect(() => { if (!user) navigate('/login', { replace: true }); }, [user]);
 
@@ -140,7 +140,7 @@ export default function Checkout() {
         whatsapp: form.whatsapp,
         address: form.address,
         items: items.map((i) => ({ product: i._id, name: i.name, price: i.discountPrice || i.price, quantity: i.quantity, weight: i.selectedWeight, image: i.images?.[0] || '' })),
-        subtotal, deliveryFee, discount, total, paymentMethod, promoCode,
+        subtotal, deliveryFee, total, paymentMethod,
         deliverySlot: { date: selectedDate, slot: selectedSlot },
       });
       clearCart();
@@ -252,7 +252,6 @@ export default function Checkout() {
           <div style={m.card}>
             <p style={m.cardTitle}>Order Total</p>
             <div style={m.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
-            {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
             <div style={m.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
             <div style={m.totalRow}>
@@ -371,7 +370,6 @@ export default function Checkout() {
             <div style={s.summaryCard}>
               <h2 style={s.cardTitle}>Order Total</h2>
               <div style={s.sumRow}><span>Subtotal</span><span>Rs. {subtotal.toLocaleString()}</span></div>
-              {discount > 0 && <div style={s.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
               <div style={s.sumRow}><span>Delivery Fee</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={{ ...s.sumRow, ...s.totalRow }}>
                 <span style={s.totalLabel}>Total Amount</span>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   View, Text, FlatList, ScrollView, TouchableOpacity, StyleSheet,
-  Image, TextInput, Alert, Modal,
+  Image, Alert, Modal,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -59,25 +59,11 @@ const DELIVERY_FEE = 0;
 export default function CartScreen({ navigation }) {
   const { items, addItem, updateQty, removeItem, subtotal, clearCart } = useCart();
   const { user } = useAuth();
-  const [promo, setPromo] = useState('');
-  const [discount, setDiscount] = useState(0);
-  const [promoApplied, setPromoApplied] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  const applyPromo = async () => {
-    try {
-      const res = await ordersAPI.validatePromo(promo, subtotal);
-      setDiscount(res.data.discount);
-      setPromoApplied(true);
-      Alert.alert('✅ Promo Applied!', `You saved Rs. ${res.data.discount}!`);
-    } catch {
-      Alert.alert('Invalid Code', 'This promo code is not valid.');
-    }
-  };
 
   const mrpTotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const productDiscount = mrpTotal - subtotal;
-  const total = subtotal - discount + DELIVERY_FEE;
+  const total = subtotal + DELIVERY_FEE;
 
   if (items.length === 0) {
     return (
@@ -174,41 +160,12 @@ export default function CartScreen({ navigation }) {
             {/* Buy Again */}
             <BuyAgainRow user={user} addItem={addItem} />
 
-            {/* Promo Code */}
-            <View style={s.promoCard}>
-              <Text style={s.promoLabel}>PROMO CODE</Text>
-              <View style={s.promoRow}>
-                <TextInput
-                  style={s.promoInput}
-                  placeholder="Enter code (e.g. SELLMIX20)"
-                  value={promo}
-                  onChangeText={setPromo}
-                  editable={!promoApplied}
-                  placeholderTextColor={COLORS.textMuted}
-                  autoCapitalize="characters"
-                />
-                <TouchableOpacity
-                  style={[s.promoBtn, promoApplied && { backgroundColor: COLORS.success }]}
-                  onPress={applyPromo}
-                  disabled={promoApplied}
-                >
-                  <Text style={s.promoBtnTxt}>{promoApplied ? '✓' : 'Apply'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
             {/* Summary */}
             <View style={s.summaryCard}>
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Subtotal ({items.length} items)</Text>
                 <Text style={s.sumVal}>Rs. {subtotal.toLocaleString()}</Text>
               </View>
-              {discount > 0 && (
-                <View style={s.sumRow}>
-                  <Text style={s.sumLabel}>Promo Discount</Text>
-                  <Text style={[s.sumVal, { color: COLORS.success }]}>− Rs. {discount.toLocaleString()}</Text>
-                </View>
-              )}
               <View style={s.sumRow}>
                 <Text style={s.sumLabel}>Delivery Fee (Chichawatni)</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -244,8 +201,7 @@ export default function CartScreen({ navigation }) {
               setShowAuthModal(true);
             } else {
               navigation.navigate('Checkout', {
-                subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total,
-                promoCode: promoApplied ? promo : '',
+                subtotal, mrpTotal, productDiscount, deliveryFee: DELIVERY_FEE, total,
               });
             }
           }}
@@ -345,18 +301,6 @@ const s = StyleSheet.create({
   qtyBtnTxt: { fontSize: 17, color: COLORS.text, lineHeight: 19 },
   qty: { fontSize: 15, fontWeight: '700', color: COLORS.text, minWidth: 20, textAlign: 'center' },
   itemTotal: { fontSize: 15, fontWeight: '800', color: COLORS.primary },
-
-  // Promo
-  promoCard: { backgroundColor: COLORS.white, borderRadius: 14, padding: 16, marginBottom: 12 },
-  promoLabel: { fontSize: 11, fontWeight: '700', color: COLORS.textMuted, letterSpacing: 1.2, marginBottom: 10 },
-  promoRow: { flexDirection: 'row', gap: 10 },
-  promoInput: {
-    flex: 1, borderWidth: 1.5, borderColor: COLORS.border,
-    borderRadius: 10, padding: 12, fontSize: 14, color: COLORS.text,
-    backgroundColor: COLORS.secondary,
-  },
-  promoBtn: { backgroundColor: COLORS.primary, paddingHorizontal: 20, borderRadius: 10, justifyContent: 'center' },
-  promoBtnTxt: { color: COLORS.white, fontWeight: '700', fontSize: 14 },
 
   // Summary
   summaryCard: { backgroundColor: COLORS.white, borderRadius: 14, padding: 16 },

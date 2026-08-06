@@ -51,7 +51,6 @@ export const ordersAPI = {
   place: (data) => api.post('/orders', data),
   track: (orderId) => api.get(`/orders/track/${orderId}`),
   getMyOrders: () => api.get('/orders/my'),
-  validatePromo: (code, subtotal) => api.post('/orders/validate-promo', { code, subtotal }),
 };
 
 // On a real device, "localhost" resolves to the phone itself, not the PC.

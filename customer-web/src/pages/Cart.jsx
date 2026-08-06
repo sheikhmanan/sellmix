@@ -78,27 +78,12 @@ export default function Cart() {
   const isMobile = useIsMobile();
   const { items, addItem, updateQty, removeItem, subtotal, clearCart } = useCart();
   const { user } = useAuth();
-  const [promo, setPromo] = useState('');
-  const [discount, setDiscount] = useState(0);
-  const [promoApplied, setPromoApplied] = useState(false);
-  const [promoMsg, setPromoMsg] = useState('');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const navigate = useNavigate();
 
-  const applyPromo = async () => {
-    try {
-      const res = await ordersAPI.validatePromo(promo, subtotal);
-      setDiscount(res.data.discount);
-      setPromoApplied(true);
-      setPromoMsg(`✅ Saved Rs. ${res.data.discount}!`);
-    } catch {
-      setPromoMsg('❌ Invalid promo code');
-    }
-  };
-
   const mrpTotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const productDiscount = mrpTotal - subtotal;
-  const total = subtotal - discount + DELIVERY_FEE;
+  const total = subtotal + DELIVERY_FEE;
 
   if (items.length === 0) return (
     <div style={s.emptyWrap}>
@@ -150,26 +135,9 @@ export default function Cart() {
             );
           })}
 
-          {/* Promo Code */}
-          <div style={m.section}>
-            <p style={m.sectionLabel}>PROMO CODE</p>
-            <div style={m.promoRow}>
-              <input
-                style={m.promoInput}
-                placeholder="Enter promo code"
-                value={promo}
-                onChange={(e) => setPromo(e.target.value.toUpperCase())}
-                disabled={promoApplied}
-              />
-              <button style={m.promoBtn} onClick={applyPromo} disabled={promoApplied}>Apply</button>
-            </div>
-            {promoMsg && <p style={{ fontSize: 12, marginTop: 6, color: promoApplied ? COLORS.success : COLORS.error }}>{promoMsg}</p>}
-          </div>
-
           {/* Order Summary */}
           <div style={m.summaryBox}>
             <div style={m.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
-            {discount > 0 && <div style={m.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
             <div style={m.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
             <div style={m.sumRow}><span>Tax</span><span>Rs. 0</span></div>
             <div style={m.totalRow}>
@@ -193,7 +161,7 @@ export default function Cart() {
             style={{ ...m.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary }}
             onClick={() => {
               if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
-              if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+              if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, deliveryFee: DELIVERY_FEE, total } }); }
             }}
           >
             Checkout
@@ -261,27 +229,8 @@ export default function Cart() {
 
           <div style={s.summaryCol}>
             <div style={s.summaryCard}>
-              <h3 style={s.summaryTitle}>Promo Code</h3>
-              <div style={s.promoRow}>
-                <input
-                  style={s.promoInput}
-                  placeholder="Enter promo code"
-                  value={promo}
-                  onChange={(e) => setPromo(e.target.value.toUpperCase())}
-                  disabled={promoApplied}
-                />
-                <button style={s.promoBtn} onClick={applyPromo} disabled={promoApplied}>
-                  {promoApplied ? '✓' : 'Apply'}
-                </button>
-              </div>
-              {promoMsg && <p style={{ fontSize: 13, marginTop: 8, color: promoApplied ? COLORS.success : COLORS.error }}>{promoMsg}</p>}
-              <p style={s.promoHint}>Have a promo code? Apply it above.</p>
-            </div>
-
-            <div style={s.summaryCard}>
               <h3 style={s.summaryTitle}>Order Summary</h3>
               <div style={s.sumRow}><span>Subtotal ({items.length} items)</span><span>Rs. {subtotal.toLocaleString()}</span></div>
-              {discount > 0 && <div style={s.sumRow}><span>Promo Discount</span><span style={{ color: COLORS.success }}>− Rs. {discount.toLocaleString()}</span></div>}
               <div style={s.sumRow}><span>Delivery Fee (Chichawatni)</span><span><span style={{ textDecoration: 'line-through', color: '#aaa', marginRight: 6 }}>Rs. 150</span><span style={{ color: COLORS.success, fontWeight: 700 }}>FREE</span></span></div>
               <div style={s.sumRow}><span>Tax</span><span>Rs. 0</span></div>
               <div style={{ ...s.sumRow, ...s.totalRow }}>
@@ -297,7 +246,7 @@ export default function Cart() {
                 style={{ ...s.checkoutBtn, backgroundColor: subtotal < MIN_ORDER ? '#aaa' : COLORS.primary, cursor: subtotal < MIN_ORDER ? 'not-allowed' : 'pointer' }}
                 onClick={() => {
                   if (subtotal < MIN_ORDER) { alert(`Minimum order value is Rs. 999. Add Rs. ${(MIN_ORDER - subtotal).toLocaleString()} more to proceed.`); return; }
-                  if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, discount, deliveryFee: DELIVERY_FEE, total, promoCode: promoApplied ? promo : '' } }); }
+                  if (!user) { setShowAuthModal(true); } else { navigate('/checkout', { state: { subtotal, mrpTotal, productDiscount, deliveryFee: DELIVERY_FEE, total } }); }
                 }}
               >
                 Proceed to Checkout →
@@ -351,11 +300,6 @@ const m = {
   right: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10, flexShrink: 0 },
   deleteBtn: { background: 'none', border: 'none', cursor: 'pointer', fontSize: 18, color: '#aaa' },
   itemTotal: { fontSize: 15, fontWeight: 800, color: COLORS.primary },
-  section: { backgroundColor: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 10 },
-  sectionLabel: { fontSize: 11, fontWeight: 800, color: '#aaa', letterSpacing: 1, marginBottom: 10, textTransform: 'uppercase' },
-  promoRow: { display: 'flex', gap: 8 },
-  promoInput: { flex: 1, border: '1.5px solid #e0e0e0', borderRadius: 8, padding: '10px 12px', fontSize: 13, outline: 'none', backgroundColor: '#fafafa' },
-  promoBtn: { backgroundColor: COLORS.primary, color: '#fff', border: 'none', borderRadius: 8, padding: '0 18px', cursor: 'pointer', fontWeight: 700, fontSize: 14 },
   summaryBox: { backgroundColor: '#fff', borderRadius: 12, padding: '16px', marginBottom: 10 },
   sumRow: { display: 'flex', justifyContent: 'space-between', fontSize: 14, color: '#555', marginBottom: 10 },
   totalRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #eee', paddingTop: 14, marginTop: 4 },
@@ -398,10 +342,6 @@ const s = {
   summaryCol: { display: 'flex', flexDirection: 'column', gap: 14, position: 'sticky', top: 80 },
   summaryCard: { backgroundColor: COLORS.white, borderRadius: 16, padding: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' },
   summaryTitle: { fontSize: 16, fontWeight: 700, color: COLORS.text, marginBottom: 16 },
-  promoRow: { display: 'flex', gap: 8 },
-  promoInput: { flex: 1, border: `1.5px solid ${COLORS.border}`, borderRadius: 8, padding: '10px 14px', fontSize: 14, outline: 'none' },
-  promoBtn: { backgroundColor: COLORS.primary, color: COLORS.white, border: 'none', borderRadius: 8, padding: '0 18px', cursor: 'pointer', fontWeight: 700, fontSize: 14 },
-  promoHint: { fontSize: 12, color: COLORS.textMuted, marginTop: 6 },
   sumRow: { display: 'flex', justifyContent: 'space-between', fontSize: 14, color: COLORS.textLight, marginBottom: 10 },
   totalRow: { borderTop: `1px solid ${COLORS.border}`, paddingTop: 14, marginTop: 4, marginBottom: 16 },
   totalLabel: { fontSize: 16, fontWeight: 700, color: COLORS.text },

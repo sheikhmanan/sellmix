@@ -30,7 +30,6 @@ export const categoriesAPI = {
 
 export const ordersAPI = {
   place: (data) => api.post('/orders', data),
-  validatePromo: (code, subtotal) => api.post('/orders/validate-promo', { code, subtotal }),
   getMyOrders: () => api.get('/orders/my'),
   track: (orderId) => api.get(`/orders/track/${orderId}`),
 };

@@ -37,7 +37,6 @@ const orderSchema = new mongoose.Schema({
     enum: ['placed', 'packed', 'out_for_delivery', 'delivered', 'cancelled'],
     default: 'placed',
   },
-  promoCode: { type: String, default: '' },
   notes: { type: String, default: '' },
   city: { type: String, default: 'Chichawatni' },
   deliverySlot: {

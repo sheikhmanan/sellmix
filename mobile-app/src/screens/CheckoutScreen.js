@@ -38,7 +38,7 @@ const PAYMENT_METHODS = [
 ];
 
 export default function CheckoutScreen({ route, navigation }) {
-  const { subtotal, mrpTotal = 0, productDiscount = 0, discount = 0, deliveryFee = 0, total, promoCode = '' } = route.params;
+  const { subtotal, mrpTotal = 0, productDiscount = 0, deliveryFee = 0, total } = route.params;
   const { items, clearCart } = useCart();
   const { user } = useAuth();
   const [form, setForm] = useState({
@@ -77,8 +77,8 @@ export default function CheckoutScreen({ route, navigation }) {
           weight: i.selectedWeight,
           image: i.images?.[0] || '',
         })),
-        subtotal, deliveryFee, discount, total,
-        paymentMethod, promoCode,
+        subtotal, deliveryFee, total,
+        paymentMethod,
         deliverySlot: { date: selectedDate, slot: selectedSlot },
       };
 
@@ -185,12 +185,6 @@ export default function CheckoutScreen({ route, navigation }) {
           <Text style={s.subtotalLabel}>Cart Subtotal</Text>
           <Text style={s.subtotalVal}>Rs. {subtotal.toLocaleString()}</Text>
         </View>
-        {discount > 0 && (
-          <View style={[s.subtotalRow, { marginTop: 6 }]}>
-            <Text style={[s.subtotalLabel, { color: '#34C759' }]}>Promo Discount</Text>
-            <Text style={[s.subtotalVal, { color: '#34C759' }]}>− Rs. {discount.toLocaleString()}</Text>
-          </View>
-        )}
       </View>
 
       {/* Delivery Details */}
