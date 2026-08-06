@@ -20,7 +20,7 @@
         "backgroundColor": "#3498db"
       },
       "package": "com.sellmix.SellMix",
-      "versionCode": 22,
+      "versionCode": 23,
       "permissions": [],
       "blockedPermissions": ["android.permission.RECORD_AUDIO"],
       "signing": {
