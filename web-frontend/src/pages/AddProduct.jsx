@@ -10,7 +10,7 @@ export default function AddProduct() {
 
   const [form, setForm] = useState({
     name: '', description: '', category: '', price: '', discountPrice: '', costPrice: '', expiryDate: '',
-    unit: 'kg', stock: '', isFeatured: false, isDailyDeal: false, dealExpiresAt: '', nutritionalInfo: '', cookingInstructions: '',
+    unit: 'kg', stock: '', maxQtyPerOrder: '', isFeatured: false, isDailyDeal: false, dealExpiresAt: '', nutritionalInfo: '', cookingInstructions: '',
   });
   const [categories, setCategories] = useState([]);
   const [selectedL1, setSelectedL1] = useState('');
@@ -43,6 +43,7 @@ export default function AddProduct() {
         expiryDate: p.expiryDate ? p.expiryDate.slice(0, 10) : '',
         unit: p.unit || 'kg',
         stock: p.stock ?? '',
+        maxQtyPerOrder: p.maxQtyPerOrder ?? '',
         isFeatured: p.isFeatured || false,
         isDailyDeal: p.isDailyDeal || false,
         dealExpiresAt: p.dealExpiresAt ? p.dealExpiresAt.slice(0, 10) : '',
@@ -147,6 +148,7 @@ export default function AddProduct() {
         discountPrice: Number(form.discountPrice) || 0,
         costPrice: Number(form.costPrice) || 0,
         stock: Number(form.stock),
+        maxQtyPerOrder: form.maxQtyPerOrder ? Number(form.maxQtyPerOrder) : null,
         dealExpiresAt: form.dealExpiresAt || null,
         expiryDate: form.expiryDate || null,
         images: imageUrl ? [imageUrl] : [],
@@ -264,6 +266,10 @@ export default function AddProduct() {
               <select style={s.input} value={form.unit} onChange={(e) => set('unit', e.target.value)}>
                 {['kg', 'g', 'litre', 'ml', 'piece', 'pack', 'dozen', 'bag', 'pcs'].map(u => <option key={u} value={u}>{u}</option>)}
               </select>
+            </div>
+            <div style={{ ...s.field, flex: 1 }}>
+              <label style={s.label}>Max Qty Per Order <span style={{ color: '#aaa', fontSize: 11 }}>optional, default 5</span></label>
+              <input style={s.input} type="number" min="1" placeholder="5" value={form.maxQtyPerOrder} onChange={(e) => set('maxQtyPerOrder', e.target.value)} />
             </div>
           </div>
 

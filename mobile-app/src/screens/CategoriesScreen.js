@@ -56,6 +56,7 @@ function DealCard({ item, navigation }) {
       </View>
       <QtyControl
         qty={qty}
+        max={item.maxQtyPerOrder || 5}
         outOfStock={item.stock === 0}
         onAdd={() => addItem(item, 1, weight)}
         onIncrease={() => updateQty(item._id, weight, qty + 1)}

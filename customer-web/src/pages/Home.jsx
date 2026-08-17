@@ -38,13 +38,13 @@ const WHY_US = [
   { title: 'Quality assurance', sub: 'You Can Trust us' },
 ];
 
-const MAX = 5;
-
 function DealCard({ product }) {
   const { addItem, updateQty, items } = useCart();
   const weight = product._variantWeight || null;
   const inCart = items?.find((i) => i._id === product._id && i.selectedWeight === weight);
   const qty = inCart?.quantity || 0;
+  const maxCap = product.maxQtyPerOrder || 5;
+  const MAX = Math.min(maxCap, product.stock > 0 ? product.stock : maxCap);
   const pct = product.discountPrice > 0 ? Math.round((1 - product.discountPrice / product.price) * 100) : 0;
   const imgUrl = product._variantImage || product.images?.[0] || '';
 

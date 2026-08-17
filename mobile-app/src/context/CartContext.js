@@ -4,7 +4,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const CartContext = createContext({});
 
 const CART_KEY = 'slx_cart';
-const getMax = (product) => Math.min(5, product?.stock > 0 ? product.stock : 5);
+const getMax = (product) => {
+  const cap = product?.maxQtyPerOrder || 5;
+  return Math.min(cap, product?.stock > 0 ? product.stock : cap);
+};
 
 export const CartProvider = ({ children }) => {
   const [items, setItems] = useState([]);

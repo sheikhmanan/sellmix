@@ -10,7 +10,8 @@ function ListCard({ product }) {
   const weight = product._variantWeight || null;
   const inCart = items?.find((i) => i._id === product._id && i.selectedWeight === weight);
   const qty = inCart?.quantity || 0;
-  const MAX = Math.min(5, product.stock > 0 ? product.stock : 5);
+  const maxCap = product.maxQtyPerOrder || 5;
+  const MAX = Math.min(maxCap, product.stock > 0 ? product.stock : maxCap);
   const outOfStock = product.stock === 0;
   const pct = product.discountPrice > 0 && product.discountPrice < product.price
     ? Math.round((1 - product.discountPrice / product.price) * 100) : 0;

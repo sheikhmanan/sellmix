@@ -109,7 +109,8 @@ export default function CartScreen({ navigation }) {
         renderItem={({ item }) => {
           const unitPrice = item.discountPrice || item.price;
           const itemTotal = unitPrice * item.quantity;
-          const MAX = Math.min(5, item.stock > 0 ? item.stock : 5);
+          const maxCap = item.maxQtyPerOrder || 5;
+          const MAX = Math.min(maxCap, item.stock > 0 ? item.stock : maxCap);
           return (
             <View style={s.cartCard}>
               {/* Product image */}

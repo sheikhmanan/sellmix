@@ -1,8 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS } from '../constants/colors';
 
-const MAX = 5;
-
 /**
  * Inline Add / +− quantity control.
  *
@@ -12,8 +10,10 @@ const MAX = 5;
  *   onIncrease  – called when + is pressed
  *   onDecrease  – called when − is pressed (qty 1 → removes item)
  *   compact     – smaller variant for grid cards (default false)
+ *   max         – max quantity allowed (default 5, override via product.maxQtyPerOrder)
  */
-export default function QtyControl({ qty, onAdd, onIncrease, onDecrease, compact = false, outOfStock = false }) {
+export default function QtyControl({ qty, onAdd, onIncrease, onDecrease, compact = false, outOfStock = false, max = 5 }) {
+  const MAX = max;
   if (outOfStock && qty <= 0) {
     return (
       <View style={[s.outOfStockBtn, compact && s.outOfStockCompact]}>

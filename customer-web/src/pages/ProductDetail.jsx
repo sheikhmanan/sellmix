@@ -73,7 +73,8 @@ export default function ProductDetail() {
   const hasDiscount = price < mrpPrice;
   const discountPct = hasDiscount ? Math.round((1 - price / mrpPrice) * 100) : 0;
   const inCart = items.find((i) => i._id === product._id && i.selectedWeight === selectedWeight);
-  const MAX_QTY = Math.min(5, product.stock > 0 ? product.stock : 5);
+  const maxCap = product.maxQtyPerOrder || 5;
+  const MAX_QTY = Math.min(maxCap, product.stock > 0 ? product.stock : maxCap);
   const outOfStock = product.stock === 0;
 
   const handleAdd = () => {

@@ -55,6 +55,7 @@ function ProductRow({ product, navigation, addItem, items, updateQty }) {
       </View>
       <QtyControl
         qty={qty}
+        max={product.maxQtyPerOrder || 5}
         outOfStock={product.stock === 0}
         onAdd={() => addItem(product, 1, weight)}
         onIncrease={() => updateQty(product._id, weight, qty + 1)}

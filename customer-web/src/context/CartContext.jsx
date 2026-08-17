@@ -14,7 +14,10 @@ export function CartProvider({ children }) {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
 
-  const getMax = (product) => Math.min(5, product?.stock > 0 ? product.stock : 5);
+  const getMax = (product) => {
+    const cap = product?.maxQtyPerOrder || 5;
+    return Math.min(cap, product?.stock > 0 ? product.stock : cap);
+  };
 
   const addItem = (product, qty = 1, weight = null) => {
     const max = getMax(product);
