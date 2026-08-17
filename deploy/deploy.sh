@@ -25,7 +25,7 @@ fi
 # ─── 2. Install backend dependencies ──────────────────────────────────────────
 echo "[2/6] Installing backend dependencies..."
 cd "$REPO_DIR/backend"
-npm install --omit=dev
+npm install --omit=dev --legacy-peer-deps
 
 # ─── 3. Set up backend .env (first time only) ─────────────────────────────────
 echo "[3/6] Checking .env..."
@@ -46,7 +46,7 @@ rsync -a --delete \
   "$REPO_DIR/backend/" "$APP_DIR/backend/"
 
 # Reinstall in destination
-cd "$APP_DIR/backend" && npm install --omit=dev
+cd "$APP_DIR/backend" && npm install --omit=dev --legacy-peer-deps
 
 # Copy PM2 ecosystem config
 cp "$REPO_DIR/ecosystem.config.js" "$APP_DIR/"
