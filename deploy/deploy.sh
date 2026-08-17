@@ -60,7 +60,7 @@ npm run build
 rsync -a --delete dist/ "$APP_DIR/customer-web/"
 
 cd "$REPO_DIR/web-frontend"
-npm install
+npm install --legacy-peer-deps
 npm run build
 rsync -a --delete dist/ "$APP_DIR/web-frontend/"
 
