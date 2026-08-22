@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 function BuyAgain({ user, addItem }) {
   const [products, setProducts] = useState([]);
@@ -36,7 +37,7 @@ function BuyAgain({ user, addItem }) {
           <div key={p._id} style={ba.card}>
             <div style={ba.imgBox}>
               {p.images?.[0]
-                ? <img src={p.images[0]} alt={p.name} style={ba.img} />
+                ? <img src={thumb(p.images[0], 150)} alt={p.name} style={ba.img} />
                 : <span style={{ fontSize: 24 }}>🛒</span>}
             </div>
             <p style={ba.name} title={p.name}>{p.name}</p>
@@ -115,7 +116,7 @@ export default function Cart() {
               <div key={`${item._id}-${item.selectedWeight}`} style={m.card}>
                 <div style={m.imgBox}>
                   {(item._variantImage || item.images?.[0])
-                    ? <img src={item._variantImage || item.images[0]} alt={item.name} style={m.img} />
+                    ? <img src={thumb(item._variantImage || item.images[0], 150)} alt={item.name} style={m.img} />
                     : <span style={{ fontSize: 28 }}>🛒</span>}
                 </div>
                 <div style={m.info}>
@@ -203,7 +204,7 @@ export default function Cart() {
                 <div key={`${item._id}-${item.selectedWeight}`} style={s.cartCard}>
                   <div style={s.itemImgBox}>
                     {(item._variantImage || item.images?.[0])
-                      ? <img src={item._variantImage || item.images[0]} alt={item.name} style={s.itemImg} />
+                      ? <img src={thumb(item._variantImage || item.images[0], 150)} alt={item.name} style={s.itemImg} />
                       : <span style={{ fontSize: 32 }}>🛒</span>}
                   </div>
                   <div style={s.itemInfo}>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { categoriesAPI, productsAPI } from '../services/api';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 function buildTree(cats) {
   const map = {};
@@ -41,7 +42,7 @@ function getCategoryImages(cat, imageMap) {
 // L1 icon box — 78×72, 3×2 grid (matches mobile exactly)
 function CategoryImageBox({ cat, images }) {
   if (cat.image) {
-    return <div style={s.iconBox}><img src={cat.image} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>;
+    return <div style={s.iconBox}><img src={thumb(cat.image, 120)} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>;
   }
   if (!images || images.length === 0) {
     return <div style={s.iconBox}><span style={{ fontSize: 36 }}>🛒</span></div>;
@@ -49,7 +50,7 @@ function CategoryImageBox({ cat, images }) {
   if (images.length === 1) {
     return (
       <div style={s.iconBox}>
-        <img src={images[0]} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <img src={thumb(images[0], 120)} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
     );
   }
@@ -61,7 +62,7 @@ function CategoryImageBox({ cat, images }) {
         {grid.map((img, i) => (
           <div key={i} style={s.imgCell}>
             {img
-              ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              ? <img src={thumb(img, 120)} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               : <div style={{ width: '100%', height: '100%', backgroundColor: '#f0f4ff' }} />}
           </div>
         ))}
@@ -73,7 +74,7 @@ function CategoryImageBox({ cat, images }) {
 // L2 sub image box — 64×64, 2×2 grid (matches mobile exactly)
 function SubImageBox({ sub, images }) {
   if (sub.image) {
-    return <div style={s.subImgBox}><img src={sub.image} alt={sub.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>;
+    return <div style={s.subImgBox}><img src={thumb(sub.image, 120)} alt={sub.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>;
   }
   if (!images || images.length === 0) {
     return <div style={s.subImgBox}><span style={{ fontSize: 32 }}>{sub.icon || '🛒'}</span></div>;
@@ -86,7 +87,7 @@ function SubImageBox({ sub, images }) {
         {grid.map((img, i) => (
           <div key={i} style={s.subImgCell}>
             {img
-              ? <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              ? <img src={thumb(img, 120)} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               : <div style={{ width: '100%', height: '100%', backgroundColor: '#f0f4ff' }} />}
           </div>
         ))}
@@ -99,7 +100,7 @@ export default function Categories() {
   const [tree, setTree] = useState([]);
   const [imageMap, setImageMap] = useState({});
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState({});
+  const [openId, setOpenId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function Categories() {
     }).catch(() => setLoading(false));
   }, []);
 
-  const toggle = (id) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggle = (id) => setOpenId((prev) => (prev === id ? null : id));
 
   if (loading) return <div style={s.loading}>Loading categories...</div>;
 
@@ -125,7 +126,7 @@ export default function Categories() {
 
       <div style={s.list}>
         {tree.map((cat) => {
-          const isOpen = !!expanded[cat._id];
+          const isOpen = openId === cat._id;
           const imgs = getCategoryImages(cat, imageMap);
           const subNames = cat.children.map((c) => c.name).join(', ');
 

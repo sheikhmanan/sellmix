@@ -4,6 +4,7 @@ import { productsAPI, categoriesAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 function ListCard({ product }) {
   const { addItem, updateQty, items } = useCart();
@@ -20,7 +21,7 @@ function ListCard({ product }) {
   return (
     <Link to={`/products/${product._id}`} style={lc.card}>
       <div style={lc.imgBox}>
-        {imgUrl ? <img src={imgUrl} alt={product.name} style={lc.img} /> : <span style={{ fontSize: 32 }}>🛒</span>}
+        {imgUrl ? <img src={thumb(imgUrl)} alt={product.name} style={lc.img} /> : <span style={{ fontSize: 32 }}>🛒</span>}
         {pct > 0 && <span style={lc.pct}>-{pct}%</span>}
       </div>
       <div style={lc.info}>

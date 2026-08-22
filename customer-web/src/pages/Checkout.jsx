@@ -4,6 +4,7 @@ import { ordersAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 const ADMIN_WHATSAPP = '923178384342';
 
@@ -187,7 +188,7 @@ export default function Checkout() {
               <div key={`${item._id}-${item.selectedWeight}`} style={m.orderItem}>
                 <div style={m.imgBox}>
                   {item.images?.[0]
-                    ? <img src={item.images[0]} alt={item.name} style={m.img} />
+                    ? <img src={thumb(item.images[0], 150)} alt={item.name} style={m.img} />
                     : <span style={{ fontSize: 24 }}>🛒</span>}
                 </div>
                 <div style={m.orderInfo}>
@@ -308,7 +309,7 @@ export default function Checkout() {
               {items.map((item) => (
                 <div key={`${item._id}-${item.selectedWeight}`} style={s.orderItem}>
                   <div style={s.orderImgBox}>
-                    {item.images?.[0] ? <img src={item.images[0]} alt={item.name} style={s.orderImg} /> : <span>🛒</span>}
+                    {item.images?.[0] ? <img src={thumb(item.images[0], 150)} alt={item.name} style={s.orderImg} /> : <span>🛒</span>}
                   </div>
                   <div style={s.orderInfo}>
                     <p style={s.orderName}>{item.name}</p>

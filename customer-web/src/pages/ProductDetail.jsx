@@ -4,6 +4,7 @@ import { productsAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 function useIsMobile() {
   const [mobile, setMobile] = useState(window.innerWidth <= 768);
@@ -109,7 +110,7 @@ export default function ProductDetail() {
         {!variantImg && product.images?.length > 1 && (
           <div style={ms.thumbRow}>
             {product.images.map((img, i) => (
-              <img key={i} src={img} alt="" style={{ ...ms.thumb, ...(mainImg === i ? ms.thumbActive : {}) }} onClick={() => setMainImg(i)} />
+              <img key={i} src={thumb(img, 120)} alt="" style={{ ...ms.thumb, ...(mainImg === i ? ms.thumbActive : {}) }} onClick={() => setMainImg(i)} />
             ))}
           </div>
         )}
@@ -225,7 +226,7 @@ export default function ProductDetail() {
             {!variantImg && product.images?.length > 1 && (
               <div style={s.thumbRow}>
                 {product.images.map((img, i) => (
-                  <img key={i} src={img} alt="" style={{ ...s.thumb, ...(mainImg === i ? s.thumbActive : {}) }} onClick={() => setMainImg(i)} />
+                  <img key={i} src={thumb(img, 120)} alt="" style={{ ...s.thumb, ...(mainImg === i ? s.thumbActive : {}) }} onClick={() => setMainImg(i)} />
                 ))}
               </div>
             )}

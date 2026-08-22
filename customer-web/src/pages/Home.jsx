@@ -4,6 +4,7 @@ import { productsAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { useCart } from '../context/CartContext';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 function expandVariants(products) {
   return products.flatMap((p) => {
@@ -52,7 +53,7 @@ function DealCard({ product }) {
     <Link to={`/products/${product._id}${weight ? `?weight=${encodeURIComponent(weight)}` : ''}`} style={dc.card}>
       <div style={dc.imgBox}>
         {imgUrl
-          ? <img src={imgUrl} alt={product.name} style={dc.img} />
+          ? <img src={thumb(imgUrl)} alt={product.name} style={dc.img} />
           : <span style={{ fontSize: 36 }}>🛒</span>}
         {pct > 0 && <span style={dc.pct}>-{pct}%</span>}
       </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 export default function ProductCard({ product }) {
   const { addItem, updateQty, items } = useCart();
@@ -19,7 +20,7 @@ export default function ProductCard({ product }) {
       <Link to={detailLink} style={{ textDecoration: 'none' }}>
         <div style={s.imgBox}>
           {(product._variantImage || product.images?.[0])
-            ? <img src={product._variantImage || product.images[0]} alt={product.name} style={s.img} />
+            ? <img src={thumb(product._variantImage || product.images[0])} alt={product.name} style={s.img} />
             : <div style={s.imgPlaceholder}>🛒</div>}
           {hasDiscount && <span style={s.priceCutBadge}>Price Cut</span>}
         </div>

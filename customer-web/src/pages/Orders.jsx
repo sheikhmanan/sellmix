@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ordersAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { COLORS } from '../constants/colors';
+import { thumb } from '../utils/image';
 
 const STATUS_CONFIG = {
   placed:           { label: 'Pending',          color: COLORS.warning,  bg: '#FFF8E1' },
@@ -76,7 +77,7 @@ export default function Orders() {
                       <div key={i} style={s.itemRow}>
                         <div style={s.itemImgBox}>
                           {item.image
-                            ? <img src={item.image} alt={item.name} style={s.itemImg} />
+                            ? <img src={thumb(item.image, 150)} alt={item.name} style={s.itemImg} />
                             : <span style={{ fontSize: 18 }}>🛒</span>}
                         </div>
                         <div style={s.itemInfo}>
