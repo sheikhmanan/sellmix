@@ -37,7 +37,7 @@ function ProductRow({ product, navigation, addItem, items, updateQty }) {
     <TouchableOpacity style={r.card} activeOpacity={0.85} onPress={() => navigation.push('ProductDetail', { productId: product._id, selectedWeight: weight })}>
       <View style={r.imgBox}>
         {imgSrc
-          ? <Image source={{ uri: fixImageUrl(imgSrc) }} style={r.img} resizeMode="contain" />
+          ? <Image source={{ uri: fixImageUrl(imgSrc, 300) }} style={r.img} resizeMode="contain" />
           : <Text style={{ fontSize: 40 }}>🛒</Text>}
       </View>
       <View style={r.info}>

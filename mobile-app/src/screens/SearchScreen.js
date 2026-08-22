@@ -35,7 +35,7 @@ function DealCard({ item, navigation }) {
   const qty = inCart?.quantity || 0;
   const pct = item.discountPrice > 0 && item.discountPrice < item.price
     ? Math.round((1 - item.discountPrice / item.price) * 100) : 0;
-  const imgUrl = item._variantImage ? fixImageUrl(item._variantImage) : item.images?.[0] ? fixImageUrl(item.images[0]) : null;
+  const imgUrl = item._variantImage ? fixImageUrl(item._variantImage, 300) : item.images?.[0] ? fixImageUrl(item.images[0], 300) : null;
   const unit = item._variantWeight || item.weightOptions?.[0]?.weight || item.unit || '';
   return (
     <TouchableOpacity style={s.card} activeOpacity={0.85} onPress={() => navigation.push('ProductDetail', { productId: item._id, selectedWeight: item._variantWeight || null })}>

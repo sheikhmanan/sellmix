@@ -21,7 +21,7 @@ export default function ProductCard({ product, onPress }) {
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.85}>
       <View style={styles.imageBox}>
         {imgSrc ? (
-          <Image source={{ uri: fixImageUrl(imgSrc) }} style={styles.image} />
+          <Image source={{ uri: fixImageUrl(imgSrc, 300) }} style={styles.image} />
         ) : (
           <View style={styles.imagePlaceholder}>
             <Text style={styles.placeholderText}>🛒</Text>

@@ -39,7 +39,7 @@ function BuyAgainRow({ user, addItem }) {
           <View key={p._id} style={ba.card}>
             <View style={ba.imgBox}>
               {p.images?.[0]
-                ? <Image source={{ uri: fixImageUrl(p.images[0]) }} style={ba.img} />
+                ? <Image source={{ uri: fixImageUrl(p.images[0], 150) }} style={ba.img} />
                 : <Text style={{ fontSize: 24 }}>🛒</Text>}
             </View>
             <Text style={ba.name} numberOfLines={2}>{p.name}</Text>
@@ -116,7 +116,7 @@ export default function CartScreen({ navigation }) {
               {/* Product image */}
               <View style={s.itemImgBox}>
                 {item.images?.[0]
-                  ? <Image source={{ uri: fixImageUrl(item.images[0]) }} style={s.itemImg} />
+                  ? <Image source={{ uri: fixImageUrl(item.images[0], 150) }} style={s.itemImg} />
                   : <Text style={{ fontSize: 30 }}>🛒</Text>}
               </View>
 

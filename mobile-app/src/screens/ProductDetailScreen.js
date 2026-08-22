@@ -136,7 +136,7 @@ export default function ProductDetailScreen({ route, navigation }) {
                   >
                     <View style={s.relImgBox}>
                       {rp.images?.[0]
-                        ? <Image source={{ uri: fixImageUrl(rp.images[0]) }} style={s.relImg} />
+                        ? <Image source={{ uri: fixImageUrl(rp.images[0], 300) }} style={s.relImg} />
                         : <Text style={{ fontSize: 28 }}>🛒</Text>}
                     </View>
                     <Text style={s.relName} numberOfLines={2}>{rp.name}</Text>

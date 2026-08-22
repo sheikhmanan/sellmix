@@ -61,7 +61,7 @@ export default function AllCategoriesScreen({ navigation }) {
                 onPress={() => toggle(item._id)}
               >
                 {item.image ? (
-                  <Image source={{ uri: fixImageUrl(item.image) }} style={s.catIcon} resizeMode="contain" />
+                  <Image source={{ uri: fixImageUrl(item.image, 120) }} style={s.catIcon} resizeMode="contain" />
                 ) : null}
                 <View style={s.rowText}>
                   <Text style={s.rowName}>{item.name}</Text>

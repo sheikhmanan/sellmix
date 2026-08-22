@@ -170,7 +170,7 @@ export default function CheckoutScreen({ route, navigation }) {
           <View key={`${item._id}-${item.selectedWeight}`} style={s.orderItem}>
             <View style={s.orderImgBox}>
               {item.images?.[0]
-                ? <Image source={{ uri: fixImageUrl(item.images[0]) }} style={s.orderImg} />
+                ? <Image source={{ uri: fixImageUrl(item.images[0], 150) }} style={s.orderImg} />
                 : <Text style={{ fontSize: 20 }}>🛒</Text>}
             </View>
             <View style={s.orderInfo}>

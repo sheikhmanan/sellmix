@@ -53,7 +53,7 @@ export default function OffersScreen({ navigation }) {
             >
               <View style={s.imgBox}>
                 {item.images?.[0]
-                  ? <Image source={{ uri: fixImageUrl(item.images[0]) }} style={s.img} resizeMode="contain" />
+                  ? <Image source={{ uri: fixImageUrl(item.images[0], 300) }} style={s.img} resizeMode="contain" />
                   : <Text style={{ fontSize: 40 }}>🛒</Text>}
                 <View style={s.pctBadge}><Text style={s.pctTxt}>-{pct}%</Text></View>
               </View>

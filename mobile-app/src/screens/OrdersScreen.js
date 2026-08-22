@@ -88,7 +88,7 @@ export default function OrdersScreen({ navigation }) {
                   <View key={i} style={s.itemRow}>
                     <View style={s.itemImgBox}>
                       {prod.image
-                        ? <Image source={{ uri: fixImageUrl(prod.image) }} style={s.itemImg} />
+                        ? <Image source={{ uri: fixImageUrl(prod.image, 150) }} style={s.itemImg} />
                         : <Text style={{ fontSize: 18 }}>🛒</Text>}
                     </View>
                     <View style={s.itemInfo}>
