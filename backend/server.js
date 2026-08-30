@@ -19,7 +19,11 @@ const app = express();
 // Trust Nginx reverse proxy so rate-limit uses real client IP from X-Forwarded-For
 app.set('trust proxy', 1);
 
-app.use(helmet());
+// This API is deliberately consumed cross-origin (sellmix.pk, admin.sellmix.pk,
+// the mobile app — see the CORS config below), so helmet's default same-origin
+// CORP would silently block <img> tags on those sites from loading self-hosted
+// product images even though the request itself succeeds.
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
 // CORS — in development allow all localhost ports; in production restrict to ALLOWED_ORIGINS
 const isDev = process.env.NODE_ENV !== 'production';
