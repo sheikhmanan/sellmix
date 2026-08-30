@@ -40,9 +40,13 @@ app.use(cors({
 
 app.use(express.json({ limit: '1mb' }));
 
+// Images are served here too now (self-hosted) — a single page load fires
+// dozens of these, so they must stay ahead of the global rate limit below
+// or normal browsing trips it (mirrors the api.sellmix.pk nginx fix).
+app.use('/uploads', require('./routes/images'));
+
 // Global rate limit — 500 requests per 15 minutes per IP
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 500, standardHeaders: true, legacyHeaders: false }));
-app.use('/uploads', require('./routes/images'));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
