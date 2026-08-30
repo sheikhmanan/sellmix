@@ -55,13 +55,13 @@ export const ordersAPI = {
 
 // On a real device, "localhost" resolves to the phone itself, not the PC.
 // Replace localhost with the actual server IP so images load correctly.
-// `width` optionally swaps the baked-in Cloudinary transform (w_800, set at
-// upload time in backend/routes/upload.js) for a smaller derived size, so
+// `width` optionally swaps the default resize param (?w=800, set at upload
+// time in backend/routes/upload.js) for a smaller derived size, so
 // thumbnails/icons don't download the full 800px master.
 export const fixImageUrl = (url, width) => {
   if (!url) return null;
   let fixed = url.replace('localhost', '10.0.2.2');
-  if (width) fixed = fixed.replace(/w_\d+/, `w_${width}`);
+  if (width) fixed = fixed.replace(/w=\d+/, `w=${width}`);
   return fixed;
 };
 

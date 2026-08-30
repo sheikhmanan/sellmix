@@ -3,7 +3,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv');
-const path = require('path');
 const connectDB = require('./config/db');
 
 dotenv.config();
@@ -43,7 +42,7 @@ app.use(express.json({ limit: '1mb' }));
 
 // Global rate limit — 500 requests per 15 minutes per IP
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 500, standardHeaders: true, legacyHeaders: false }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', require('./routes/images'));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
