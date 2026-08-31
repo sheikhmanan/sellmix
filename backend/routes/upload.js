@@ -17,20 +17,26 @@ const upload = multer({
   fileFilter: (req, file, cb) => cb(null, /^image\//.test(file.mimetype)),
 });
 
+// Always the same canonical host, regardless of which domain (sellmix.pk,
+// admin.sellmix.pk) the upload request came through — req.get('host') is not
+// safe here since it reflects whatever domain proxied the request, and
+// admin.sellmix.pk has no working /uploads route (see deploy/nginx.conf).
+const PUBLIC_HOST = process.env.UPLOADS_PUBLIC_HOST || 'https://api.sellmix.pk';
+
 // Stores a capped, webp-converted master on disk and returns a URL with the
 // default display width baked in (mirrors the old Cloudinary w_800 default) —
 // /uploads/:file?w=N is resized-on-request and cached by routes/images.js.
-async function saveImage(buffer, req) {
+async function saveImage(buffer) {
   const filename = `${crypto.randomBytes(8).toString('hex')}.webp`;
   await sharp(buffer).rotate().resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 85 }).toFile(path.join(UPLOAD_DIR, filename));
-  return `${req.protocol}://${req.get('host')}/uploads/products/${filename}?w=800`;
+  return `${PUBLIC_HOST}/uploads/products/${filename}?w=800`;
 }
 
 // POST /api/upload
 router.post('/', protect, adminOnly, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
   try {
-    res.json({ url: await saveImage(req.file.buffer, req) });
+    res.json({ url: await saveImage(req.file.buffer) });
   } catch (err) {
     res.status(500).json({ message: 'Image processing failed' });
   }
@@ -40,7 +46,7 @@ router.post('/', protect, adminOnly, upload.single('image'), async (req, res) =>
 router.post('/multiple', protect, adminOnly, upload.array('images', 5), async (req, res) => {
   if (!req.files?.length) return res.status(400).json({ message: 'No files uploaded' });
   try {
-    const urls = await Promise.all(req.files.map((f) => saveImage(f.buffer, req)));
+    const urls = await Promise.all(req.files.map((f) => saveImage(f.buffer)));
     res.json({ urls });
   } catch (err) {
     res.status(500).json({ message: 'Image processing failed' });
