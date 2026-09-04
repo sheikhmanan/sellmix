@@ -50,7 +50,7 @@ export const ordersAPI = {
   repeat: (id) => api.post(`/orders/${id}/repeat`),
   getDashboardStats: () => api.get('/orders/stats/dashboard'),
   getDailyReport: (date) => api.get('/orders/reports/daily', { params: { date } }),
-  getRangeReport: (days) => api.get('/orders/reports/range', { params: { days } }),
+  getRangeReport: (params) => api.get('/orders/reports/range', { params }),
 };
 
 export const settingsAPI = {

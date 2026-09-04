@@ -243,16 +243,38 @@ router.get('/reports/daily', protect, adminOnly, async (req, res) => {
   }
 });
 
-// GET /api/orders/reports/range — last N days summary (admin)
+// GET /api/orders/reports/range — per-day summary (admin).
+// Pass either ?from=YYYY-MM-DD&to=YYYY-MM-DD for an explicit range, or
+// ?days=N for the last N days ending today (default 7).
 router.get('/reports/range', protect, adminOnly, async (req, res) => {
   try {
-    const days = parseInt(req.query.days) || 7;
-    const result = [];
+    const { from, to } = req.query;
+    let startDay;
+    let numDays;
 
-    for (let i = days - 1; i >= 0; i--) {
-      const day = new Date();
-      day.setHours(0, 0, 0, 0);
-      day.setDate(day.getDate() - i);
+    if (from && to) {
+      const [fy, fm, fd] = from.split('-').map(Number);
+      const [ty, tm, td] = to.split('-').map(Number);
+      startDay = new Date(fy, fm - 1, fd);
+      const endDay = new Date(ty, tm - 1, td);
+      startDay.setHours(0, 0, 0, 0);
+      endDay.setHours(0, 0, 0, 0);
+      numDays = Math.round((endDay - startDay) / 86400000) + 1;
+      if (!(numDays >= 1)) return res.status(400).json({ message: '"to" must not be before "from"' });
+    } else {
+      numDays = parseInt(req.query.days) || 7;
+      startDay = new Date();
+      startDay.setHours(0, 0, 0, 0);
+      startDay.setDate(startDay.getDate() - (numDays - 1));
+    }
+
+    const MAX_DAYS = 366;
+    if (numDays > MAX_DAYS) return res.status(400).json({ message: `Range too large (max ${MAX_DAYS} days)` });
+
+    const result = [];
+    for (let i = 0; i < numDays; i++) {
+      const day = new Date(startDay);
+      day.setDate(day.getDate() + i);
       const nextDay = new Date(day);
       nextDay.setDate(nextDay.getDate() + 1);
 

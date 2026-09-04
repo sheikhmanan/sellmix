@@ -8,12 +8,17 @@ export default function Reports() {
   const d = new Date();
   const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
+  const toDateStr = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+  const daysAgoStr = (n) => { const dt = new Date(); dt.setDate(dt.getDate() - n); return toDateStr(dt); };
+
   const [selectedDate, setSelectedDate] = useState(today);
   const [daily, setDaily] = useState(null);
   const [range, setRange] = useState([]);
-  const [rangeDays, setRangeDays] = useState(7);
+  const [rangeFrom, setRangeFrom] = useState(daysAgoStr(6));
+  const [rangeTo, setRangeTo] = useState(today);
   const [loadingDaily, setLoadingDaily] = useState(false);
   const [loadingRange, setLoadingRange] = useState(false);
+  const [rangeError, setRangeError] = useState('');
 
   const fetchDaily = (date) => {
     setLoadingDaily(true);
@@ -23,11 +28,12 @@ export default function Reports() {
       .finally(() => setLoadingDaily(false));
   };
 
-  const fetchRange = (days) => {
+  const fetchRange = (from, to) => {
     setLoadingRange(true);
-    ordersAPI.getRangeReport(days)
+    setRangeError('');
+    ordersAPI.getRangeReport({ from, to })
       .then((r) => setRange(r.data))
-      .catch(() => setRange([]))
+      .catch((err) => { setRange([]); setRangeError(typeof err === 'string' ? err : 'Failed to load range'); })
       .finally(() => setLoadingRange(false));
   };
 
@@ -36,13 +42,17 @@ export default function Reports() {
   }, []);
 
   useEffect(() => {
-    fetchRange(rangeDays);
-  }, [rangeDays]);
+    fetchRange(rangeFrom, rangeTo);
+  }, [rangeFrom, rangeTo]);
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
     fetchDaily(e.target.value);
   };
+
+  const applyPreset = (days) => { setRangeFrom(daysAgoStr(days - 1)); setRangeTo(today); };
+  const isWeekly = rangeFrom === daysAgoStr(6) && rangeTo === today;
+  const isMonthly = rangeFrom === daysAgoStr(29) && rangeTo === today;
 
   const marginPct = daily && daily.totalRevenue > 0
     ? Math.round((daily.grossProfit / daily.totalRevenue) * 100)
@@ -182,25 +192,25 @@ export default function Reports() {
         <div style={s.empty}><p>Failed to load report.</p></div>
       )}
 
-      {/* Orders Overview — Daily / Weekly / Monthly */}
+      {/* Orders Overview — Daily / Weekly / Monthly / Custom range */}
       <div style={s.tableCard}>
-        <div style={s.tableHeader}>
-          <h2 style={s.tableTitle}>
-            {rangeDays === 7 ? 'Last 7 Days' : rangeDays === 30 ? 'Last 30 Days' : `Last ${rangeDays} Days`} Overview
-          </h2>
-          <div style={s.periodToggle}>
-            {[{ label: 'Weekly', days: 7 }, { label: 'Monthly', days: 30 }].map((p) => (
-              <button
-                key={p.days}
-                style={{ ...s.periodBtn, ...(rangeDays === p.days ? s.periodBtnActive : {}) }}
-                onClick={() => setRangeDays(p.days)}
-              >
-                {p.label}
-              </button>
-            ))}
+        <div style={{ ...s.tableHeader, flexWrap: 'wrap', gap: 12 }}>
+          <h2 style={s.tableTitle}>Orders Overview</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <div style={s.periodToggle}>
+              <button style={{ ...s.periodBtn, ...(isWeekly ? s.periodBtnActive : {}) }} onClick={() => applyPreset(7)}>Weekly</button>
+              <button style={{ ...s.periodBtn, ...(isMonthly ? s.periodBtnActive : {}) }} onClick={() => applyPreset(30)}>Monthly</button>
+            </div>
+            <div style={s.rangePicker}>
+              <input type="date" value={rangeFrom} max={rangeTo} onChange={(e) => setRangeFrom(e.target.value)} style={s.rangeInput} />
+              <span style={{ color: '#8E8E93' }}>–</span>
+              <input type="date" value={rangeTo} min={rangeFrom} max={today} onChange={(e) => setRangeTo(e.target.value)} style={s.rangeInput} />
+            </div>
           </div>
         </div>
-        {loadingRange ? (
+        {rangeError ? (
+          <div style={s.empty}><p>{rangeError}</p></div>
+        ) : loadingRange ? (
           <div style={s.loadingRow}>{[...Array(7)].map((_, i) => <div key={i} style={{ ...s.skeleton, height: 60 }} />)}</div>
         ) : (
           <>
@@ -226,17 +236,17 @@ export default function Reports() {
             </div>
 
             {/* Bar visual */}
-            <div style={{ ...s.barChart, gap: rangeDays <= 7 ? 8 : 3, overflowX: rangeDays > 7 ? 'auto' : 'visible' }}>
+            <div style={{ ...s.barChart, gap: range.length <= 7 ? 8 : 3, overflowX: range.length > 7 ? 'auto' : 'visible' }}>
               {range.map((d, i) => {
                 const maxProfit = Math.max(...range.map((r) => r.grossProfit), 1);
                 const barH = Math.max((d.grossProfit / maxProfit) * 100, 4);
                 const isToday = d.date === today;
                 return (
                   <div key={i} style={s.barCol}>
-                    {rangeDays <= 7 && <span style={s.barAmt}>{d.grossProfit > 0 ? `${Math.round(d.grossProfit / 1000)}k` : '0'}</span>}
+                    {range.length <= 7 && <span style={s.barAmt}>{d.grossProfit > 0 ? `${Math.round(d.grossProfit / 1000)}k` : '0'}</span>}
                     <div style={{ ...s.bar, height: `${barH}%`, backgroundColor: isToday ? '#AF52DE' : '#3498db' }} title={`${new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', { weekday: 'short', day: 'numeric', month: 'short' })} — ${d.orders} order${d.orders !== 1 ? 's' : ''}, profit ${PKR(d.grossProfit)}`} />
                     <span style={{ ...s.barLabel, fontWeight: isToday ? 700 : 400, color: isToday ? '#AF52DE' : '#8E8E93' }}>
-                      {new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', rangeDays <= 7 ? { weekday: 'short' } : { day: 'numeric' })}
+                      {new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', range.length <= 7 ? { weekday: 'short' } : { day: 'numeric' })}
                     </span>
                   </div>
                 );
@@ -306,6 +316,8 @@ const s = {
   periodToggle: { display: 'flex', gap: 6, backgroundColor: '#F2F2F7', borderRadius: 10, padding: 4 },
   periodBtn: { border: 'none', background: 'none', padding: '6px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#6B6B6B' },
   periodBtnActive: { backgroundColor: '#fff', color: '#3498db', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' },
+  rangePicker: { display: 'flex', alignItems: 'center', gap: 6 },
+  rangeInput: { padding: '7px 10px', border: '1.5px solid #E5E5EA', borderRadius: 8, fontSize: 13, color: '#1a1a1a', backgroundColor: '#fff', cursor: 'pointer' },
   periodCards: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, padding: '16px 24px 0' },
   periodCard: { backgroundColor: '#f9f9fb', borderRadius: 12, padding: '14px 16px' },
   periodCardLabel: { fontSize: 11, fontWeight: 700, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 },
