@@ -39,6 +39,7 @@ function playNewOrderSound() {
 }
 
 const STATUSES = ['placed', 'packed', 'out_for_delivery', 'delivered', 'cancelled'];
+const PAGE_SIZE = 30;
 
 function printOrder(o) {
   const deliveryLine = o.deliverySlot?.slot
@@ -176,19 +177,21 @@ export default function Orders() {
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [expanded, setExpanded] = useState(null);
   const [newOrderAlert, setNewOrderAlert] = useState(false);
   const [morningReminder, setMorningReminder] = useState(false);
   const [afternoonReminder, setAfternoonReminder] = useState(false);
+  const [repeating, setRepeating] = useState(null);
   const latestOrderId = useRef(null);
   const allOrdersRef = useRef([]);
 
-  useEffect(() => { load(true); }, [filter]);
+  useEffect(() => { load(true); }, [filter, page]);
 
   useEffect(() => {
     const interval = setInterval(() => poll(), 12000);
     return () => clearInterval(interval);
-  }, [filter]);
+  }, [filter, page]);
 
   useEffect(() => {
     const checkReminders = () => {
@@ -222,7 +225,12 @@ export default function Orders() {
   const load = async (initial = false) => {
     if (initial) setLoading(true);
     try {
-      const params = (filter && filter !== 'urgent') ? { status: filter } : {};
+      // "Urgent" filters client-side across today's active orders, so it needs
+      // a wide unpaginated fetch rather than the normal page/limit — everything
+      // else uses real pagination.
+      const params = filter === 'urgent'
+        ? { limit: 200 }
+        : { page, limit: PAGE_SIZE, ...(filter && { status: filter }) };
       const res = await ordersAPI.getAll(params);
       const fetched = res.data.orders;
       if (fetched.length > 0) {
@@ -243,6 +251,8 @@ export default function Orders() {
 
   const poll = () => load(false);
 
+  const changeFilter = (f) => { setFilter(f); setPage(1); };
+
   const updateStatus = async (id, status) => {
     try {
       await ordersAPI.updateStatus(id, status);
@@ -250,10 +260,23 @@ export default function Orders() {
     } catch {}
   };
 
+  const repeatOrder = async (id) => {
+    setRepeating(id);
+    try {
+      const res = await ordersAPI.repeat(id);
+      alert(`New order #${res.data.orderId} created.`);
+      load(true);
+    } catch (err) {
+      alert(typeof err === 'string' ? err : 'Failed to repeat order');
+    }
+    setRepeating(null);
+  };
+
   const toggle = (id) => setExpanded((prev) => (prev === id ? null : id));
 
   const displayedOrders = filter === 'urgent' ? orders.filter(isNextSlotOrder) : orders;
   const urgentCount = orders.filter(isNextSlotOrder).length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <div style={s.page}>
@@ -281,10 +304,10 @@ export default function Orders() {
 
       {/* Filter Tabs */}
       <div style={s.tabs}>
-        <button style={{ ...s.tab, ...(filter === '' ? s.tabActive : {}) }} onClick={() => setFilter('')}>All</button>
+        <button style={{ ...s.tab, ...(filter === '' ? s.tabActive : {}) }} onClick={() => changeFilter('')}>All</button>
         <button
           style={{ ...s.tab, ...(filter === 'urgent' ? s.urgentTabActive : s.urgentTab) }}
-          onClick={() => setFilter('urgent')}
+          onClick={() => changeFilter('urgent')}
         >
           ⚡ Urgent
           {urgentCount > 0 && (
@@ -295,7 +318,7 @@ export default function Orders() {
           <button
             key={st}
             style={{ ...s.tab, ...(filter === st ? { ...s.tabActive, backgroundColor: STATUS_COLORS[st] + '20', color: STATUS_COLORS[st] } : {}) }}
-            onClick={() => setFilter(st)}
+            onClick={() => changeFilter(st)}
           >
             {STATUS_LABELS[st]}
           </button>
@@ -460,12 +483,21 @@ export default function Orders() {
                               })()}
                               {o.notes && <p style={s.summaryNote}>📝 <b>Notes:</b> {o.notes}</p>}
                               {o.promoCode && <p style={s.summaryNote}>🏷️ <b>Promo:</b> {o.promoCode}</p>}
-                              <button
-                                style={s.printBtn}
-                                onClick={(e) => { e.stopPropagation(); printOrder(o); }}
-                              >
-                                🖨️ Print Order
-                              </button>
+                              <div style={{ display: 'flex', gap: 8 }}>
+                                <button
+                                  style={s.printBtn}
+                                  onClick={(e) => { e.stopPropagation(); printOrder(o); }}
+                                >
+                                  🖨️ Print Order
+                                </button>
+                                <button
+                                  style={{ ...s.printBtn, backgroundColor: '#3498db', opacity: repeating === o._id ? 0.6 : 1 }}
+                                  disabled={repeating === o._id}
+                                  onClick={(e) => { e.stopPropagation(); repeatOrder(o._id); }}
+                                >
+                                  🔁 {repeating === o._id ? 'Repeating…' : 'Repeat Order'}
+                                </button>
+                              </div>
                             </div>
                             <div style={s.summaryRight}>
                               <div style={s.summaryRow}><span>Subtotal</span><span>Rs. {o.subtotal?.toLocaleString()}</span></div>
@@ -488,6 +520,13 @@ export default function Orders() {
               )}
             </tbody>
           </table>
+          {filter !== 'urgent' && totalPages > 1 && (
+            <div style={s.pager}>
+              <button style={{ ...s.pagerBtn, opacity: page <= 1 ? 0.4 : 1, cursor: page <= 1 ? 'default' : 'pointer' }} disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>← Prev</button>
+              <span style={s.pagerLabel}>Page {page} of {totalPages} · {total} orders</span>
+              <button style={{ ...s.pagerBtn, opacity: page >= totalPages ? 0.4 : 1, cursor: page >= totalPages ? 'default' : 'pointer' }} disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>Next →</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -516,6 +555,9 @@ const s = {
   badge: { padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap' },
   itemCountBadge: { backgroundColor: '#EBF5FF', color: '#3498db', fontWeight: 700, fontSize: 12, padding: '3px 10px', borderRadius: 20 },
   select: { border: '1.5px solid #E5E5EA', borderRadius: 8, padding: '6px 10px', fontSize: 12, cursor: 'pointer', outline: 'none' },
+  pager: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, padding: '16px', borderTop: '1px solid #F2F2F7' },
+  pagerBtn: { border: '1.5px solid #E5E5EA', backgroundColor: '#fff', borderRadius: 8, padding: '8px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#1a1a1a' },
+  pagerLabel: { fontSize: 13, fontWeight: 600, color: '#8E8E93' },
 
   // Expanded items section
   itemsBox: { backgroundColor: '#fff', borderRadius: 12, border: '1.5px solid #dbeafe', overflow: 'hidden' },

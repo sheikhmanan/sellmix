@@ -11,9 +11,52 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const isDev = process.env.NODE_ENV !== 'production';
 const errMsg = (err) => isDev ? err.message : 'Internal server error';
+// Snapshot costPrice from Product; recalculate subtotal server-side to prevent
+// manipulation. Shared by the create route and the "repeat order" route below.
+async function priceItems(items, deliveryFee) {
+  let serverSubtotal = 0;
+  let serverMrpTotal = 0;
+  const itemsWithCost = await Promise.all(
+    items.map(async (item) => {
+      const prod = item.product ? await Product.findById(item.product).select('costPrice price discountPrice') : null;
+      const unitPrice = prod ? (prod.discountPrice > 0 ? prod.discountPrice : prod.price) : (item.price || 0);
+      const unitMrp = prod ? prod.price : unitPrice;
+      serverSubtotal += unitPrice * (item.quantity || 1);
+      serverMrpTotal += unitMrp * (item.quantity || 1);
+      return {
+        product: item.product,
+        name: item.name,
+        price: unitPrice,
+        costPrice: prod?.costPrice || 0,
+        quantity: item.quantity || 1,
+        weight: item.weight || '',
+        image: item.image || '',
+      };
+    })
+  );
+  const serverProductDiscount = serverMrpTotal - serverSubtotal;
+  const serverDeliveryFee = typeof deliveryFee === 'number' ? deliveryFee : 150;
+  const serverTotal = serverSubtotal + serverDeliveryFee;
+  return { itemsWithCost, serverSubtotal, serverProductDiscount, serverDeliveryFee, serverTotal };
+}
+
+// Decrements stock and sends WhatsApp notifications for a newly-created order
+// (non-blocking, best-effort). Shared by the create route and the "repeat
+// order" route below.
+function finalizeNewOrder(order) {
+  order.items.forEach((item) => {
+    if (item.product) {
+      Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } }).catch(() => {});
+    }
+  });
+  const adminPhone = process.env.ADMIN_WHATSAPP;
+  if (adminPhone) sendWhatsApp(adminPhone, orderPlacedAdminMsg(order));
+  if (order.whatsapp) sendWhatsApp(order.whatsapp, orderPlacedCustomerMsg(order));
+}
+
 router.post('/', protect, async (req, res) => {
   try {
-    const { customerName, whatsapp, address, items, subtotal, deliveryFee,
+    const { customerName, whatsapp, address, items, deliveryFee,
             total, paymentMethod, notes, city, deliverySlot } = req.body;
 
     // Basic field validation
@@ -29,31 +72,8 @@ router.post('/', protect, async (req, res) => {
       return res.status(400).json({ message: 'Invalid payment method' });
     }
 
-    // Snapshot costPrice from Product; recalculate subtotal server-side to prevent manipulation
-    let serverSubtotal = 0;
-    let serverMrpTotal = 0;
-    const itemsWithCost = await Promise.all(
-      items.map(async (item) => {
-        const prod = item.product ? await Product.findById(item.product).select('costPrice price discountPrice') : null;
-        const unitPrice = prod ? (prod.discountPrice > 0 ? prod.discountPrice : prod.price) : (item.price || 0);
-        const unitMrp = prod ? prod.price : unitPrice;
-        serverSubtotal += unitPrice * (item.quantity || 1);
-        serverMrpTotal += unitMrp * (item.quantity || 1);
-        return {
-          product: item.product,
-          name: item.name,
-          price: unitPrice,
-          costPrice: prod?.costPrice || 0,
-          quantity: item.quantity || 1,
-          weight: item.weight || '',
-          image: item.image || '',
-        };
-      })
-    );
-    const serverProductDiscount = serverMrpTotal - serverSubtotal;
-
-    const serverDeliveryFee = typeof deliveryFee === 'number' ? deliveryFee : 150;
-    const serverTotal = serverSubtotal + serverDeliveryFee;
+    const { itemsWithCost, serverSubtotal, serverProductDiscount, serverDeliveryFee, serverTotal } =
+      await priceItems(items, deliveryFee);
 
     const order = await Order.create({
       user: req.user._id,
@@ -71,23 +91,42 @@ router.post('/', protect, async (req, res) => {
       deliverySlot: deliverySlot || {},
     });
 
-    // Decrement stock for each item (non-blocking, best-effort)
-    itemsWithCost.forEach((item) => {
-      if (item.product) {
-        Product.findByIdAndUpdate(item.product, {
-          $inc: { stock: -item.quantity },
-        }).catch(() => {});
-      }
+    finalizeNewOrder(order);
+
+    res.status(201).json(order);
+  } catch (err) {
+    res.status(500).json({ message: errMsg(err) });
+  }
+});
+
+// POST /api/orders/:id/repeat — create a new order that re-orders an existing
+// one for the same customer, at current prices/stock (admin)
+router.post('/:id/repeat', protect, adminOnly, async (req, res) => {
+  try {
+    const original = await Order.findById(req.params.id);
+    if (!original) return res.status(404).json({ message: 'Order not found' });
+    if (!original.items?.length) return res.status(400).json({ message: 'Order has no items to repeat' });
+
+    const { itemsWithCost, serverSubtotal, serverProductDiscount, serverDeliveryFee, serverTotal } =
+      await priceItems(original.items, original.deliveryFee);
+
+    const order = await Order.create({
+      user: original.user,
+      customerName: original.customerName,
+      whatsapp: original.whatsapp,
+      address: original.address,
+      city: original.city,
+      items: itemsWithCost,
+      subtotal: serverSubtotal,
+      productDiscount: serverProductDiscount,
+      deliveryFee: serverDeliveryFee,
+      total: serverTotal,
+      paymentMethod: original.paymentMethod,
+      notes: original.notes,
+      deliverySlot: {},
     });
 
-    // Send WhatsApp notifications (non-blocking)
-    const adminPhone = process.env.ADMIN_WHATSAPP;
-    if (adminPhone) {
-      sendWhatsApp(adminPhone, orderPlacedAdminMsg(order));
-    }
-    if (order.whatsapp) {
-      sendWhatsApp(order.whatsapp, orderPlacedCustomerMsg(order));
-    }
+    finalizeNewOrder(order);
 
     res.status(201).json(order);
   } catch (err) {

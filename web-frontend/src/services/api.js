@@ -47,6 +47,7 @@ export const categoriesAPI = {
 export const ordersAPI = {
   getAll: (params) => api.get('/orders', { params }),
   updateStatus: (id, status) => api.patch(`/orders/${id}/status`, { status }),
+  repeat: (id) => api.post(`/orders/${id}/repeat`),
   getDashboardStats: () => api.get('/orders/stats/dashboard'),
   getDailyReport: (date) => api.get('/orders/reports/daily', { params: { date } }),
   getRangeReport: (days) => api.get('/orders/reports/range', { params: { days } }),

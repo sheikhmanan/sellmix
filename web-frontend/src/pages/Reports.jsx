@@ -11,6 +11,7 @@ export default function Reports() {
   const [selectedDate, setSelectedDate] = useState(today);
   const [daily, setDaily] = useState(null);
   const [range, setRange] = useState([]);
+  const [rangeDays, setRangeDays] = useState(7);
   const [loadingDaily, setLoadingDaily] = useState(false);
   const [loadingRange, setLoadingRange] = useState(false);
 
@@ -22,9 +23,9 @@ export default function Reports() {
       .finally(() => setLoadingDaily(false));
   };
 
-  const fetchRange = () => {
+  const fetchRange = (days) => {
     setLoadingRange(true);
-    ordersAPI.getRangeReport(7)
+    ordersAPI.getRangeReport(days)
       .then((r) => setRange(r.data))
       .catch(() => setRange([]))
       .finally(() => setLoadingRange(false));
@@ -32,8 +33,11 @@ export default function Reports() {
 
   useEffect(() => {
     fetchDaily(today);
-    fetchRange();
   }, []);
+
+  useEffect(() => {
+    fetchRange(rangeDays);
+  }, [rangeDays]);
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
@@ -168,27 +172,40 @@ export default function Reports() {
         <div style={s.empty}><p>Failed to load report.</p></div>
       )}
 
-      {/* Last 7 Days Chart */}
+      {/* Orders Overview — Daily / Weekly / Monthly */}
       <div style={s.tableCard}>
         <div style={s.tableHeader}>
-          <h2 style={s.tableTitle}>Last 7 Days Overview</h2>
+          <h2 style={s.tableTitle}>
+            {rangeDays === 7 ? 'Last 7 Days' : rangeDays === 30 ? 'Last 30 Days' : `Last ${rangeDays} Days`} Overview
+          </h2>
+          <div style={s.periodToggle}>
+            {[{ label: 'Weekly', days: 7 }, { label: 'Monthly', days: 30 }].map((p) => (
+              <button
+                key={p.days}
+                style={{ ...s.periodBtn, ...(rangeDays === p.days ? s.periodBtnActive : {}) }}
+                onClick={() => setRangeDays(p.days)}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
         {loadingRange ? (
           <div style={s.loadingRow}>{[...Array(7)].map((_, i) => <div key={i} style={{ ...s.skeleton, height: 60 }} />)}</div>
         ) : (
           <>
             {/* Bar visual */}
-            <div style={s.barChart}>
+            <div style={{ ...s.barChart, gap: rangeDays <= 7 ? 8 : 3, overflowX: rangeDays > 7 ? 'auto' : 'visible' }}>
               {range.map((d, i) => {
                 const maxProfit = Math.max(...range.map((r) => r.grossProfit), 1);
                 const barH = Math.max((d.grossProfit / maxProfit) * 100, 4);
                 const isToday = d.date === today;
                 return (
                   <div key={i} style={s.barCol}>
-                    <span style={s.barAmt}>{d.grossProfit > 0 ? `${Math.round(d.grossProfit / 1000)}k` : '0'}</span>
-                    <div style={{ ...s.bar, height: `${barH}%`, backgroundColor: isToday ? '#AF52DE' : '#3498db' }} title={`Profit: ${PKR(d.grossProfit)}`} />
+                    {rangeDays <= 7 && <span style={s.barAmt}>{d.grossProfit > 0 ? `${Math.round(d.grossProfit / 1000)}k` : '0'}</span>}
+                    <div style={{ ...s.bar, height: `${barH}%`, backgroundColor: isToday ? '#AF52DE' : '#3498db' }} title={`${new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', { weekday: 'short', day: 'numeric', month: 'short' })} — ${d.orders} order${d.orders !== 1 ? 's' : ''}, profit ${PKR(d.grossProfit)}`} />
                     <span style={{ ...s.barLabel, fontWeight: isToday ? 700 : 400, color: isToday ? '#AF52DE' : '#8E8E93' }}>
-                      {new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', { weekday: 'short' })}
+                      {new Date(d.date + 'T12:00:00').toLocaleDateString('en-PK', rangeDays <= 7 ? { weekday: 'short' } : { day: 'numeric' })}
                     </span>
                   </div>
                 );
@@ -255,6 +272,9 @@ const s = {
   tableHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', borderBottom: '1px solid #F2F2F7' },
   tableTitle: { fontSize: 16, fontWeight: 700, color: '#1a1a1a' },
   tableCount: { fontSize: 13, color: '#8E8E93', backgroundColor: '#F2F2F7', padding: '4px 12px', borderRadius: 20 },
+  periodToggle: { display: 'flex', gap: 6, backgroundColor: '#F2F2F7', borderRadius: 10, padding: 4 },
+  periodBtn: { border: 'none', background: 'none', padding: '6px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#6B6B6B' },
+  periodBtnActive: { backgroundColor: '#fff', color: '#3498db', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' },
 
   table: { width: '100%', borderCollapse: 'collapse' },
   thead: { backgroundColor: '#f5f6f3' },
@@ -270,7 +290,7 @@ const s = {
   todayChip: { marginLeft: 8, backgroundColor: '#AF52DE22', color: '#AF52DE', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20 },
 
   barChart: { display: 'flex', alignItems: 'flex-end', gap: 8, height: 120, padding: '16px 24px 0', borderBottom: '1px solid #F2F2F7' },
-  barCol: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, height: '100%', justifyContent: 'flex-end' },
+  barCol: { flex: '1 0 auto', minWidth: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, height: '100%', justifyContent: 'flex-end' },
   bar: { width: '60%', minHeight: 4, borderRadius: '4px 4px 0 0', transition: 'height 0.3s' },
   barLabel: { fontSize: 11, marginTop: 6, marginBottom: 8 },
   barAmt: { fontSize: 10, color: '#8E8E93' },
