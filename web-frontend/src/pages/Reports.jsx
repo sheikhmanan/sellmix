@@ -48,6 +48,16 @@ export default function Reports() {
     ? Math.round((daily.grossProfit / daily.totalRevenue) * 100)
     : 0;
 
+  const periodTotals = range.reduce((acc, d) => ({
+    orders: acc.orders + d.orders,
+    revenue: acc.revenue + d.revenue,
+    cost: acc.cost + d.cost,
+    grossProfit: acc.grossProfit + d.grossProfit,
+  }), { orders: 0, revenue: 0, cost: 0, grossProfit: 0 });
+  const periodMarginPct = periodTotals.revenue > 0
+    ? Math.round((periodTotals.grossProfit / periodTotals.revenue) * 100)
+    : 0;
+
   return (
     <div style={s.page}>
       {/* Header */}
@@ -194,6 +204,27 @@ export default function Reports() {
           <div style={s.loadingRow}>{[...Array(7)].map((_, i) => <div key={i} style={{ ...s.skeleton, height: 60 }} />)}</div>
         ) : (
           <>
+            {/* Period totals — sum across the whole selected range */}
+            <div style={s.periodCards}>
+              <div style={s.periodCard}>
+                <p style={s.periodCardLabel}>Orders</p>
+                <p style={s.periodCardValue}>{periodTotals.orders}</p>
+              </div>
+              <div style={s.periodCard}>
+                <p style={s.periodCardLabel}>Total Revenue</p>
+                <p style={{ ...s.periodCardValue, color: '#34C759' }}>{PKR(periodTotals.revenue)}</p>
+              </div>
+              <div style={s.periodCard}>
+                <p style={s.periodCardLabel}>Total Cost</p>
+                <p style={{ ...s.periodCardValue, color: '#FF9500' }}>{PKR(periodTotals.cost)}</p>
+              </div>
+              <div style={{ ...s.periodCard, backgroundColor: '#fdf4ff' }}>
+                <p style={s.periodCardLabel}>Gross Profit</p>
+                <p style={{ ...s.periodCardValue, color: '#AF52DE' }}>{PKR(periodTotals.grossProfit)}</p>
+                <p style={s.periodCardSub}>Margin: {periodMarginPct}%</p>
+              </div>
+            </div>
+
             {/* Bar visual */}
             <div style={{ ...s.barChart, gap: rangeDays <= 7 ? 8 : 3, overflowX: rangeDays > 7 ? 'auto' : 'visible' }}>
               {range.map((d, i) => {
@@ -275,6 +306,11 @@ const s = {
   periodToggle: { display: 'flex', gap: 6, backgroundColor: '#F2F2F7', borderRadius: 10, padding: 4 },
   periodBtn: { border: 'none', background: 'none', padding: '6px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#6B6B6B' },
   periodBtnActive: { backgroundColor: '#fff', color: '#3498db', boxShadow: '0 1px 4px rgba(0,0,0,0.1)' },
+  periodCards: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, padding: '16px 24px 0' },
+  periodCard: { backgroundColor: '#f9f9fb', borderRadius: 12, padding: '14px 16px' },
+  periodCardLabel: { fontSize: 11, fontWeight: 700, color: '#8E8E93', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 },
+  periodCardValue: { fontSize: 20, fontWeight: 800, color: '#1a1a1a' },
+  periodCardSub: { fontSize: 11, color: '#8E8E93', marginTop: 2 },
 
   table: { width: '100%', borderCollapse: 'collapse' },
   thead: { backgroundColor: '#f5f6f3' },
